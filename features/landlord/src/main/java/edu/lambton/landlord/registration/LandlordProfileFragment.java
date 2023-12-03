@@ -1,38 +1,33 @@
 package edu.lambton.landlord.registration;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import edu.lambton.landlord.R;
+import edu.lambton.landlord.databinding.FragmentLandlordProfileBinding;
 
 public class LandlordProfileFragment extends Fragment {
 
-    private LandlordProfileViewModel mViewModel;
+    private FragmentLandlordProfileBinding binding;
 
-    public static LandlordProfileFragment newInstance() {
-        return new LandlordProfileFragment();
-    }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_landlord_profile, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        binding = FragmentLandlordProfileBinding.inflate(inflater, container, false);
+
+        return binding.getRoot();
     }
+
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(LandlordProfileViewModel.class);
-        // TODO: Use the ViewModel
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
-
 }

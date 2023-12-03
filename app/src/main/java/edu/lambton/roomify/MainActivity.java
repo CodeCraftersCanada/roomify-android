@@ -7,23 +7,27 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import edu.lambton.landlord.MainActivityLandlord;
+import edu.lambton.roomify.databinding.ActivityMainBinding;
 import edu.lambton.student.MainActivityStudent;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        Button landLordButton = findViewById(R.id.landlordButton);
-        landLordButton.setOnClickListener(view -> {
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+
+        setContentView(binding.getRoot());
+
+        binding.landlordButton.setOnClickListener(view -> {
             Intent intent = new Intent(this, MainActivityLandlord.class);
             startActivity(intent);
         });
 
-        Button studentButton = findViewById(R.id.studentScreenButton);
-        studentButton.setOnClickListener(view -> {
+        binding.studentScreenButton.setOnClickListener(view -> {
             Intent intent = new Intent(this, MainActivityStudent.class);
             startActivity(intent);
         });

@@ -18,10 +18,16 @@ android {
                 "proguard-rules.pro"
             )
         }
+        create("viewBinding") {
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    viewBinding {
+        enable = true
     }
 }
 
@@ -29,6 +35,7 @@ dependencies {
 
     implementation(project(":features:common:utils"))
     implementation(project(":features:common:networking"))
+
 
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
