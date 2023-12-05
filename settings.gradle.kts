@@ -15,8 +15,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "Roomify"
 include(":app")
-include(":features:landlord")
-include(":features:student")
+/*include(":features:landlord")
 include(":features:common:utils")
 include(":features:common:networking")
 include(":features:messaging")
+include(":features:navigation")
+include(":features:auth")*/

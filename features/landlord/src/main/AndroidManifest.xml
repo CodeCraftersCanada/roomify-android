@@ -2,13 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution">
 
-
-    <application >
-
+    <application>
+        <activity
+            android:name=".login.LandlordLoginActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivityLandlord"
-            android:theme="@style/Base.Theme.Roomify"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Base.Theme.Roomify">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

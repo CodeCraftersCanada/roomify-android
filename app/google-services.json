@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:462851821856:android:dfd4182a16febe6541c745",
+        "mobilesdk_app_id": "1:462851821856:android:8befb5b254165a3141c745",
         "android_client_info": {
-          "package_name": "edu.lambton.networking"
+          "package_name": "edu.lambton.roomify"
         }
       },
       "oauth_client": [],

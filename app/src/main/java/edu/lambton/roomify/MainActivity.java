@@ -1,14 +1,16 @@
 package edu.lambton.roomify;
 
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import edu.lambton.landlord.MainActivityLandlord;
+import com.google.firebase.FirebaseApp;
+
+import edu.lambton.roomify.auth.landlord.view.LandlordLoginActivity;
 import edu.lambton.roomify.databinding.ActivityMainBinding;
-import edu.lambton.student.MainActivityStudent;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,19 +20,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        FirebaseApp.initializeApp(this);
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
 
         binding.landlordButton.setOnClickListener(view -> {
-            Intent intent = new Intent(this, MainActivityLandlord.class);
+            Intent intent = new Intent(this, LandlordLoginActivity.class);
             startActivity(intent);
         });
 
-        binding.studentScreenButton.setOnClickListener(view -> {
-            Intent intent = new Intent(this, MainActivityStudent.class);
-            startActivity(intent);
-        });
 
     }
 }
