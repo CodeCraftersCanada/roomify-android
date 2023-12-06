@@ -1,17 +1,16 @@
 package edu.lambton.roomify.landlord.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.lambton.roomify.R;
 import edu.lambton.roomify.databinding.ActivityPropertyListingQuestionaryBinding;
 import edu.lambton.roomify.landlord.view.questionnaire.adapter.QuestionnairePagerAdapter;
 

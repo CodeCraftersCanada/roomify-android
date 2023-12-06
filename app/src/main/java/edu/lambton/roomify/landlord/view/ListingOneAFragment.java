@@ -1,19 +1,17 @@
 package edu.lambton.roomify.landlord.view;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import edu.lambton.roomify.R;
 import edu.lambton.roomify.landlord.model.PlaceRowOption;
@@ -43,9 +41,9 @@ public class ListingOneAFragment extends Fragment implements DescribePlacesRVAda
         List<PlaceRowOption> placeOptions = new ArrayList<>();
 
         PlaceRowOption placeRowOptionOne = new PlaceRowOption(AppCompatResources.getDrawable(requireContext(), R.drawable.baseline_add_business_24), "Home");
-        PlaceRowOption placeRowOptionTwo = new PlaceRowOption(AppCompatResources.getDrawable(requireContext(), R.drawable.baseline_chat_24), "Chat");
-        PlaceRowOption placeRowOptionThree = new PlaceRowOption(AppCompatResources.getDrawable(requireContext(), R.drawable.baseline_lock_outline_24), "Lock");
-        PlaceRowOption placeRowOptionFour = new PlaceRowOption(AppCompatResources.getDrawable(requireContext(), R.drawable.baseline_search_24), "Search");
+        PlaceRowOption placeRowOptionTwo = new PlaceRowOption(AppCompatResources.getDrawable(requireContext(), R.drawable.baseline_chat_24), "Apartment");
+        PlaceRowOption placeRowOptionThree = new PlaceRowOption(AppCompatResources.getDrawable(requireContext(), R.drawable.baseline_lock_outline_24), "Basement");
+        PlaceRowOption placeRowOptionFour = new PlaceRowOption(AppCompatResources.getDrawable(requireContext(), R.drawable.baseline_search_24), "Bedroom");
         placeOptions.add(placeRowOptionOne);
         placeOptions.add(placeRowOptionTwo);
         placeOptions.add(placeRowOptionThree);
