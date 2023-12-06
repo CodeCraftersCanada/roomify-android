@@ -6,8 +6,8 @@
     android:layout_margin="8dp">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/car"
-        android:layout_width="180dp"
+        android:id="@+id/placeOptionCard"
+        android:layout_width="160dp"
         android:layout_height="120dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

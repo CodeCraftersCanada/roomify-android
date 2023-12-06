@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".landlord.view.PlaceGalleryFragment">
+    tools:context=".PropertyPriceListingFragment">
 
     <Button
         android:id="@+id/saveAndExitBtn"
@@ -18,38 +18,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <TextView
-        android:id="@+id/messageLabel"
+        android:id="@+id/labelSetThePrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
-        android:text="Ta-da! How does this look?"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="Now, set your price"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@id/saveAndExitBtn"
         app:layout_constraintTop_toBottomOf="@id/saveAndExitBtn" />
 
-    <Button
-        android:id="@+id/addMoreButton"
+
+    <EditText
+        android:id="@+id/priceInputEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:text="Add more"
-        app:layout_constraintBottom_toBottomOf="@id/messageLabel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/messageLabel" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/photosPropertyRecycleView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:hint="$000.00"
+        android:textSize="32sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/messageLabel"
-        tools:listitem="@layout/property_image_preview_card" />
+        app:layout_constraintTop_toBottomOf="@id/labelSetThePrice" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
