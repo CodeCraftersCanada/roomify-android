@@ -2,6 +2,8 @@ package edu.lambton.roomify.landlord.view;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -24,6 +26,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import java.util.List;
+
 import edu.lambton.roomify.R;
 
 public class ListingOneCFragment extends Fragment {
@@ -40,9 +45,17 @@ public class ListingOneCFragment extends Fragment {
         public void onMapReady(@NonNull GoogleMap googleMap) {
 
             LatLng currentLocation = new LatLng(latitude, longitude);
-            googleMap.addMarker(new MarkerOptions().position(currentLocation).title("Your Location"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
 
+            // Get the address name
+            String addressName = getAddressFromLocation(latitude, longitude);
+
+            MarkerOptions markerOptions = new MarkerOptions()
+                    .position(currentLocation)
+                    .title("House Location")
+                    .snippet(addressName);
+
+            googleMap.addMarker(markerOptions);
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
         }
     };
 
@@ -90,7 +103,44 @@ public class ListingOneCFragment extends Fragment {
         this.latitude = location.getLatitude();
         this.longitude = location.getLongitude();
 
-        System.out.println("LATITUDE: " + latitude + " LONGITUDE: " + longitude);
+    }
+
+    private String getAddressFromLocation(double latitude, double longitude) {
+        Geocoder geocoder = new Geocoder(requireContext());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+
+            if (addresses != null && addresses.size() > 0) {
+                Address address = addresses.get(0);
+
+                String postalCode = address.getPostalCode();
+                String city = address.getLocality();
+                String state = address.getAdminArea();
+                String country = address.getCountryCode();
+                String subLocality = address.getSubLocality();
+                String featureName = address.getFeatureName();
+                String thoroughfare = address.getThoroughfare();
+                String subThoroughfare = address.getSubThoroughfare();
+
+                // You can use these values as needed
+                System.out.println("Postal Code: " + postalCode);
+                System.out.println("City: " + city);
+                System.out.println("State: " + state);
+                System.out.println("Country: " + country);
+                System.out.println("Sub Locality: " + subLocality);
+                System.out.println("Feature Name: " + featureName);
+                System.out.println("Thoroughfare: " + thoroughfare);
+                System.out.println("SubThoroughfare: " + subThoroughfare);
+
+                String addressName = address.getAddressLine(0); // You can get other address details as needed
+                System.out.println("Address: " + addressName);
+
+                return addressName;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
 }
