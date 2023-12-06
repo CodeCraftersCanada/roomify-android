@@ -10,7 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Roomify">
-
+        <activity
+            android:name=".IntroductionListPropertyActivity"
+            android:exported="false" />
         <activity
             android:name=".auth.landlord.view.LandlordRegistrationActivity"
             android:exported="false" />

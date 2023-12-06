@@ -51,6 +51,10 @@ dependencies {
     implementation("com.google.gms:google-services:4.4.0")
     implementation("com.google.firebase:firebase-common:20.4.2")*/
 
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+    implementation("com.squareup.picasso:picasso:2.71828")
+
+
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
