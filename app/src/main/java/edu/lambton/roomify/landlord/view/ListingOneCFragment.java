@@ -39,7 +39,7 @@ public class ListingOneCFragment extends Fragment {
     private LocationManager locationManager;
     private LocationListener locationListener;
 
-    private OnMapReadyCallback callback = new OnMapReadyCallback() {
+    private final OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         @Override
         public void onMapReady(@NonNull GoogleMap googleMap) {
