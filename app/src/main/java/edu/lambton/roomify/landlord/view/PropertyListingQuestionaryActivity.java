@@ -38,6 +38,7 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
         questionnaireFragments = new ArrayList<>();
         questionnaireFragments.add(new ListingOneAFragment());
         questionnaireFragments.add(new ListingOneCFragment());
+        questionnaireFragments.add(new PhotoSelectionPropertyFragment());
 
         pagerAdapter = new QuestionnairePagerAdapter(getSupportFragmentManager(), questionnaireFragments);
         viewPager.setAdapter(pagerAdapter);
