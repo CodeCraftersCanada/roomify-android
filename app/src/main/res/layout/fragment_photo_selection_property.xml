@@ -77,4 +77,16 @@
         app:layout_constraintTop_toBottomOf="@id/addPhotoButton" />
 
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/thumbnailPropertyRecycleView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/takePhotoButton"
+        tools:listitem="@layout/thumbnail_picture" />
 </androidx.constraintlayout.widget.ConstraintLayout>
