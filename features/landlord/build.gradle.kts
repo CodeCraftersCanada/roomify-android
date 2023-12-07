@@ -18,10 +18,16 @@ android {
                 "proguard-rules.pro"
             )
         }
+        create("viewBinding") {
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    viewBinding {
+        enable = true
     }
 }
 
@@ -29,6 +35,7 @@ dependencies {
 
     implementation(project(":features:common:utils"))
     implementation(project(":features:common:networking"))
+
 
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
@@ -40,4 +47,8 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation("androidx.annotation:annotation:1.7.0")
+
+
+    implementation("androidx.navigation:navigation-fragment:2.7.5")
+    implementation("androidx.navigation:navigation-ui:2.7.5")
 }

@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "462851821856",
+    "firebase_url": "https://roomify-21e40-default-rtdb.firebaseio.com",
+    "project_id": "roomify-21e40",
+    "storage_bucket": "roomify-21e40.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:462851821856:android:8befb5b254165a3141c745",
+        "android_client_info": {
+          "package_name": "edu.lambton.roomify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtM3EZtk2hMV6djXpjoQRpSDvjgeNNfFY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
