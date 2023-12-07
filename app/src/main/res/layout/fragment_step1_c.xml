@@ -3,47 +3,142 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".step1_a">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".step1_a"
+    android:layout_margin="10dp">
 
     <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <ImageView
-            android:id="@+id/step1Image"
-            android:layout_width="match_parent"
-            android:layout_height="500dp"
-            android:src="@drawable/ic_close"/>
-
+        <!-- New TextView for the question -->
         <TextView
-            android:id="@+id/tvStep1"
+            android:id="@+id/tvTypeOfPlaceQuestion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/step1Image"
-            android:text="Step 1"
-            android:textColor="#000000"
-            android:textSize="20dp"/>
-        <TextView
-            android:id="@+id/tvStep1Title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tvStep1"
-            android:text="Tell us about your Place"
-            android:textColor="#000000"
-            android:textSize="30dp"/>
-        <TextView
-            android:id="@+id/tvStep1Description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tvStep1Title"
             android:layout_marginTop="15dp"
-            android:text="  In this step,we'll ask you which type of property you have and if guests will book the entire place or just a room. Then let us know the location and how many guests can stay."
+            android:text="What type of place will guests have?"
             android:textColor="#000000"
-            android:textSize="18dp"
-            android:lineSpacingExtra="5dp"/>
+            android:layout_marginBottom="30dp"
+            android:textSize="30dp"/>
+
+        <!-- CardView for the options - Entire House -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardEntireHouse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTypeOfPlaceQuestion"
+            android:layout_marginTop="15dp"
+            app:cardCornerRadius="12dp">
+
+            <!-- Customize this layout for the card as needed -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/entireHouse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="An entire house"
+                    android:textSize="18sp"
+                    android:textColor="#000000"/>
+                <TextView
+                    android:id="@+id/entireHouseDescription"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/entireHouse"
+                    android:text="Guests have the whole place to themselves"
+                    android:textSize="15sp"
+                    android:textColor="#808080"/>
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_toRightOf="@id/entireHouseDescription"
+                    android:src="@drawable/ic_close"
+                    android:layout_marginStart="25dp"/>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- CardView for the options - Room -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardRoom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cardEntireHouse"
+            android:layout_marginTop="15dp"
+            app:cardCornerRadius="12dp">
+
+            <!-- Customize this layout for the card as needed -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/room"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Room"
+                    android:textSize="18sp"
+                    android:textColor="#000000"/>
+                <TextView
+                    android:id="@+id/roomDescription"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/room"
+                    android:text="Guests have the whole place to themselves"
+                    android:textSize="15sp"
+                    android:textColor="#808080"/>
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_toRightOf="@id/roomDescription"
+                    android:src="@drawable/ic_close"
+                    android:layout_marginStart="25dp"/>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- CardView for the options - Shared Room -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardSharedRoom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cardRoom"
+            android:layout_marginTop="15dp"
+            app:cardCornerRadius="12dp">
+
+            <!-- Customize this layout for the card as needed -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/sharedRoom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Shared Room"
+                    android:textSize="18sp"
+                    android:textColor="#000000"/>
+                <TextView
+                    android:id="@+id/sharedRoomDescription"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/sharedRoom"
+                    android:text="Guests have the whole place to themselves"
+                    android:textSize="15sp"
+                    android:textColor="#808080"/>
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_toRightOf="@id/sharedRoomDescription"
+                    android:src="@drawable/ic_close"
+                    android:layout_marginStart="25dp"/>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
     </RelativeLayout>
-
-
 </FrameLayout>

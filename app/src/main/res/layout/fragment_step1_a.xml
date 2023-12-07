@@ -5,10 +5,45 @@
     android:layout_height="match_parent"
     tools:context=".step1_a">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_margin="10dp">
+
+        <ImageView
+            android:id="@+id/step1Image"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:src="@drawable/ic_close"/>
+
+        <TextView
+            android:id="@+id/tvStep1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/step1Image"
+            android:text="Step 1"
+            android:textColor="#000000"
+            android:textSize="20dp"/>
+        <TextView
+            android:id="@+id/tvStep1Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvStep1"
+            android:text="Tell us about your Place"
+            android:textColor="#000000"
+            android:textSize="30dp"/>
+        <TextView
+            android:id="@+id/tvStep1Description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvStep1Title"
+            android:layout_marginTop="15dp"
+            android:text="  In this step,we'll ask you which type of property you have and if guests will book the entire place or just a room. Then let us know the location and how many guests can stay."
+            android:textColor="#000000"
+            android:textSize="18dp"
+            android:lineSpacingExtra="5dp"/>
+    </RelativeLayout>
+
 
 </FrameLayout>
