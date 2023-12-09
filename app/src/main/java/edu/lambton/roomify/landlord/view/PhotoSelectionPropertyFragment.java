@@ -45,6 +45,8 @@ public class PhotoSelectionPropertyFragment extends Fragment {
     private Button takePhotoButton;
     private RecyclerView picturesThumbnailRV;
 
+    private OnPhotoAddedListener onPhotoAddedListener;
+
     private final ActivityResultLauncher<PickVisualMediaRequest> selectPictureLauncher = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), new ActivityResultCallback<>() {
 
         @Override
@@ -53,11 +55,11 @@ public class PhotoSelectionPropertyFragment extends Fragment {
                 if (result != null) {
                     tempImageUri = result;
 
-                    Picture picture = new Picture();
-                    picture.setCreationDate(new Date().getTime());
-                    picture.setPath("content://media/" + tempImageUri.getPath());
+                    Picture picture = new Picture("content://media/" + tempImageUri.getPath(), new Date().getTime(), 0L);
+
                     myPictures.add(picture);
                     propertyPictureRVAdapter.notifyItemRangeChanged(0, myPictures.size());
+                    notifyPhotoAdded();
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -69,9 +71,8 @@ public class PhotoSelectionPropertyFragment extends Fragment {
         if (result) {
 
             try {
-                Picture picture = new Picture();
-                picture.setCreationDate(new Date().getTime());
-                picture.setPath("content://media/" + tempImageUri.getPath());
+                Picture picture = new Picture("content://media/" + tempImageUri.getPath(), new Date().getTime(), 0L);
+
                 myPictures.add(picture);
                 propertyPictureRVAdapter.notifyItemRangeChanged(0, myPictures.size());
             } catch (Exception e) {
@@ -79,22 +80,6 @@ public class PhotoSelectionPropertyFragment extends Fragment {
             }
         }
     });
-
-    // Take photo from the camera
-    /*private final ActivityResultLauncher<Uri> selectCameraLauncher = registerForActivityResult(new ActivityResultContracts.TakePicture(), result -> {
-        if (result) {
-
-            try {
-                Picture picture = new Picture();
-                picture.setCreationDate(new Date().getTime());
-                picture.setPath("content://media/" + tempImageUri.getPath());
-                myPictures.add(picture);
-                taskPictureRVAdapter.notifyItemRangeChanged(0, myPictures.size());
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-    });*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -151,5 +136,20 @@ public class PhotoSelectionPropertyFragment extends Fragment {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             selectPictureLauncher.launch(new PickVisualMediaRequest());
         }
+    }
+
+    public void setOnPhotoAddedListener(OnPhotoAddedListener listener) {
+        this.onPhotoAddedListener = listener;
+    }
+
+    // Method to be called when a photo is added
+    private void notifyPhotoAdded() {
+        if (onPhotoAddedListener != null) {
+            onPhotoAddedListener.onPhotoAdded();
+        }
+    }
+
+    public interface OnPhotoAddedListener {
+        void onPhotoAdded();
     }
 }

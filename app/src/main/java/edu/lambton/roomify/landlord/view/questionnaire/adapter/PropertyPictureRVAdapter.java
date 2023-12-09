@@ -36,10 +36,12 @@ public class PropertyPictureRVAdapter extends RecyclerView.Adapter<PropertyPictu
     @Override
     public void onBindViewHolder(@NonNull PropertyPictureViewHolder holder, int position) {
         Picasso.get()
-                .load(pictures.get(position).getPath())
+                .load(pictures.get(position).path())
                 .resize(300, 300)
                 .centerInside()
                 .into(holder.thumbnailImageView);
+
+
     }
 
     @Override
@@ -48,19 +50,18 @@ public class PropertyPictureRVAdapter extends RecyclerView.Adapter<PropertyPictu
     }
 
     static class PropertyPictureViewHolder extends RecyclerView.ViewHolder {
-        //private final ImageView pictureImageView;
-        //private final ImageButton overflowMenu;
+
         private final ImageView thumbnailImageView;
+        private final ImageButton removeThumbnailButton;
 
         public PropertyPictureViewHolder(@NonNull View itemView) {
             super(itemView);
             thumbnailImageView = itemView.findViewById(R.id.pictureImage);
-            //pictureImageView = itemView.findViewById(R.id.pictureImage);
-            //overflowMenu = itemView.findViewById(R.id.pictureOverflowMenu);
+            removeThumbnailButton = itemView.findViewById(R.id.removeThumbnailButton);
         }
     }
 
-    public interface OnPictureNoteCallback {
+    public interface OnPropertyPictureCallback {
         void onDeletePicture(View view, int position);
     }
 }
