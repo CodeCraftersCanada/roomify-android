@@ -6,6 +6,12 @@ import android.content.ContentValues;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -18,18 +24,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import edu.lambton.roomify.R;
 import edu.lambton.roomify.databinding.FragmentPhotoSelectionPropertyBinding;
 import edu.lambton.roomify.landlord.model.Picture;
 import edu.lambton.roomify.landlord.view.questionnaire.adapter.PropertyPictureRVAdapter;
@@ -59,7 +57,10 @@ public class PhotoSelectionPropertyFragment extends Fragment {
 
                     myPictures.add(picture);
                     propertyPictureRVAdapter.notifyItemRangeChanged(0, myPictures.size());
-                    notifyPhotoAdded();
+
+                    if (myPictures.size() >= 3) {
+                        notifyPhotoAdded();
+                    }
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -110,6 +111,11 @@ public class PhotoSelectionPropertyFragment extends Fragment {
         propertyPictureRVAdapter = new PropertyPictureRVAdapter(myPictures);
         picturesThumbnailRV.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         picturesThumbnailRV.setAdapter(propertyPictureRVAdapter);
+
+        if (myPictures.size() >= 3) {
+            notifyPhotoAdded();
+        }
+
     }
 
     public void addPhotoFromLibrary(View view) {

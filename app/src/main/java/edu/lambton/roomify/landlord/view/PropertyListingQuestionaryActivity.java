@@ -8,8 +8,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,8 @@ import edu.lambton.roomify.landlord.model.Address;
 import edu.lambton.roomify.landlord.model.PlaceRowOption;
 import edu.lambton.roomify.landlord.model.Property;
 import edu.lambton.roomify.landlord.view.questionnaire.adapter.QuestionnairePagerAdapter;
+import edu.lambton.roomify.landlord.viewmodel.ProperetyLandlordViewModelFactory;
+import edu.lambton.roomify.landlord.viewmodel.PropertyLandlordViewModel;
 
 public class PropertyListingQuestionaryActivity extends AppCompatActivity {
 
@@ -30,6 +34,10 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
     private ContentLoadingProgressBar progressBar;
 
     private Property property;
+    private PropertyCreationCallback propertyCreationCallback;
+
+    private PropertyLandlordViewModel propertyLandlordViewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +52,8 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
         btnFinish = binding.btnFinish;
 
         progressBar = binding.progressQuestionnaire;
+
+        propertyLandlordViewModel = new ViewModelProvider(getViewModelStore(), new ProperetyLandlordViewModelFactory(getApplication())).get(PropertyLandlordViewModel.class);
 
         // List of Fragments for Questionnaire
         questionnaireFragments = new ArrayList<>();
@@ -83,6 +93,7 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
 
         btnFinish.setOnClickListener(this::createProperty);
 
+
     }
 
     private PlaceRowOption selectedOption;
@@ -115,9 +126,17 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
             );
 
             System.out.println("CREATED PROPERTY: " + property);
-
+            propertyLandlordViewModel.saveProperty(property);
             // Do something with the created Property object, e.g., save it to a database
             // property.saveToDatabase();
+
+            // Notify the callback about the created property
+            if (propertyCreationCallback != null) {
+                propertyCreationCallback.onPropertyCreated(property);
+            }
+
+            // Set the result and finish the child activity
+            setResult(RESULT_OK);
 
             // Finish the activity or navigate to the next screen
             finish();
@@ -176,6 +195,7 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
             btnNext.setVisibility(View.INVISIBLE);
         } else {
             btnNext.setVisibility(View.VISIBLE);
+            btnFinish.setVisibility(View.GONE);
         }
     }
 
@@ -185,5 +205,13 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
         int progress = (int) (((float) currentItem / totalItems) * 100);
 
         progressBar.setProgress(progress, true);
+    }
+
+    public void setPropertyCreationCallback(PropertyCreationCallback callback) {
+        this.propertyCreationCallback = callback;
+    }
+
+    public interface PropertyCreationCallback extends Serializable {
+        void onPropertyCreated(Property property);
     }
 }
