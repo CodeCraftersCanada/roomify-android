@@ -22,4 +22,7 @@ public abstract class PropertyDao {
     @Query("SELECT * FROM Property")
     public abstract LiveData<List<Property>> getAllProperties();
 
+    @Query("SELECT * FROM Property WHERE USER_ID = :userId")
+    public abstract LiveData<List<Property>> getAllPropertiesCreatedByMe(String userId);
+
 }

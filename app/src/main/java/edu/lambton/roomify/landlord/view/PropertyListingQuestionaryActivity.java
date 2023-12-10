@@ -1,6 +1,7 @@
 package edu.lambton.roomify.landlord.view;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -15,6 +16,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.lambton.roomify.common.PropertyStatus;
 import edu.lambton.roomify.databinding.ActivityPropertyListingQuestionaryBinding;
 import edu.lambton.roomify.landlord.model.Address;
 import edu.lambton.roomify.landlord.model.PlaceRowOption;
@@ -100,21 +102,22 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
     private Address selectedAddress;
 
     private void createProperty(View view) {
+        // TODO: Hardcode some values waiting for Elvin
         if (selectedOption != null && selectedAddress != null) {
             property = new Property(
                     null,
-                    selectedOption.text(),
+                    "Description for Property 2",
                     selectedOption.propertyType(),
-                    null,
+                    selectedOption.text(),
+                    1,
+                    "Entire Place",
+                    3,
+                    3,
+                    4,
                     0,
-                    null,
-                    0,
-                    0,
-                    0,
-                    false,
-                    0,
+                    500.0,
                     selectedAddress.subThoroughfare() + ", " + selectedAddress.thoroughfare() + " " + selectedAddress.subLocality() + " " + selectedAddress.featureName(),
-                    null,
+                    "",
                     selectedAddress.city(),
                     selectedAddress.province(),
                     selectedAddress.country(),
@@ -124,6 +127,8 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
 
                     // Add other property attributes based on your design
             );
+
+            property.setPropertyStatusId(PropertyStatus.PENDING.getStatusId());
 
             System.out.println("CREATED PROPERTY: " + property);
             propertyLandlordViewModel.saveProperty(property);
@@ -162,7 +167,6 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
         // Show the finish button when a photo is added on the last page
         btnFinish.setVisibility(View.VISIBLE);
     }
-
 
     private void previousQuestion(View view) {
         if (viewPager.getCurrentItem() > 0) {

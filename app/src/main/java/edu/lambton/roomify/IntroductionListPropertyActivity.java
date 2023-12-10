@@ -36,6 +36,7 @@ public class IntroductionListPropertyActivity extends AppCompatActivity implemen
         priceSeekBar = binding.priceSeekerRange;
 
 
+
         Button roomifySetupButton = binding.roomifySetupButton;
         roomifySetupButton.setOnClickListener(this::listingPropertySetup);
 

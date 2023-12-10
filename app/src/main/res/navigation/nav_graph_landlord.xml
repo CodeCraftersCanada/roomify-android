@@ -7,9 +7,13 @@
 
     <fragment
         android:id="@+id/listPropertyFragment"
-        android:name="edu.lambton.roomify.auth.landlord.view.ListLandlordPropertyFragment"
+        android:name="edu.lambton.roomify.landlord.view.ListLandlordPropertyFragment"
         android:label="List Property"
-        tools:layout="@layout/fragment_list_landlord_property" />
+        tools:layout="@layout/fragment_list_landlord_property" >
+        <action
+            android:id="@+id/action_listPropertyFragment_to_propertyInfoActivity"
+            app:destination="@id/propertyInfoActivity" />
+    </fragment>
 
 
     <fragment
@@ -17,4 +21,14 @@
         android:name="edu.lambton.roomify.landlord.view.ProfileLandlordFragment"
         android:label="Profile Landlord"
         tools:layout="@layout/fragment_profile_landlord" />
+    <activity
+        android:id="@+id/landlordDashboardActivity"
+        android:name="edu.lambton.roomify.navigation.landlord.LandlordDashboardActivity"
+        android:label="activity_landlord_dashboard"
+        tools:layout="@layout/activity_landlord_dashboard" />
+    <activity
+        android:id="@+id/propertyInfoActivity"
+        android:name="edu.lambton.roomify.landlord.view.PropertyInfoActivity"
+        android:label="activity_property_info"
+        tools:layout="@layout/activity_property_info" />
 </navigation>

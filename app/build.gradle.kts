@@ -64,8 +64,12 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
 
     implementation("com.google.firebase:firebase-auth:22.3.0")
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
 
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.9.1")
+    implementation("com.squareup.okhttp3:okhttp-urlconnection:4.9.1") // Required for Retrofit
+    /*implementation("com.squareup.okhttp3:okhttp-ws:4.9.1")*/ // Required for WebSocket
 
     implementation("androidx.navigation:navigation-fragment:2.7.5")
     implementation("androidx.navigation:navigation-ui:2.7.5")
@@ -94,4 +98,5 @@ dependencies {
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("com.google.android.gms:play-services-places:17.0.0")
 
+    implementation ("org.mongodb:mongodb-driver-sync:4.2.3")
 }

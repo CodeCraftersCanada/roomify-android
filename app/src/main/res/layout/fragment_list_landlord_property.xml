@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".auth.landlord.view.ListLandlordPropertyFragment">
+    tools:context=".landlord.view.ListLandlordPropertyFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -18,9 +18,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/propertyListRecycleView"
-        
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:listitem="@layout/property_card_row" />
 
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
