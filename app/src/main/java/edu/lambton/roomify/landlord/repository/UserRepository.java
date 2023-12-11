@@ -101,40 +101,6 @@ public class UserRepository {
         AppDatabase.databaseWriterExecutor.execute(() -> userDao.updateUser(user));
     }
 
-    // Retrieve user from the server and update local database
-    public void getUserByIdAndUpdateLocally(String uid) {
-        LiveData<User> localUserLiveData = userDao.searchUserById(uid);
-
-        localUserLiveData.observeForever(new Observer<User>() {
-            @Override
-            public void onChanged(User localUser) {
-                if (localUser != null) {
-                    // Data is already available locally, update UI or perform necessary actions
-                    localUserLiveData.removeObserver(this);
-                } else {
-                    // Data is not available locally, fetch from the remote service
-                    apiService.getUserById(uid).enqueue(new Callback<User>() {
-                        @Override
-                        public void onResponse(Call<User> call, Response<User> response) {
-                            if (response.isSuccessful()) {
-                                User serverUser = response.body();
-                                // Save the updated user into the local database
-                                AppDatabase.databaseWriterExecutor.execute(() -> userDao.saveUser(serverUser));
-                            } else {
-                                // Handle error
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<User> call, Throwable t) {
-                            // Handle failure
-                        }
-                    });
-                }
-            }
-        });
-    }
-
 
     // Update user on the server and update local database
     public void updateExternal(User user) {
