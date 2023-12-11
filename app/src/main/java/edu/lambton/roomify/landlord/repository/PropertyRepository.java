@@ -26,7 +26,6 @@ import retrofit2.Response;
 public class PropertyRepository {
     private final PropertyDao propertyDao;
     private final ApiService apiService;
-
     private final FirebaseAuth firebaseAuth;
 
 

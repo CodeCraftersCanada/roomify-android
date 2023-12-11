@@ -8,13 +8,27 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileAvatar"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_marginTop="24dp"
         android:src="@drawable/profile_placeholder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editFullName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_horizontal"
+        android:hint="Full Name"
+        android:textSize="24sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileAvatar" />
 
     <TextView
         android:id="@+id/fullNameLandlord"
@@ -22,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@id/emailLandlord"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/profileAvatar"
@@ -32,20 +46,195 @@
         android:id="@+id/emailLandlord"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fullNameLandlord"
         tools:text="Email" />
 
-    <TextView
-        android:id="@+id/addressTxt"
+    <!-- Call Me Button -->
+    <LinearLayout
+        android:id="@+id/communicationButtons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/emailLandlord"
-        app:layout_constraintStart_toStartOf="@id/emailLandlord"
-        app:layout_constraintTop_toBottomOf="@id/emailLandlord"
-        tools:text="California, USA - FL" />
+        android:layout_marginTop="16dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@id/profileAvatar"
+        app:layout_constraintStart_toStartOf="@id/profileAvatar"
+        app:layout_constraintTop_toBottomOf="@id/emailLandlord">
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/callMeButton"
+            style="@style/Widget.Material3.Button.ElevatedButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            android:background="@null"
+            app:cornerRadius="6dp"
+            app:icon="@drawable/outline_phone_24"
+            app:iconGravity="top"
+            app:iconSize="24dp"
+            app:layout_constraintEnd_toStartOf="@id/sendMessageButton"
+            app:rippleColor="@color/ripple_color" />
+
+        <!-- Send Me a Message Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sendMessageButton"
+            style="@style/Widget.Material3.Button.ElevatedButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            app:cornerRadius="6dp"
+            app:icon="@drawable/baseline_chat_24"
+            app:iconGravity="top"
+            app:iconSize="24dp"
+            app:rippleColor="@color/ripple_color" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/horizontalLine"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="?android:attr/dividerHorizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/communicationButtons" />
+
+    <ImageView
+        android:id="@+id/college_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/outline_school_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/horizontalLine" />
+
+    <EditText
+        android:id="@+id/collegeEditTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:hint="College Name"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/college_icon"
+        app:layout_constraintStart_toEndOf="@id/college_icon"
+        app:layout_constraintTop_toTopOf="@id/college_icon" />
+
+    <TextView
+        android:id="@+id/collegeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/college_icon"
+        app:layout_constraintStart_toEndOf="@id/college_icon"
+        app:layout_constraintTop_toTopOf="@id/college_icon"
+        tools:text="Lambton College" />
+
+    <ImageView
+        android:id="@+id/phone_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/outline_smartphone_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/college_icon" />
+
+    <EditText
+        android:id="@+id/phoneEditTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:hint="8003334455"
+        android:inputType="phone"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/phone_icon"
+        app:layout_constraintStart_toEndOf="@id/phone_icon"
+        app:layout_constraintTop_toTopOf="@id/phone_icon" />
+
+
+    <TextView
+        android:id="@+id/phoneTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/phone_icon"
+        app:layout_constraintStart_toEndOf="@id/phone_icon"
+        app:layout_constraintTop_toTopOf="@id/phone_icon"
+        tools:text="200 336-4565" />
+
+
+    <ImageView
+        android:id="@+id/house_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/outline_house_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/phone_icon" />
+
+    <EditText
+        android:id="@+id/addressEditTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:hint="Address"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/house_icon"
+        app:layout_constraintStart_toEndOf="@id/house_icon"
+        app:layout_constraintTop_toTopOf="@id/house_icon" />
+
+
+    <TextView
+        android:id="@+id/addressTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/house_icon"
+        app:layout_constraintStart_toEndOf="@id/house_icon"
+        app:layout_constraintTop_toTopOf="@id/house_icon"
+        tools:text="Toronto, Ontario" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottomMarginGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.85" />
+
+
+    <!-- Edit Profile Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/editProfileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Profile"
+        app:cornerRadius="6dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomMarginGuideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Save Profile Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/saveProfileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save Profile"
+        android:visibility="gone"
+        app:cornerRadius="6dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomMarginGuideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
