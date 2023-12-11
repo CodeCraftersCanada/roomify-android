@@ -10,7 +10,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import edu.lambton.roomify.auth.landlord.dto.UserRequest;
+import edu.lambton.roomify.auth.landlord.dto.UserResponse;
+import edu.lambton.roomify.common.UserType;
+import edu.lambton.roomify.landlord.services.ApiService;
+import edu.lambton.roomify.landlord.services.RoomifyApiClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NetworkApiImpl implements NetworkApi {
     private final String TAG = NetworkApiImpl.class.getSimpleName();
@@ -30,7 +40,7 @@ public class NetworkApiImpl implements NetworkApi {
     }
 
     @Override
-    public boolean createAccountOnFirebase(String email, String password, String username, @NonNull Activity activity) {
+    public boolean createAccountOnFirebase(String email, String password, String username, String photoNumber, String college, String address, @NonNull Activity activity) {
         mAuth = FirebaseAuth.getInstance();
         AtomicBoolean isUserCreated = new AtomicBoolean(false);
 
@@ -43,24 +53,39 @@ public class NetworkApiImpl implements NetworkApi {
                 FirebaseUser user = mAuth.getCurrentUser();
                 assert user != null;
 
-                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                        .setDisplayName(username)
-                        .build();
+                // TODO: Save the user into the database
+                UserRequest userRequest = new UserRequest(user.getUid(), user.getEmail(), password, UserType.LANDLORD.getValue(), username, photoNumber, college, address, null, 0, 0);
+                ApiService apiService = RoomifyApiClient.getApiService();
 
-                user.updateProfile(profileUpdates)
-                        .addOnCompleteListener(task1 -> {
-                            if (task1.isSuccessful()) {
-                                Log.i(TAG, "Profile updated successfully");
-                                Toast.makeText(activity.getApplicationContext(), "User profile updated.",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                apiService.createUser(userRequest).enqueue(new Callback<>() {
+                    @Override
+                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                        if (response.isSuccessful()) {
+                            System.out.println("User saved successfully into the Database.");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserResponse> call, Throwable t) {
+
+                    }
+                });
+
+
+                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(username).build();
+
+
+                user.updateProfile(profileUpdates).addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        Log.i(TAG, "Profile updated successfully");
+                        Toast.makeText(activity.getApplicationContext(), "User profile updated.", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
                 isUserCreated.set(true);
             } else {
                 // If sign up fails, display a message to the user.
-                Toast.makeText(activity.getApplicationContext(), "Authentication failed.",
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity.getApplicationContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
                 isUserCreated.set(false);
             }
         });

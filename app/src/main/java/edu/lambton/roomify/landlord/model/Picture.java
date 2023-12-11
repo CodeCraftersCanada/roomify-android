@@ -1,40 +1,29 @@
 package edu.lambton.roomify.landlord.model;
 
-public class Picture {
-    private Long id;
-    private String path;
-    private Long creationDate;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-    public Picture() {
-    }
+import java.io.Serializable;
 
-    public Picture(Long id, String path, Long creationDate) {
-        this.id = id;
-        this.path = path;
-        this.creationDate = creationDate;
-    }
+@Entity
+public record Picture(
+        @PrimaryKey(autoGenerate = true)
+        @ColumnInfo(name = "PICTURE_ID")
+        Long id,
+        @ColumnInfo(name = "PICTURE_PATH")
+        String path,
+        @ColumnInfo(name = "CREATION_DATE")
+        Long creationDate,
+        @ColumnInfo(name = "PARENT_PROPERTY_ID")
+        long parentPropertyId
+) implements Serializable {
 
-    public Long getId() {
-        return id;
-    }
+    public Picture(
+            String path,
+            Long creationDate,
+            long parentPropertyId) {
 
-    public String getPath() {
-        return path;
-    }
-
-    public Long getCreationDate() {
-        return creationDate;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public void setCreationDate(Long creationDate) {
-        this.creationDate = creationDate;
+        this(null, path, creationDate, parentPropertyId);
     }
 }

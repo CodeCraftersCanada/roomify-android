@@ -2,6 +2,8 @@ package edu.lambton.roomify.auth.landlord.controller;
 
 import android.app.Activity;
 
+import androidx.annotation.NonNull;
+
 import edu.lambton.roomify.auth.common.firebase.NetworkApi;
 import edu.lambton.roomify.auth.common.firebase.NetworkApiImpl;
 
@@ -19,8 +21,8 @@ public class LandlordController {
         networkApi.fetchData();
     }
 
-    public boolean createAccount(String email, String password, String fullName, Activity activity) {
-        return networkApi.createAccountOnFirebase(email, password, fullName, activity);
+    public boolean createAccount(String email, String password, String fullName, String photoNumber, String college, String address, @NonNull Activity activity) {
+        return networkApi.createAccountOnFirebase(email, password, fullName, photoNumber, college, address, activity);
     }
 
     public void loginLandlordAccount(String email, String password, NetworkApiImpl.OnLoginCompleteListener onLoginCompleteListener) {

@@ -50,7 +50,7 @@ public class LandlordRegistrationActivity extends AppCompatActivity {
             LandlordController landlordController = new LandlordController(networkApi);
 
             landlordController.performLandlordOperations();
-            boolean accountCreated = landlordController.createAccount(email, password, fullName, this);
+            boolean accountCreated = landlordController.createAccount(email, password, fullName, "", "", "", this);
 
             Toast.makeText(this, "Account created" + accountCreated, Toast.LENGTH_LONG).show();
 

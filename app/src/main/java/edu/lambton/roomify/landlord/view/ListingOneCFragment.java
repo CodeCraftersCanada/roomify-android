@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.util.List;
 
 import edu.lambton.roomify.R;
+import edu.lambton.roomify.landlord.model.PlaceRowOption;
 
 public class ListingOneCFragment extends Fragment {
     private double latitude;
@@ -38,6 +39,8 @@ public class ListingOneCFragment extends Fragment {
 
     private LocationManager locationManager;
     private LocationListener locationListener;
+
+    private OnAddressSelectedListener addressSelectedListener;
 
     private final OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -49,10 +52,7 @@ public class ListingOneCFragment extends Fragment {
             // Get the address name
             String addressName = getAddressFromLocation(latitude, longitude);
 
-            MarkerOptions markerOptions = new MarkerOptions()
-                    .position(currentLocation)
-                    .title("House Location")
-                    .snippet(addressName);
+            MarkerOptions markerOptions = new MarkerOptions().position(currentLocation).title("House Location").snippet(addressName);
 
             googleMap.addMarker(markerOptions);
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
@@ -61,17 +61,14 @@ public class ListingOneCFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_property_listing_maps, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        SupportMapFragment mapFragment =
-                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
@@ -132,8 +129,17 @@ public class ListingOneCFragment extends Fragment {
                 System.out.println("Thoroughfare: " + thoroughfare);
                 System.out.println("SubThoroughfare: " + subThoroughfare);
 
-                String addressName = address.getAddressLine(0); // You can get other address details as needed
+                String addressName = address.getAddressLine(0);
                 System.out.println("Address: " + addressName);
+
+
+                // Notify the listener about the selected option
+                if (addressSelectedListener != null) {
+
+                    edu.lambton.roomify.landlord.model.Address addressSelected = new edu.lambton.roomify.landlord.model.Address(country, postalCode, state, city, subLocality, featureName, thoroughfare, subThoroughfare, latitude, longitude);
+
+                    addressSelectedListener.onAddressSelected(addressSelected);
+                }
 
                 return addressName;
             }
@@ -141,6 +147,15 @@ public class ListingOneCFragment extends Fragment {
             e.printStackTrace();
         }
         return "";
+    }
+
+
+    public void setOnOptionSelectedListener(OnAddressSelectedListener listener) {
+        this.addressSelectedListener = listener;
+    }
+
+    public interface OnAddressSelectedListener {
+        void onAddressSelected(edu.lambton.roomify.landlord.model.Address selectedAddress);
     }
 
 }
