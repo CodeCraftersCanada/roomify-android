@@ -114,12 +114,14 @@
 
     <EditText
         android:id="@+id/collegeEditTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:hint="College Name"
         android:textSize="16sp"
         android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="@id/college_icon"
         app:layout_constraintStart_toEndOf="@id/college_icon"
         app:layout_constraintTop_toTopOf="@id/college_icon" />
@@ -147,13 +149,15 @@
 
     <EditText
         android:id="@+id/phoneEditTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:hint="8003334455"
         android:inputType="phone"
         android:textSize="16sp"
         android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="@id/phone_icon"
         app:layout_constraintStart_toEndOf="@id/phone_icon"
         app:layout_constraintTop_toTopOf="@id/phone_icon" />
@@ -183,13 +187,15 @@
 
     <EditText
         android:id="@+id/addressEditTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:hint="Address"
         android:textSize="16sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/house_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
         app:layout_constraintStart_toEndOf="@id/house_icon"
         app:layout_constraintTop_toTopOf="@id/house_icon" />
 

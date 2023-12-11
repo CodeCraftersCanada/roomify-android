@@ -13,13 +13,19 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
 
+import edu.lambton.roomify.common.UserType;
 import edu.lambton.roomify.databinding.FragmentProfileLandlordBinding;
+import edu.lambton.roomify.landlord.model.User;
+import edu.lambton.roomify.landlord.viewmodel.UserLandlordViewModel;
+import edu.lambton.roomify.landlord.viewmodel.UserLandlordViewModelFactory;
 
 public class ProfileLandlordFragment extends Fragment {
 
@@ -29,15 +35,19 @@ public class ProfileLandlordFragment extends Fragment {
 
     private MaterialButton saveProfileButton, editProfileButton;
 
+    private UserLandlordViewModel userLandlordViewModel;
+
+    private FirebaseAuth mAuth;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentProfileLandlordBinding.inflate(getLayoutInflater(), container, false);
 
@@ -45,8 +55,13 @@ public class ProfileLandlordFragment extends Fragment {
 
         binding.fullNameLandlord.setText(Objects.requireNonNull(mAuth.getCurrentUser()).getDisplayName());
         binding.emailLandlord.setText(Objects.requireNonNull(mAuth.getCurrentUser().getEmail()));
+
+        userLandlordViewModel = new ViewModelProvider(getViewModelStore(), new UserLandlordViewModelFactory(requireActivity().getApplication())).get(UserLandlordViewModel.class);
+
+
         return binding.getRoot();
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -65,6 +80,20 @@ public class ProfileLandlordFragment extends Fragment {
         editProfileButton.setOnClickListener(this::toggleToEditProfile);
 
         callMeButton.setOnClickListener(this::callNumber);
+
+        userLandlordViewModel.loadProfileInfo(mAuth.getUid()).observe(getViewLifecycleOwner(), new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                if (user != null) {
+                    binding.fullNameLandlord.setText(user.getFullName());
+                    binding.collegeTextView.setText(user.getCollege());
+                    binding.emailLandlord.setText(user.getEmail());
+                    binding.phoneTextView.setText(user.getPhone());
+                    binding.addressTextView.setText(user.getAddress());
+                }
+            }
+        });
+
     }
 
     private void saveEditedProfile(View view) {
@@ -108,13 +137,17 @@ public class ProfileLandlordFragment extends Fragment {
             fullNameTextView.setText(editedFullName);
 
             TextView collegeTextView = binding.collegeTextView;
-            collegeEditTextView.setText(editedCollege);
+            collegeTextView.setText(editedCollege);
 
             TextView phoneTextView = binding.phoneTextView;
             phoneTextView.setText(editedPhone);
 
             TextView addressTextView = binding.addressTextView;
             addressTextView.setText(editedAddress);
+
+            User user = new User(null, mAuth.getUid(), UserType.LANDLORD.getValue(), editedFullName, Objects.requireNonNull(mAuth.getCurrentUser()).getEmail(), editedPhone, editedCollege, editedAddress, null, 0, 0);
+
+            updateUser(user);
 
             // Switch back to TextView mode
             editFullNameEditText.setVisibility(View.INVISIBLE);
@@ -155,5 +188,9 @@ public class ProfileLandlordFragment extends Fragment {
             addressEditTextView.setText(addressTextView.getText().toString());
 
         }
+    }
+
+    void updateUser(User user) {
+        userLandlordViewModel.updateUser(user);
     }
 }

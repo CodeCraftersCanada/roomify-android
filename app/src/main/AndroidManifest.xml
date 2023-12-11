@@ -53,7 +53,7 @@
             android:name=".landlord.view.ConfirmAddressActivity"
             android:exported="false" />
         <activity
-            android:name=".IntroductionListPropertyActivity"
+            android:name=".landlord.view.IntroductionListPropertyActivity"
             android:exported="true"></activity>
         <activity
             android:name=".auth.landlord.view.LandlordRegistrationActivity"

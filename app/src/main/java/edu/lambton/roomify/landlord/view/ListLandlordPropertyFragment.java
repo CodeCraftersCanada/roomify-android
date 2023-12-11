@@ -21,11 +21,9 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.lambton.roomify.IntroductionListPropertyActivity;
 import edu.lambton.roomify.R;
 import edu.lambton.roomify.databinding.FragmentListLandlordPropertyBinding;
 import edu.lambton.roomify.landlord.model.Property;
-import edu.lambton.roomify.landlord.view.PropertyListingQuestionaryActivity;
 import edu.lambton.roomify.landlord.view.adapter.PropertyListLandlordRVAdapter;
 import edu.lambton.roomify.landlord.viewmodel.ProperetyLandlordViewModelFactory;
 import edu.lambton.roomify.landlord.viewmodel.PropertyLandlordViewModel;

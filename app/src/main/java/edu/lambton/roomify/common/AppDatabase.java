@@ -12,9 +12,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import edu.lambton.roomify.landlord.dao.PropertyDao;
+import edu.lambton.roomify.landlord.dao.UserDao;
 import edu.lambton.roomify.landlord.model.Property;
+import edu.lambton.roomify.landlord.model.User;
 
-@Database(entities = {Property.class}, version = 1, exportSchema = false)
+@Database(entities = {Property.class, User.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static volatile AppDatabase INSTANCE;
 
@@ -47,5 +49,7 @@ public abstract class AppDatabase extends RoomDatabase {
     };
 
     public abstract PropertyDao propertyDao();
+
+    public abstract UserDao userDao();
 
 }

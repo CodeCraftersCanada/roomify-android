@@ -1,4 +1,4 @@
-package edu.lambton.roomify;
+package edu.lambton.roomify.landlord.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -34,7 +34,6 @@ public class IntroductionListPropertyActivity extends AppCompatActivity implemen
         pricingLabel = binding.pricingLabel;
         exampleEstimation = binding.exampleEstimation;
         priceSeekBar = binding.priceSeekerRange;
-
 
 
         Button roomifySetupButton = binding.roomifySetupButton;
