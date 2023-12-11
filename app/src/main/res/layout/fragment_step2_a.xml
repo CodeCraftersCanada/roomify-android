@@ -23,7 +23,7 @@
                 android:id="@+id/step1Image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/step1img"
+                android:src="@drawable/step2img"
                 android:scaleType="centerCrop" />
 
             <View
@@ -33,32 +33,30 @@
 
         </androidx.cardview.widget.CardView>
 
-
         <TextView
-            android:id="@+id/tvStep1"
+            android:id="@+id/tvStep2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/cardView"
-            android:layout_marginTop="16dp"
-            android:text="Step 1"
+            android:text="Step 2"
             android:textColor="#000000"
             android:textSize="20dp"/>
         <TextView
-            android:id="@+id/tvStep1Title"
+            android:id="@+id/tvStep2Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvStep1"
-            android:text="Tell us about your Place"
-            android:textStyle="bold"
+            android:layout_below="@id/tvStep2"
+            android:text="Make your place      stand out"
             android:textColor="#000000"
-            android:textSize="30dp"/>
+            android:textStyle="bold"
+            android:textSize="35dp"/>
         <TextView
-            android:id="@+id/tvStep1Description"
+            android:id="@+id/tvStep2Description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvStep1Title"
+            android:layout_below="@id/tvStep2Title"
             android:layout_marginTop="15dp"
-            android:text="  In this step,we'll ask you which type of property you have and if guests will book the entire place or just a room. Then let us know the location and how many guests can stay."
+            android:text="  In this step, you'll add some of the amenities your place offers, plus 5 or more photos. Then you'll create a title and description "
             android:textColor="#000000"
             android:textSize="18dp"
             android:lineSpacingExtra="5dp"/>

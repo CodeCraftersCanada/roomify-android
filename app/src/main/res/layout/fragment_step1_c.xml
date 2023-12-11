@@ -58,7 +58,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_toRightOf="@id/entireHouseDescription"
-                    android:src="@drawable/ic_close"
+                    android:src="@drawable/entire_house"
                     android:layout_marginStart="25dp"/>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -97,7 +97,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_toRightOf="@id/roomDescription"
-                    android:src="@drawable/ic_close"
+                    android:src="@drawable/room"
                     android:layout_marginStart="25dp"/>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -136,7 +136,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_toRightOf="@id/sharedRoomDescription"
-                    android:src="@drawable/ic_close"
+                    android:src="@drawable/shared_room"
                     android:layout_marginStart="25dp"/>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>

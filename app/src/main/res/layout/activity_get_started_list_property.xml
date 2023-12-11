@@ -8,7 +8,6 @@
     android:layout_margin="10dp"
     tools:context=".landlord.view.listing.GetStartedListPropertyActivity">
 
-    <!-- X button in the top left corner -->
     <ImageButton
         android:id="@+id/btnClose"
         android:layout_width="25dp"
@@ -17,7 +16,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"/>
 
-    <!-- Title: "Let us get started on Roomify" -->
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
@@ -29,7 +27,6 @@
         android:layout_marginTop="25dp"
         android:layout_marginStart="16dp"/>
 
-    <!-- First step: "Tell us about your place" -->
     <View
         android:id="@+id/stepDivider1"
         android:layout_width="match_parent"
@@ -38,7 +35,6 @@
         android:layout_below="@id/tvTitle"
         android:layout_marginTop="16dp"/>
 
-    <!-- Step 1 -->
     <TextView
         android:id="@+id/tvStep1"
         android:layout_width="wrap_content"
@@ -50,7 +46,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginStart="25dp"/>
 
-    <!-- Step 1 Description -->
     <TextView
         android:id="@+id/step1Descr"
         android:layout_width="250dp"
@@ -59,16 +54,7 @@
         android:layout_below="@id/tvStep1"
         android:layout_marginTop="8dp"
         android:layout_marginStart="30dp"/>
-    <ImageView
-        android:id="@+id/imgStep2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvStep1"
-        android:layout_toEndOf="@id/step1Descr"
-        android:layout_marginStart="50dp"
-        android:src="@drawable/ic_close"
-        android:adjustViewBounds="true"/>
-    <!-- Light gray line between steps 1 and 2 -->
+
     <View
         android:id="@+id/stepDivider2"
         android:layout_width="match_parent"
@@ -77,7 +63,6 @@
         android:layout_below="@id/step1Descr"
         android:layout_marginTop="16dp"/>
 
-    <!-- Step 2 -->
     <TextView
         android:id="@+id/tvStep2"
         android:layout_width="wrap_content"
@@ -89,7 +74,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginStart="25dp"/>
 
-    <!-- Step 2 Description -->
     <TextView
         android:id="@+id/step2Descr"
         android:layout_width="250dp"
@@ -98,17 +82,7 @@
         android:layout_below="@id/tvStep2"
         android:layout_marginTop="8dp"
         android:layout_marginStart="30dp"/>
-    <ImageView
-        android:id="@+id/imgStep2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvStep2"
-        android:layout_toEndOf="@id/step2Descr"
-        android:layout_marginStart="50dp"
-        android:src="@drawable/ic_close"
-        android:adjustViewBounds="true"/>
 
-    <!-- Light gray line between steps 2 and 3 -->
     <View
         android:id="@+id/stepDivider3"
         android:layout_width="match_parent"
@@ -117,7 +91,6 @@
         android:layout_below="@id/step2Descr"
         android:layout_marginTop="16dp"/>
 
-    <!-- Step 3 -->
     <TextView
         android:id="@+id/tvStep3"
         android:layout_width="wrap_content"
@@ -129,7 +102,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginStart="25dp"/>
 
-    <!-- Step 3 Description -->
     <TextView
         android:id="@+id/step3Descr"
         android:layout_width="250dp"
@@ -138,18 +110,7 @@
         android:layout_below="@id/tvStep3"
         android:layout_marginTop="8dp"
         android:layout_marginStart="30dp"/>
-    <ImageView
-        android:id="@+id/imgStep3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvStep3"
-        android:layout_toEndOf="@id/step3Descr"
-        android:layout_marginStart="50dp"
-        android:src="@drawable/ic_close"
-        android:adjustViewBounds="true"/>
 
-    <!-- "Get Started" button -->
-    <!-- "Get Started" button -->
     <Button
         android:id="@+id/btnGetStarted"
         android:layout_width="match_parent"
@@ -157,7 +118,5 @@
         android:text="Get Started"
         android:layout_below="@id/step3Descr"
         android:layout_marginTop="100dp"
-        android:background="@drawable/rounded_button"
-        />
-
+        android:background="@drawable/rounded_button"/>
 </RelativeLayout>

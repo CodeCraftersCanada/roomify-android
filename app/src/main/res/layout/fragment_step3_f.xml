@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".step1_a">
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
+
+        <ImageView
+            android:id="@+id/step3FinalImage"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:src="@drawable/ic_close"/>
+        <TextView
+            android:id="@+id/step3FinalTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/step3FinalImage"
+            android:text="Congratulation, Elvin!"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:textSize="35dp"/>
+        <TextView
+            android:id="@+id/step3FinalDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/step3FinalTitle"
+            android:layout_marginTop="15dp"
+            android:text="From one Host to another, welcome aboard. \n Thank you for sharing your home and helping to create incredible experiences for our guests."
+            android:textColor="#000000"
+            android:textSize="18dp"
+            android:lineSpacingExtra="5dp"/>
+        <ImageView
+            android:id="@+id/step3Signature"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/step3FinalDescription"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/signature"/>
+        <TextView
+            android:id="@+id/step3FinalName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/step3Signature"
+            android:layout_marginTop="15dp"
+            android:text="Elvin Ross Fabella, Co-Owner."
+            android:textColor="#000000"
+            android:textSize="18dp"
+            android:lineSpacingExtra="5dp"/>
+        <Button
+            android:id="@+id/addPhotoButton"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="24dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/step3FinalName"
+            android:text="Let's get started"
+            />
+    </RelativeLayout>
+
+
+</FrameLayout>

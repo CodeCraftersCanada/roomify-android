@@ -1,144 +1,272 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".step1_a"
-    android:layout_margin="10dp">
+    android:layout_margin="10dp"
+    tools:context=".landlord.view.listing.GetStartedListPropertyActivity">
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Let's start with the basics"
+        android:textSize="30dp"
+        android:textColor="#000000"
+        android:layout_marginTop="25dp"
+        android:layout_marginStart="16dp"/>
+
+    <TextView
+        android:id="@+id/tvStep1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="How many people can stay here? "
+        android:textSize="18dp"
+        android:textColor="#000000"
+        android:layout_below="@id/tvTitle"
+        android:layout_marginTop="25dp"
+        android:layout_marginStart="25dp"/>
+
+    <View
+        android:id="@+id/stepDivider1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        android:layout_height="1dp"
+        android:background="#D3D3D3"
+        android:layout_below="@id/tvStep1"
+        android:layout_marginTop="18dp"/>
 
-        <!-- New TextView for the question -->
+    <TextView
+        android:id="@+id/guestsOption"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:text="Guests"
+        android:layout_below="@id/stepDivider1"
+        android:layout_marginTop="18dp"
+        android:layout_marginStart="30dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/stepDivider1"
+        android:layout_marginTop="12dp"
+        android:layout_toRightOf="@id/guestsOption"
+        android:background="@android:color/transparent">
+
+        <!-- Minus Button -->
+        <Button
+            android:id="@+id/btnMinus1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="-"
+            android:textSize="12dp"
+            android:textColor="@color/black"
+            android:onClick="onMinusClick"
+            />
+
+        <!-- Guest Count -->
         <TextView
-            android:id="@+id/tvTypeOfPlaceQuestion"
-            android:layout_width="match_parent"
+            android:id="@+id/tvGuestCount"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="What type of place will guests have?"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="1"
             android:textColor="#000000"
-            android:layout_marginBottom="30dp"
-            android:textSize="30dp"/>
+            android:textSize="18sp"
+            />
 
-        <!-- CardView for the options - Entire House -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardEntireHouse"
-            android:layout_width="match_parent"
+        <!-- Plus Button -->
+        <Button
+            android:id="@+id/btnPlus1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="+"
+            android:onClick="onPlusClick"
+            android:textColor="@color/black"
+            />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/stepDivider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#D3D3D3"
+        android:layout_below="@id/guestsOption"
+        android:layout_marginTop="18dp"/>
+
+    <TextView
+        android:id="@+id/bedroomsOption"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:text="Bedrooms"
+        android:layout_below="@id/stepDivider2"
+        android:layout_marginTop="18dp"
+        android:layout_marginStart="30dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/stepDivider2"
+        android:layout_marginTop="12dp"
+        android:layout_toRightOf="@id/bedroomsOption"
+        android:background="@android:color/transparent">
+
+        <!-- Minus Button -->
+        <Button
+            android:id="@+id/btnMinus2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="-"
+            android:textSize="12dp"
+            android:textColor="@color/black"
+            android:onClick="onMinusClick"
+            />
+
+        <!-- Guest Count -->
+        <TextView
+            android:id="@+id/tvBedroomCount"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvTypeOfPlaceQuestion"
-            android:layout_marginTop="15dp"
-            app:cardCornerRadius="12dp">
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="1"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            />
 
-            <!-- Customize this layout for the card as needed -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp">
+        <!-- Plus Button -->
+        <Button
+            android:id="@+id/btnPlus2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="+"
+            android:onClick="onPlusClick"
+            android:textColor="@color/black"
+            />
+    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/entireHouse"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="An entire house"
-                    android:textSize="18sp"
-                    android:textColor="#000000"/>
-                <TextView
-                    android:id="@+id/entireHouseDescription"
-                    android:layout_width="220dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/entireHouse"
-                    android:text="Guests have the whole place to themselves"
-                    android:textSize="15sp"
-                    android:textColor="#808080"/>
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_toRightOf="@id/entireHouseDescription"
-                    android:src="@drawable/ic_close"
-                    android:layout_marginStart="25dp"/>
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
+    <View
+        android:id="@+id/stepDivider3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#D3D3D3"
+        android:layout_below="@id/bedroomsOption"
+        android:layout_marginTop="18dp"/>
 
-        <!-- CardView for the options - Room -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardRoom"
-            android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/bedsOption"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:text="Beds"
+        android:layout_below="@id/stepDivider3"
+        android:layout_marginTop="18dp"
+        android:layout_marginStart="30dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/stepDivider3"
+        android:layout_marginTop="12dp"
+        android:layout_toRightOf="@id/bedsOption"
+        android:background="@android:color/transparent">
+
+        <!-- Minus Button -->
+        <Button
+            android:id="@+id/btnMinus3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="-"
+            android:textSize="12dp"
+            android:textColor="@color/black"
+            android:onClick="onMinusClick"
+            />
+
+        <!-- Guest Count -->
+        <TextView
+            android:id="@+id/tvBedCount"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/cardEntireHouse"
-            android:layout_marginTop="15dp"
-            app:cardCornerRadius="12dp">
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="1"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            />
 
-            <!-- Customize this layout for the card as needed -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp">
+        <!-- Plus Button -->
+        <Button
+            android:id="@+id/btnPlus3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="+"
+            android:onClick="onPlusClick"
+            android:textColor="@color/black"
+            />
+    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/room"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Room"
-                    android:textSize="18sp"
-                    android:textColor="#000000"/>
-                <TextView
-                    android:id="@+id/roomDescription"
-                    android:layout_width="220dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/room"
-                    android:text="Guests have the whole place to themselves"
-                    android:textSize="15sp"
-                    android:textColor="#808080"/>
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_toRightOf="@id/roomDescription"
-                    android:src="@drawable/ic_close"
-                    android:layout_marginStart="25dp"/>
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
+    <View
+        android:id="@+id/stepDivider4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#D3D3D3"
+        android:layout_below="@id/bedsOption"
+        android:layout_marginTop="18dp"/>
 
-        <!-- CardView for the options - Shared Room -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardSharedRoom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/cardRoom"
-            android:layout_marginTop="15dp"
-            app:cardCornerRadius="12dp">
+    <TextView
+        android:id="@+id/bathroomOption"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:text="Bathroom"
+        android:layout_below="@id/stepDivider4"
+        android:layout_marginTop="18dp"
+        android:layout_marginStart="30dp"/>
 
-            <!-- Customize this layout for the card as needed -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp">
+    <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_below="@id/stepDivider4"
+    android:layout_marginTop="12dp"
+    android:layout_toRightOf="@id/bedsOption"
+    android:background="@android:color/transparent">
 
-                <TextView
-                    android:id="@+id/sharedRoom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Shared Room"
-                    android:textSize="18sp"
-                    android:textColor="#000000"/>
-                <TextView
-                    android:id="@+id/sharedRoomDescription"
-                    android:layout_width="220dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/sharedRoom"
-                    android:text="Guests have the whole place to themselves"
-                    android:textSize="15sp"
-                    android:textColor="#808080"/>
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_toRightOf="@id/sharedRoomDescription"
-                    android:src="@drawable/ic_close"
-                    android:layout_marginStart="25dp"/>
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
-    </RelativeLayout>
-</FrameLayout>
+    <!-- Minus Button -->
+    <Button
+        android:id="@+id/btnMinus4"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="-"
+        android:textSize="12dp"
+        android:textColor="@color/black"
+        android:onClick="onMinusClick"
+        />
+
+    <!-- Guest Count -->
+    <TextView
+        android:id="@+id/tvBathroomCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="1"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        />
+
+    <!-- Plus Button -->
+    <Button
+        android:id="@+id/btnPlus4"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="+"
+        android:onClick="onPlusClick"
+        android:textColor="@color/black"
+        />
+</LinearLayout>
+
+</RelativeLayout>
