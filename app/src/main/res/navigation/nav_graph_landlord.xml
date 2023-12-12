@@ -12,9 +12,13 @@
         tools:layout="@layout/fragment_list_landlord_property" >
         <action
             android:id="@+id/action_listPropertyFragment_to_propertyInfoActivity"
-            app:destination="@id/propertyInfoActivity" />
-    </fragment>
+            app:destination="@id/propertyInfoActivity" >
+            <argument
+                android:name="propertyId"
+                app:argType="string"  />
+        </action>
 
+    </fragment>
 
     <fragment
         android:id="@+id/profileLandlordFragment"
@@ -30,5 +34,9 @@
         android:id="@+id/propertyInfoActivity"
         android:name="edu.lambton.roomify.landlord.view.PropertyInfoActivity"
         android:label="activity_property_info"
-        tools:layout="@layout/activity_property_info" />
+        tools:layout="@layout/activity_property_info" >
+        <argument
+            android:name="propertyId"
+            app:argType="string" />
+    </activity>
 </navigation>

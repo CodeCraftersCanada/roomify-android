@@ -16,13 +16,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
-public interface ApiService {
-
-    @GET("/api/v1/properties")
-    Call<PropertyResponse> fetchData();
-
-    @POST("/api/v1/properties")
-    Call<PropertyResponse> createProperty(@Body PropertyRequest property);
+public interface ApiService extends ApiServiceProperty {
 
     @POST("/api/v1/create-user")
     Call<UserResponse> createUser(@Body UserRequest userRequest);
@@ -42,10 +36,5 @@ public interface ApiService {
     @POST("/api/v1/create-user")
     Call<User> saveUser(@Body User user);
 
-    @GET("/api/v1/properties")
-    Call<StudentPropertyResponse> getAllProperties();
-
-    @POST("api/v1/property-photos")
-    Call<PropertyPhotoResponse> addPhotoToProperty(@Body PropertyPhotoRequest propertyPhotoRequest);
 
 }

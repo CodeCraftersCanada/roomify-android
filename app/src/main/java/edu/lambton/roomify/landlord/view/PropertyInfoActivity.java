@@ -1,22 +1,39 @@
 package edu.lambton.roomify.landlord.view;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.MenuItem;
+import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.lambton.roomify.R;
 import edu.lambton.roomify.databinding.ActivityPropertyInfoBinding;
+import edu.lambton.roomify.landlord.dto.PropertyResponse;
+import edu.lambton.roomify.landlord.dto.PropertyResponseInfo;
+import edu.lambton.roomify.landlord.model.Picture;
 import edu.lambton.roomify.landlord.view.adapter.ImageSliderAdapter;
+import edu.lambton.roomify.landlord.viewmodel.ProperetyLandlordViewModelFactory;
+import edu.lambton.roomify.landlord.viewmodel.PropertyLandlordViewModel;
 
 public class PropertyInfoActivity extends AppCompatActivity {
 
     private ActivityPropertyInfoBinding binding;
+    private PropertyLandlordViewModel propertyLandlordViewModel;
+    private final List<PropertyResponseInfo.PhotoDTO> propertyImages = new ArrayList<>();
+    private ImageSliderAdapter imageSliderAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,35 +50,36 @@ public class PropertyInfoActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-        /*// Sample data
-        int totalImages = 5; // Replace with the actual number of images
-        int currentImage = 1; // Replace with the actual current image number
-
-        // Set up the ViewPager
         ViewPager viewPager = binding.viewPagerImages;
-        ImageSliderAdapter imageSliderAdapter = new ImageSliderAdapter(this, totalImages);
+
+
+        propertyLandlordViewModel = new ViewModelProvider(getViewModelStore(), new ProperetyLandlordViewModelFactory(getApplication())).get(PropertyLandlordViewModel.class);
+
+        String propertyId = PropertyInfoActivityArgs.fromBundle(getIntent().getExtras()).getPropertyId();
+        System.out.println("PASSED FROM: " + propertyId);
+
+        imageSliderAdapter = new ImageSliderAdapter(this, propertyImages);
         viewPager.setAdapter(imageSliderAdapter);
 
-        // Set the current image count
-        binding.imageCount.setText(getString(currentImage, totalImages));
+        propertyLandlordViewModel.getPropertyInfo(propertyId).observe(this, propertyResponse -> {
+            runOnUiThread(() -> {
+                propertyImages.clear();
 
-        // Set up the RatingBar
-        binding.starRating.setRating(4); // Replace with the actual rating
+                List<PropertyResponseInfo.PhotoDTO> newPhotos = propertyResponse.getProperty().getPhotos();
+                propertyImages.addAll(newPhotos);
 
-        // Set up the price
-        binding.price.setText("100"); // Replace with the actual price
+                imageSliderAdapter.notifyDataSetChanged();
 
-        // Set up other property details as needed
+            });
 
-        // Set up the map (replace with your map implementation)
-        // You may use a MapView or a static map image, depending on your needs
+            PropertyResponseInfo.PropertyDTO property = propertyResponse.getProperty();
+            binding.price.setText(String.valueOf(property.getPrice().getNumberDecimal()));
+            binding.description.setText(property.getDescription());
 
-        // Set up the reserve button click listener
-        binding.reserveButton.setOnClickListener(v -> {
-            // Handle reserve button click
-        });*/
+        });
+        
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
