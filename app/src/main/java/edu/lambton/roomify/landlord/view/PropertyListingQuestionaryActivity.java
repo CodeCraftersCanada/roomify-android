@@ -121,7 +121,9 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
 
         btnPrevious.setOnClickListener(this::previousQuestion);
 
-        btnFinish.setOnClickListener(this::createProperty);
+        btnFinish.setOnClickListener(v -> {
+            uploadPhotosToFirebaseStorage();
+        });
 
 
     }
@@ -131,72 +133,67 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
     private Address selectedAddress;
 
     private void uploadPhotosToFirebaseStorage() {
-        // Initialize the latch with the number of photos to upload
-        photoUploadLatch = new CountDownLatch(pictureList.size());
+        // Track the number of photos to upload
+        int totalPhotos = pictureList.size();
+
+        // Counter for successful photo uploads
+        final int[] successfulUploads = {0};
 
         // Iterate through the list of photos and upload each one
         for (Picture photo : pictureList) {
-            // Upload the photo to Firebase Storage
-            // You need to implement the Firebase Storage upload logic here
-            // Refer to Firebase Storage documentation for details
-            System.out.println("PHOTO TO BE UPLOADED: " + photo.id() + " - " + photo.path());
-            uploadPhoto(photo);
-        }
+            uploadPhoto(photo, new PhotoUploadCallback() {
+                @Override
+                public void onSuccess(String photoId, String downloadUrl) {
+                    // Photo uploaded successfully
+                    photosPath.put(photoId, downloadUrl);
+                    propertyPhotoRequestList.add(new PropertyPhotoRequest(null, 0, downloadUrl));
+                    // Increase the counter for successful uploads
+                    successfulUploads[0]++;
 
-        // Wait for all photo uploads to complete before proceeding
-        try {
-            if (photoUploadLatch.await(5, TimeUnit.SECONDS)) {
-                // All photos uploaded successfully
-                // Continue with property creation
-                createProperty(null);
-            } else {
-                // Timeout occurred, handle appropriately
-                Log.e(this.getClass().getName(), "Photo upload timeout");
-            }
-        } catch (InterruptedException e) {
-            // Handle interruption
-            Log.e(this.getClass().getName(), "Photo upload interrupted", e);
+                    // Check if all photos have been uploaded
+                    if (successfulUploads[0] == totalPhotos) {
+                        // All photos uploaded successfully
+                        // Continue with property creation
+                        continuePropertyCreation();
+                    }
+                }
+
+                @Override
+                public void onFailure(Exception exception) {
+                    // Handle failures during photo upload
+                    Log.e(this.getClass().getName(), "Error uploading photo", exception);
+                }
+            });
         }
     }
 
-    private void uploadPhoto(@NonNull Picture photo) {
-        // Example: Upload the photo to Firebase Storage using its URI
-        // This is a simplified example, make sure to handle exceptions and use proper Firebase Storage APIs
+    private void uploadPhoto(@NonNull Picture photo, PhotoUploadCallback callback) {
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
         StorageReference photoRef = storageRef.child("property_photos/" + UUID.randomUUID().toString());
 
-        // Assume 'photoUri' is the URI of the photo
         photoRef.putFile(Uri.parse(photo.path()))
                 .addOnSuccessListener(taskSnapshot -> {
                     // Photo uploaded successfully
-                    // Obtain the download URL and any other required information
-                    String downloadUrl = Objects.requireNonNull(taskSnapshot.getUploadSessionUri()).toString();
-                    String photoId = photoRef.getName();
+                    photoRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        String downloadUrl = uri.toString();
+                        String photoId = photoRef.getName();
 
-                    System.out.println("PHOTOS PATH: " + downloadUrl);
-                    photosPath.put(photoId, downloadUrl);
-                    PropertyPhotoRequest propertyPhotoRequest = new PropertyPhotoRequest("", 1, downloadUrl);
-
-                    propertyPhotoRequestList.add(propertyPhotoRequest);
-
-                    // Count down the latch to indicate that this photo upload is complete
-                    photoUploadLatch.countDown();
-                    // Now you can use downloadUrl and photoId as needed
-                    // For example, store them in the database along with other property details
+                        callback.onSuccess(photoId, downloadUrl);
+                    }).addOnFailureListener(exception -> {
+                        // Handle failures when getting download URL
+                        callback.onFailure(exception);
+                    });
                 })
                 .addOnFailureListener(exception -> {
-                    // Handle failures
-                    photoUploadLatch.countDown();
-                    Log.e(this.getClass().getName(), "Error uploading photo", exception);
+                    // Handle failures during photo upload
+                    callback.onFailure(exception);
                 });
     }
 
-    private void createProperty(View view) {
+    private void continuePropertyCreation() {
         // TODO: Hardcode some values waiting for Elvin
 
         // Upload photos to Firebase Storage
-        uploadPhotosToFirebaseStorage();
-
         if (selectedOption != null && selectedAddress != null) {
             property = new Property(
                     null,
@@ -219,7 +216,6 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
                     selectedAddress.latitude(),
                     selectedAddress.longitude()
 
-                    // Add other property attributes based on your design
             );
 
             property.setPropertyStatusId(PropertyStatus.PENDING.getStatusId());
@@ -244,6 +240,8 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
             // You may show a message to the user or take appropriate action
             System.out.println("Not all options are selected");
         }
+
+
     }
 
 
@@ -311,5 +309,11 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
 
     public interface PropertyCreationCallback extends Serializable {
         void onPropertyCreated(Property property);
+    }
+
+    interface PhotoUploadCallback {
+        void onSuccess(String photoId, String downloadUrl);
+
+        void onFailure(Exception exception);
     }
 }

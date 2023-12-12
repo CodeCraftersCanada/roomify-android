@@ -19,6 +19,7 @@ import edu.lambton.roomify.landlord.dto.PropertyPhotoRequest;
 import edu.lambton.roomify.landlord.dto.PropertyPhotoResponse;
 import edu.lambton.roomify.landlord.dto.PropertyRequest;
 import edu.lambton.roomify.landlord.dto.PropertyResponse;
+import edu.lambton.roomify.landlord.dto.PropertyResponseInfo;
 import edu.lambton.roomify.landlord.model.Property;
 import edu.lambton.roomify.landlord.services.ApiService;
 import retrofit2.Call;
@@ -73,6 +74,32 @@ public class PropertyRepository {
 
         return propertiesList;
     }
+
+    public LiveData<PropertyResponseInfo> getPropertyInfo(String id) {
+
+        MutableLiveData<PropertyResponseInfo> value = new MutableLiveData<>();
+
+        apiService.getPropertyInfo(id).enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<PropertyResponseInfo> call, Response<PropertyResponseInfo> response) {
+                if (response.isSuccessful()) {
+                    PropertyResponseInfo propertyResponse = response.body();
+
+                    value.setValue(propertyResponse);
+                } else {
+                    System.err.println("Something happened");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PropertyResponseInfo> call, Throwable t) {
+                System.err.println(t.getStackTrace());
+            }
+        });
+
+        return value;
+    }
+
 
     public void save(Property property) {
         AppDatabase.databaseWriterExecutor.execute(() -> {

@@ -63,12 +63,7 @@ public class PropertyListLandlordRVAdapter extends RecyclerView.Adapter<Property
             propertyListCardView = itemView.findViewById(R.id.propertyListCardView);
             /*statusTextView = itemView.findViewById(R.id.statusTextView);*/
 
-            propertyListCardView.setOnClickListener(v -> {
-                // Invoke the callback when the card is clicked
-                if (onCardListener != null) {
-                    onCardListener.onPropertyCardHandle(v);
-                }
-            });
+
         }
 
         public void bind(@NonNull Property property) {
@@ -77,10 +72,16 @@ public class PropertyListLandlordRVAdapter extends RecyclerView.Adapter<Property
             // propertyPicture.setImageResource(property.getPictureResource());
             namePropertyTextView.setText(property.description());
             //statusTextView.setText(property.getStatus());
+            propertyListCardView.setOnClickListener(v -> {
+                // Invoke the callback when the card is clicked
+                if (onCardListener != null) {
+                    onCardListener.onPropertyCardHandle(property.propertyId());
+                }
+            });
         }
     }
 
     public interface OnPropertyCardListener {
-        void onPropertyCardHandle(View view);
+        void onPropertyCardHandle(String propertyId);
     }
 }

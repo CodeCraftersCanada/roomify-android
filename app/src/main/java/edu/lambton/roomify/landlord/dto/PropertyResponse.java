@@ -33,6 +33,7 @@ public class PropertyResponse {
 
     public static class PropertyDTO {
 
+
         @SerializedName("user_id")
         private String userId;
 

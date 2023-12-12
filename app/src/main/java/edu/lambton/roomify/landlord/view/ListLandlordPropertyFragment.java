@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -85,8 +86,11 @@ public class ListLandlordPropertyFragment extends Fragment implements PropertyLi
     }
 
     @Override
-    public void onPropertyCardHandle(View view) {
-        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main_landlord);
-        navController.navigate(R.id.action_listPropertyFragment_to_propertyInfoActivity);
+    public void onPropertyCardHandle(String propertyId) {
+
+        // Create a NavDirections object with the argument
+        NavDirections action = ListLandlordPropertyFragmentDirections.actionListPropertyFragmentToPropertyInfoActivity(propertyId);
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main_landlord).navigate(action);
+        //navController.navigate(R.id.action_listPropertyFragment_to_propertyInfoActivity);
     }
 }
