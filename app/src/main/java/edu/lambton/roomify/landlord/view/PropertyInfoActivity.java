@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +35,14 @@ public class PropertyInfoActivity extends AppCompatActivity {
     private PropertyLandlordViewModel propertyLandlordViewModel;
     private final List<PropertyResponseInfo.PhotoDTO> propertyImages = new ArrayList<>();
     private ImageSliderAdapter imageSliderAdapter;
+    private TextView imageCountTextView;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = ActivityPropertyInfoBinding.inflate(getLayoutInflater());
-
         setContentView(binding.getRoot());
 
         Toolbar toolbar = binding.toolbar;
@@ -50,13 +52,14 @@ public class PropertyInfoActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        ViewPager viewPager = binding.viewPagerImages;
 
+        viewPager = binding.viewPagerImages;
+        imageCountTextView = binding.imageCount;
 
-        propertyLandlordViewModel = new ViewModelProvider(getViewModelStore(), new ProperetyLandlordViewModelFactory(getApplication())).get(PropertyLandlordViewModel.class);
+        propertyLandlordViewModel = new ViewModelProvider(getViewModelStore(),
+                new ProperetyLandlordViewModelFactory(getApplication())).get(PropertyLandlordViewModel.class);
 
         String propertyId = PropertyInfoActivityArgs.fromBundle(getIntent().getExtras()).getPropertyId();
-        System.out.println("PASSED FROM: " + propertyId);
 
         imageSliderAdapter = new ImageSliderAdapter(this, propertyImages);
         viewPager.setAdapter(imageSliderAdapter);
@@ -69,25 +72,42 @@ public class PropertyInfoActivity extends AppCompatActivity {
                 propertyImages.addAll(newPhotos);
 
                 imageSliderAdapter.notifyDataSetChanged();
-
+                updateImageCountText(viewPager.getCurrentItem() + 1, propertyImages.size());
             });
 
             PropertyResponseInfo.PropertyDTO property = propertyResponse.getProperty();
             binding.price.setText(String.valueOf(property.getPrice().getNumberDecimal()));
             binding.description.setText(property.getDescription());
-
         });
-        
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                // Not needed for this implementation
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                updateImageCountText(position + 1, propertyImages.size());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                // Not needed for this implementation
+            }
+        });
     }
 
+    private void updateImageCountText(int currentImage, int totalImages) {
+        String countText = getString(R.string.image_count_format, currentImage, totalImages);
+        imageCountTextView.setText(countText);
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        // Handle action bar item clicks here
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            // Respond to the action bar's Up/Home button
-            onBackPressed(); // Go back when the back button is clicked
+            onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
