@@ -27,6 +27,8 @@ import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import edu.lambton.roomify.PropertyPriceListingFragment;
+import edu.lambton.roomify.StepOneAFragment;
 import edu.lambton.roomify.common.PropertyStatus;
 import edu.lambton.roomify.databinding.ActivityPropertyListingQuestionaryBinding;
 import edu.lambton.roomify.landlord.dto.PropertyPhotoRequest;
@@ -35,6 +37,10 @@ import edu.lambton.roomify.landlord.model.Picture;
 import edu.lambton.roomify.landlord.model.PlaceRowOption;
 import edu.lambton.roomify.landlord.model.Property;
 import edu.lambton.roomify.landlord.view.questionnaire.adapter.QuestionnairePagerAdapter;
+import edu.lambton.roomify.landlord.view.questionnaire.view.StepOneEFragment;
+import edu.lambton.roomify.landlord.view.questionnaire.view.StepThreeAFragment;
+import edu.lambton.roomify.landlord.view.questionnaire.view.StepTwoAFragment;
+import edu.lambton.roomify.landlord.view.questionnaire.view.StepTwoDFragment;
 import edu.lambton.roomify.landlord.viewmodel.ProperetyLandlordViewModelFactory;
 import edu.lambton.roomify.landlord.viewmodel.PropertyLandlordViewModel;
 
@@ -77,8 +83,14 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
 
         // List of Fragments for Questionnaire
         questionnaireFragments = new ArrayList<>();
+        questionnaireFragments.add(new StepOneAFragment());
         questionnaireFragments.add(new ListingOneAFragment());
         questionnaireFragments.add(new ListingOneCFragment());
+        questionnaireFragments.add(new StepOneEFragment());
+        questionnaireFragments.add(new StepTwoAFragment());
+        questionnaireFragments.add(new StepTwoDFragment());
+        questionnaireFragments.add(new StepThreeAFragment());
+        questionnaireFragments.add(new PropertyPriceListingFragment());
         questionnaireFragments.add(new PhotoSelectionPropertyFragment());
 
 
@@ -127,7 +139,6 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
 
 
     }
-
 
     private PlaceRowOption selectedOption;
     private Address selectedAddress;

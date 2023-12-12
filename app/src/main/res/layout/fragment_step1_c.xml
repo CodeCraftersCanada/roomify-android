@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".step1_a"
+    tools:context=".landlord.view.questionnaire.view.StepOneCFragment"
     android:layout_margin="10dp">
 
     <RelativeLayout
