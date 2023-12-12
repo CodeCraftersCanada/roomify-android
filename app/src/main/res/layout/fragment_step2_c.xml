@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".StepOneAFragment"
+    android:layout_margin="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <TextView
+            android:id="@+id/tvApartmentTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Next, let's describe\n your apartment"
+            android:textColor="#000000"
+            android:layout_marginBottom="15dp"
+            android:textSize="30dp"/>
+
+        <TextView
+            android:id="@+id/tvApartmentDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvApartmentTitle"
+            android:text="Choose up to 2 highlights. We'll use these to get your description started."
+            android:textColor="#808080"
+            android:layout_marginBottom="30dp"
+            android:textSize="18dp"/>
+        <Button
+            android:id="@+id/option1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/baseline_account_circle_24"
+            android:textSize="18dp"
+            android:text="Peaceful"
+            android:layout_marginRight="10dp"
+            android:layout_below="@id/tvApartmentDescription"
+            />
+        <Button
+            android:id="@+id/option2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/baseline_account_circle_24"
+            android:textSize="18dp"
+            android:text="Unique"
+            android:layout_toRightOf="@id/option1"
+            android:layout_below="@id/tvApartmentDescription"/>
+        <Button
+            android:id="@+id/option3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/baseline_account_circle_24"
+            android:textSize="18dp"
+            android:text="Family-friendly"
+            android:layout_marginRight="10dp"
+            android:layout_below="@id/option1"/>
+        <Button
+            android:id="@+id/option4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/baseline_account_circle_24"
+            android:textSize="18dp"
+            android:text="Stylish"
+            android:layout_toRightOf="@id/option3"
+            android:layout_below="@id/option2"/>
+        <Button
+            android:id="@+id/option5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/baseline_account_circle_24"
+            android:textSize="18dp"
+            android:text="Central"
+            android:layout_marginRight="10dp"
+            android:layout_below="@id/option3"/>
+        <Button
+            android:id="@+id/option6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/baseline_account_circle_24"
+            android:textSize="18dp"
+            android:text="Spacious"
+            android:layout_toRightOf="@id/option5"
+            android:layout_below="@id/option4"/>
+
+
+
+
+    </RelativeLayout>
+</FrameLayout>

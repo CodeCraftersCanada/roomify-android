@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -67,9 +68,9 @@ public class PropertyListLandlordRVAdapter extends RecyclerView.Adapter<Property
         }
 
         public void bind(@NonNull Property property) {
-            // Bind data to views
-            // For example:
-            // propertyPicture.setImageResource(property.getPictureResource());
+
+            //Picasso.get().load(property.)
+
             namePropertyTextView.setText(property.description());
             //statusTextView.setText(property.getStatus());
             propertyListCardView.setOnClickListener(v -> {

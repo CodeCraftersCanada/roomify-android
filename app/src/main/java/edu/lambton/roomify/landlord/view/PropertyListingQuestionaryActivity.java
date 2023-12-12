@@ -27,6 +27,8 @@ import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import edu.lambton.roomify.PropertyPriceListingFragment;
+import edu.lambton.roomify.StepOneAFragment;
 import edu.lambton.roomify.common.PropertyStatus;
 import edu.lambton.roomify.databinding.ActivityPropertyListingQuestionaryBinding;
 import edu.lambton.roomify.landlord.dto.PropertyPhotoRequest;
@@ -35,6 +37,11 @@ import edu.lambton.roomify.landlord.model.Picture;
 import edu.lambton.roomify.landlord.model.PlaceRowOption;
 import edu.lambton.roomify.landlord.model.Property;
 import edu.lambton.roomify.landlord.view.questionnaire.adapter.QuestionnairePagerAdapter;
+import edu.lambton.roomify.landlord.view.questionnaire.view.StepOneCFragment;
+import edu.lambton.roomify.landlord.view.questionnaire.view.StepOneEFragment;
+import edu.lambton.roomify.landlord.view.questionnaire.view.StepThreeAFragment;
+import edu.lambton.roomify.landlord.view.questionnaire.view.StepTwoAFragment;
+import edu.lambton.roomify.landlord.view.questionnaire.view.StepTwoDFragment;
 import edu.lambton.roomify.landlord.viewmodel.ProperetyLandlordViewModelFactory;
 import edu.lambton.roomify.landlord.viewmodel.PropertyLandlordViewModel;
 
@@ -77,9 +84,16 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
 
         // List of Fragments for Questionnaire
         questionnaireFragments = new ArrayList<>();
-        questionnaireFragments.add(new ListingOneAFragment());
-        questionnaireFragments.add(new ListingOneCFragment());
-        questionnaireFragments.add(new PhotoSelectionPropertyFragment());
+        questionnaireFragments.add(new StepOneAFragment()); //0
+        questionnaireFragments.add(new ListingOneAFragment()); //1
+        questionnaireFragments.add(new StepOneCFragment()); //2
+        questionnaireFragments.add(new ListingOneCFragment()); //3
+        questionnaireFragments.add(new StepOneEFragment()); //4
+        questionnaireFragments.add(new StepTwoAFragment()); //5
+        questionnaireFragments.add(new StepTwoDFragment()); // 6
+        questionnaireFragments.add(new StepThreeAFragment()); //7
+        questionnaireFragments.add(new PropertyPriceListingFragment()); //8
+        questionnaireFragments.add(new PhotoSelectionPropertyFragment()); //9
 
 
         pagerAdapter = new QuestionnairePagerAdapter(getSupportFragmentManager(), questionnaireFragments);
@@ -90,15 +104,35 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
 
 
         // Set the listener for the first fragment
-        if (questionnaireFragments.get(0) instanceof ListingOneAFragment) {
-            ((ListingOneAFragment) questionnaireFragments.get(0))
+        if (questionnaireFragments.get(1) instanceof ListingOneAFragment) {
+            ((ListingOneAFragment) questionnaireFragments.get(1))
                     .setOnOptionSelectedListener(this::onOptionSelected);
-
         }
 
-        if (questionnaireFragments.get(1) instanceof ListingOneCFragment) {
-            ((ListingOneCFragment) questionnaireFragments.get(1))
+        if (questionnaireFragments.get(2) instanceof StepOneCFragment) {
+            ((StepOneCFragment) questionnaireFragments.get(2))
+                    .setOnPlaceSelectedListener(this::onPlaceSelected);
+        }
+
+
+        if (questionnaireFragments.get(3) instanceof ListingOneCFragment) {
+            ((ListingOneCFragment) questionnaireFragments.get(3))
                     .setOnOptionSelectedListener(this::onAddressSelected);
+        }
+
+        if (questionnaireFragments.get(4) instanceof StepOneEFragment) {
+            ((StepOneEFragment) questionnaireFragments.get(4))
+                    .setOnPropertyFeatureListener(this::onFeaturesSelected);
+        }
+
+        if (questionnaireFragments.get(6) instanceof StepTwoDFragment) {
+            ((StepTwoDFragment) questionnaireFragments.get(6))
+                    .setOnDescriptionChangedListener(this::descriptionListener);
+        }
+
+        if (questionnaireFragments.get(8) instanceof PropertyPriceListingFragment) {
+            ((PropertyPriceListingFragment) questionnaireFragments.get(8))
+                    .setOnPriceChangedListener(this::onPriceChanged);
         }
 
         if (questionnaireFragments.get(questionnaireFragments.size() - 1) instanceof PhotoSelectionPropertyFragment) {
@@ -129,8 +163,30 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
     }
 
 
+    private String description;
+
+    private void descriptionListener(String description) {
+        this.description = description;
+        System.out.println("DESCRIPTION: " + description);
+    }
+
     private PlaceRowOption selectedOption;
     private Address selectedAddress;
+    private int guestCount;
+    private int bedroomCount;
+    private int bedCount;
+    private int bathroomCount;
+
+    private double price;
+    private String placeSelected;
+
+    private void onPlaceSelected(String placeSelected) {
+        this.placeSelected = placeSelected;
+    }
+
+    private void onPriceChanged(double newPrice) {
+        this.price = newPrice;
+    }
 
     private void uploadPhotosToFirebaseStorage() {
         // Track the number of photos to upload
@@ -197,18 +253,18 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
         if (selectedOption != null && selectedAddress != null) {
             property = new Property(
                     null,
-                    "Description for Property 2",
+                    description,
                     selectedOption.propertyType(),
                     selectedOption.text(),
                     1,
-                    "Entire Place",
-                    3,
-                    3,
-                    4,
+                    placeSelected,
+                    guestCount,
+                    bedroomCount,
+                    bedCount,
                     0,
-                    500.0,
+                    price,
                     selectedAddress.subThoroughfare() + ", " + selectedAddress.thoroughfare() + " " + selectedAddress.subLocality() + " " + selectedAddress.featureName(),
-                    "",
+                    null,
                     selectedAddress.city(),
                     selectedAddress.province(),
                     selectedAddress.country(),
@@ -237,7 +293,6 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
             finish();
         } else {
             // Handle the case where not all options are selected
-            // You may show a message to the user or take appropriate action
             System.out.println("Not all options are selected");
         }
 
@@ -248,6 +303,23 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
     private void onOptionSelected(@NonNull PlaceRowOption selectedOption) {
         this.selectedOption = selectedOption;
         System.out.println("SELECTED PROPERTY: " + selectedOption.propertyType() + " - " + selectedOption.text());
+    }
+
+    private void onFeaturesSelected(int guestCount, int bedroomCount, int bedCount, int bathroomCount) {
+        String features = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            features = """
+                    Guest #: %d
+                    Bedroom #: %d
+                    Bed #: %d
+                    Bathroom #: %d
+                    """.formatted(guestCount, bedroomCount, bedCount, bathroomCount);
+        }
+        this.guestCount = guestCount;
+        this.bedroomCount = bedroomCount;
+        this.bedCount = bedCount;
+        this.bathroomCount = bathroomCount;
+        System.out.println(features);
     }
 
     private void onAddressSelected(@NonNull Address address) {

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    tools:context=".landlord.view.questionnaire.view.StepOneEFragment">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="25dp"
+        android:text="Let's start with the basics"
+        android:textColor="#000000"
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/tvStep1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTitle"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:text="How many people can stay here? "
+        android:textColor="#000000"
+        android:textSize="18dp" />
+
+    <View
+        android:id="@+id/stepDivider1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/tvStep1"
+        android:layout_marginTop="18dp"
+        android:background="#D3D3D3" />
+
+    <TextView
+        android:id="@+id/guestsOption"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/stepDivider1"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="18dp"
+        android:text="Guests" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/stepDivider1"
+        android:layout_marginTop="12dp"
+        android:layout_toRightOf="@id/guestsOption"
+        android:background="@android:color/transparent"
+        android:orientation="horizontal">
+
+        <!-- Minus Button -->
+        <Button
+            android:id="@+id/decrementGuestButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="-"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <!-- Guest Count -->
+        <TextView
+            android:id="@+id/numGuessButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="0"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <!-- Plus Button -->
+        <Button
+            android:id="@+id/incrementGuestButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="+"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/stepDivider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/guestsOption"
+        android:layout_marginTop="18dp"
+        android:background="#D3D3D3" />
+
+    <TextView
+        android:id="@+id/bedroomsOption"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/stepDivider2"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="18dp"
+        android:text="Bedrooms" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/stepDivider2"
+        android:layout_marginTop="12dp"
+        android:layout_toRightOf="@id/bedroomsOption"
+        android:background="@android:color/transparent"
+        android:orientation="horizontal">
+
+        <!-- Minus Button -->
+        <Button
+            android:id="@+id/decrementBedroomsButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="-"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <!-- Guest Count -->
+        <TextView
+            android:id="@+id/numBedroomsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="0"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <!-- Plus Button -->
+        <Button
+            android:id="@+id/incrementBedroomsButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="+"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/stepDivider3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/bedroomsOption"
+        android:layout_marginTop="18dp"
+        android:background="#D3D3D3" />
+
+    <TextView
+        android:id="@+id/bedsOption"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/stepDivider3"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="18dp"
+        android:text="Beds" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/stepDivider3"
+        android:layout_marginTop="12dp"
+        android:layout_toRightOf="@id/bedsOption"
+        android:background="@android:color/transparent"
+        android:orientation="horizontal">
+
+        <!-- Minus Button -->
+        <Button
+            android:id="@+id/decrementBedsButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="-"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <!-- Guest Count -->
+        <TextView
+            android:id="@+id/numBedsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="0"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <!-- Plus Button -->
+        <Button
+            android:id="@+id/incrementBedsButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="+"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/stepDivider4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/bedsOption"
+        android:layout_marginTop="18dp"
+        android:background="#D3D3D3" />
+
+    <TextView
+        android:id="@+id/bathroomOption"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/stepDivider4"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="18dp"
+        android:text="Bathroom" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/stepDivider4"
+        android:layout_marginTop="12dp"
+        android:layout_toRightOf="@id/bedsOption"
+        android:background="@android:color/transparent"
+        android:orientation="horizontal">
+
+        <!-- Minus Button -->
+        <Button
+            android:id="@+id/decrementBathroomButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="-"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <!-- Guest Count -->
+        <TextView
+            android:id="@+id/numBathroomTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="0"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <!-- Plus Button -->
+        <Button
+            android:id="@+id/incrementBathroomButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="+"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+</RelativeLayout>
