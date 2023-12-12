@@ -1,5 +1,6 @@
 package edu.lambton.roomify.landlord.view.questionnaire.view;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import edu.lambton.roomify.R;
 import edu.lambton.roomify.databinding.FragmentStep1EBinding;
+import edu.lambton.roomify.landlord.view.PhotoSelectionPropertyFragment;
 
 public class StepOneEFragment extends Fragment {
 
@@ -21,6 +23,8 @@ public class StepOneEFragment extends Fragment {
     private int bedroomCount = 0;
     private int bedCount = 0;
     private int bathroomCount = 0;
+
+    private PropertyFeaturesListener propertyFeaturesListener;
 
 
     @Override
@@ -70,6 +74,16 @@ public class StepOneEFragment extends Fragment {
         return rootView;
     }
 
+   /* @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            propertyFeaturesListener = (PropertyFeaturesListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context + " must implement StepOneEListener");
+        }
+    }*/
+
     private void updateCount(@NonNull TextView textView, int change, String category) {
         int count = Integer.parseInt(textView.getText().toString()) + change;
         if (count >= 0) {
@@ -81,6 +95,24 @@ public class StepOneEFragment extends Fragment {
                 case "bed" -> bedCount = count;
                 case "bathroom" -> bathroomCount = count;
             }
+
+            // Notify the listener with the updated values
+            if (propertyFeaturesListener != null) {
+                propertyFeaturesListener.onPropertyFeaturesUpdated(guestCount, bedroomCount, bedCount, bathroomCount);
+            }
         }
+
+
     }
+
+    public void setOnPropertyFeatureListener(PropertyFeaturesListener listener) {
+        this.propertyFeaturesListener = listener;
+    }
+
+    public interface PropertyFeaturesListener {
+        void onPropertyFeaturesUpdated(int guestCount, int bedroomCount, int bedCount, int bathroomCount);
+    }
+
 }
+
+
