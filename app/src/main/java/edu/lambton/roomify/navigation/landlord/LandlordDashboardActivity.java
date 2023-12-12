@@ -35,7 +35,6 @@ public class LandlordDashboardActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationLandlordView);
         NavigationUI.setupWithNavController(bottomNavigationView, dashboardNavController);
 
-
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             int destinationId;
 

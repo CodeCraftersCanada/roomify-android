@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    id("androidx.navigation.safeargs")
 }
 
 android {
@@ -64,14 +65,19 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
 
     implementation("com.google.firebase:firebase-auth:22.3.0")
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
 
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.9.1")
+    implementation("com.squareup.okhttp3:okhttp-urlconnection:4.9.1") // Required for Retrofit
+    /*implementation("com.squareup.okhttp3:okhttp-ws:4.9.1")*/ // Required for WebSocket
 
     implementation("androidx.navigation:navigation-fragment:2.7.5")
     implementation("androidx.navigation:navigation-ui:2.7.5")
 
     // Feature module Support
     implementation("androidx.navigation:navigation-dynamic-features-fragment:2.7.5")
+    implementation("com.google.firebase:firebase-storage:20.3.0")
 
     // Testing Navigation
     androidTestImplementation("androidx.navigation:navigation-testing:2.7.5")
@@ -84,8 +90,15 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
+    // Android Room Database
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-common:2.6.1")
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-testing:2.6.1")
+
 
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("com.google.android.gms:play-services-places:17.0.0")
 
+    implementation ("org.mongodb:mongodb-driver-sync:4.2.3")
 }

@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import edu.lambton.roomify.auth.landlord.view.LandlordLoginActivity;
+import edu.lambton.roomify.auth.student.view.StudentLoginActivity;
 import edu.lambton.roomify.databinding.ActivityMainBinding;
 
 
@@ -70,6 +71,12 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, LandlordLoginActivity.class);
             startActivity(intent);
         });
+
+        binding.studentScreenButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this, StudentLoginActivity.class);
+            startActivity(intent);
+        });
+
         permissionsList = new ArrayList<>();
         permissionsList.addAll(Arrays.asList(permissionsStr));
         askForPermissions(permissionsList);
