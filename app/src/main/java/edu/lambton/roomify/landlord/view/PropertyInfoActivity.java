@@ -17,10 +17,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.lambton.roomify.R;
+import edu.lambton.roomify.common.UserType;
 import edu.lambton.roomify.databinding.ActivityPropertyInfoBinding;
 import edu.lambton.roomify.landlord.dto.PropertyResponse;
 import edu.lambton.roomify.landlord.dto.PropertyResponseInfo;
@@ -78,6 +81,17 @@ public class PropertyInfoActivity extends AppCompatActivity {
             PropertyResponseInfo.PropertyDTO property = propertyResponse.getProperty();
             binding.price.setText(String.valueOf(property.getPrice().getNumberDecimal()));
             binding.description.setText(property.getDescription());
+
+            if (UserType.LANDLORD.getValue() == property.getUserId().getUserTypeId()) {
+                binding.reserveButton.setVisibility(View.INVISIBLE);
+            }
+
+
+            /*
+            Picasso.get()
+                    .load(propertyResponse.get)
+                    .placeholder(R.drawable.profile_placeholder).centerCrop()
+                    .into(binding.landlordPhoto);*/
         });
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
