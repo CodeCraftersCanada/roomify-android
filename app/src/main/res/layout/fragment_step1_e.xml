@@ -166,7 +166,7 @@
 
         <!-- Minus Button -->
         <Button
-            android:id="@+id/incrementBedsButton"
+            android:id="@+id/decrementBedsButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:text="-"
@@ -186,7 +186,7 @@
 
         <!-- Plus Button -->
         <Button
-            android:id="@+id/btnPlus3"
+            android:id="@+id/incrementBedsButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:text="+"
