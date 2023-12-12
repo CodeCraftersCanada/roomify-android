@@ -15,6 +15,8 @@ import java.util.List;
 import edu.lambton.roomify.auth.landlord.dto.UserResponse;
 import edu.lambton.roomify.common.AppDatabase;
 import edu.lambton.roomify.landlord.dao.PropertyDao;
+import edu.lambton.roomify.landlord.dto.PropertyPhotoRequest;
+import edu.lambton.roomify.landlord.dto.PropertyPhotoResponse;
 import edu.lambton.roomify.landlord.dto.PropertyRequest;
 import edu.lambton.roomify.landlord.dto.PropertyResponse;
 import edu.lambton.roomify.landlord.model.Property;
@@ -79,7 +81,32 @@ public class PropertyRepository {
         });
     }
 
-    public LiveData<PropertyResponse> postData(PropertyRequest requestModel) {
+    public void addPhotoToPropertyExternal(@NonNull List<PropertyPhotoRequest> propertyPhotosRequest, String propertyId) {
+
+        System.out.println("Property Request Size: " + propertyPhotosRequest.size());
+
+        propertyPhotosRequest.forEach(propertyPhotoRequest -> {
+
+            propertyPhotoRequest.setPropertyId(propertyId);
+
+            apiService.addPhotoToProperty(propertyPhotoRequest).enqueue(new Callback<>() {
+                @Override
+                public void onResponse(Call<PropertyPhotoResponse> call, Response<PropertyPhotoResponse> response) {
+                    if (response.isSuccessful()) {
+                        System.out.println("Photo added successfully: " + response.body());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<PropertyPhotoResponse> call, Throwable t) {
+                    System.err.println(t.getStackTrace());
+                }
+            });
+        });
+
+    }
+
+    public LiveData<PropertyResponse> postData(PropertyRequest requestModel, List<PropertyPhotoRequest> propertyPhotosRequest) {
         MutableLiveData<PropertyResponse> result = new MutableLiveData<>();
 
         apiService.createProperty(requestModel).enqueue(new Callback<>() {
@@ -88,6 +115,14 @@ public class PropertyRepository {
             public void onResponse(@NonNull Call<PropertyResponse> call, @NonNull Response<PropertyResponse> response) {
                 if (response.isSuccessful()) {
                     try {
+
+
+                        assert response.body() != null;
+                        String propertyId = response.body().getProperty().getId();
+
+                        // Attach photo to the property
+                        addPhotoToPropertyExternal(propertyPhotosRequest, propertyId);
+
                         result.setValue(response.body());
 
                         Property propertyMapped = mapPropertyResponseToProperty(response.body());

@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -59,7 +60,7 @@ public class PhotoSelectionPropertyFragment extends Fragment {
                     propertyPictureRVAdapter.notifyItemRangeChanged(0, myPictures.size());
 
                     if (myPictures.size() >= 3) {
-                        notifyPhotoAdded();
+                        notifyPhotoAdded(myPictures);
                     }
                 }
             } catch (Exception e) {
@@ -109,11 +110,11 @@ public class PhotoSelectionPropertyFragment extends Fragment {
         takePhotoButton.setOnClickListener(this::takePhoto);
 
         propertyPictureRVAdapter = new PropertyPictureRVAdapter(myPictures);
-        picturesThumbnailRV.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        picturesThumbnailRV.setLayoutManager(new GridLayoutManager(requireContext(), 2, LinearLayoutManager.VERTICAL, false));
         picturesThumbnailRV.setAdapter(propertyPictureRVAdapter);
 
-        if (myPictures.size() >= 3) {
-            notifyPhotoAdded();
+        if (myPictures.size() >= 2) {
+            notifyPhotoAdded(myPictures);
         }
 
     }
@@ -149,13 +150,16 @@ public class PhotoSelectionPropertyFragment extends Fragment {
     }
 
     // Method to be called when a photo is added
-    private void notifyPhotoAdded() {
+    private void notifyPhotoAdded(List<Picture> pictureList) {
         if (onPhotoAddedListener != null) {
             onPhotoAddedListener.onPhotoAdded();
+            onPhotoAddedListener.onCallbackPhoto(pictureList);
         }
     }
 
     public interface OnPhotoAddedListener {
         void onPhotoAdded();
+
+        void onCallbackPhoto(List<Picture> photoList);
     }
 }

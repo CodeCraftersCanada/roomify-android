@@ -1,5 +1,6 @@
 package edu.lambton.roomify.landlord.view;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,13 +13,25 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import edu.lambton.roomify.common.PropertyStatus;
 import edu.lambton.roomify.databinding.ActivityPropertyListingQuestionaryBinding;
+import edu.lambton.roomify.landlord.dto.PropertyPhotoRequest;
 import edu.lambton.roomify.landlord.model.Address;
+import edu.lambton.roomify.landlord.model.Picture;
 import edu.lambton.roomify.landlord.model.PlaceRowOption;
 import edu.lambton.roomify.landlord.model.Property;
 import edu.lambton.roomify.landlord.view.questionnaire.adapter.QuestionnairePagerAdapter;
@@ -37,8 +50,13 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
 
     private Property property;
     private PropertyCreationCallback propertyCreationCallback;
+    private final List<Picture> pictureList = new ArrayList<>();
 
+    private final Hashtable<String, String> photosPath = new Hashtable<>();
     private PropertyLandlordViewModel propertyLandlordViewModel;
+
+    private final List<PropertyPhotoRequest> propertyPhotoRequestList = new ArrayList<>();
+    private CountDownLatch photoUploadLatch;
 
 
     @Override
@@ -85,7 +103,17 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
 
         if (questionnaireFragments.get(questionnaireFragments.size() - 1) instanceof PhotoSelectionPropertyFragment) {
             ((PhotoSelectionPropertyFragment) questionnaireFragments.get(questionnaireFragments.size() - 1))
-                    .setOnPhotoAddedListener(this::onPhotoAdded);
+                    .setOnPhotoAddedListener(new PhotoSelectionPropertyFragment.OnPhotoAddedListener() {
+                        @Override
+                        public void onPhotoAdded() {
+                            closeViewOnPhotoAdded();
+                        }
+
+                        @Override
+                        public void onCallbackPhoto(List<Picture> photoList) {
+                            pictureList.addAll(photoList);
+                        }
+                    });
         }
 
 
@@ -98,11 +126,77 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
 
     }
 
+
     private PlaceRowOption selectedOption;
     private Address selectedAddress;
 
+    private void uploadPhotosToFirebaseStorage() {
+        // Initialize the latch with the number of photos to upload
+        photoUploadLatch = new CountDownLatch(pictureList.size());
+
+        // Iterate through the list of photos and upload each one
+        for (Picture photo : pictureList) {
+            // Upload the photo to Firebase Storage
+            // You need to implement the Firebase Storage upload logic here
+            // Refer to Firebase Storage documentation for details
+            System.out.println("PHOTO TO BE UPLOADED: " + photo.id() + " - " + photo.path());
+            uploadPhoto(photo);
+        }
+
+        // Wait for all photo uploads to complete before proceeding
+        try {
+            if (photoUploadLatch.await(5, TimeUnit.SECONDS)) {
+                // All photos uploaded successfully
+                // Continue with property creation
+                createProperty(null);
+            } else {
+                // Timeout occurred, handle appropriately
+                Log.e(this.getClass().getName(), "Photo upload timeout");
+            }
+        } catch (InterruptedException e) {
+            // Handle interruption
+            Log.e(this.getClass().getName(), "Photo upload interrupted", e);
+        }
+    }
+
+    private void uploadPhoto(@NonNull Picture photo) {
+        // Example: Upload the photo to Firebase Storage using its URI
+        // This is a simplified example, make sure to handle exceptions and use proper Firebase Storage APIs
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+        StorageReference photoRef = storageRef.child("property_photos/" + UUID.randomUUID().toString());
+
+        // Assume 'photoUri' is the URI of the photo
+        photoRef.putFile(Uri.parse(photo.path()))
+                .addOnSuccessListener(taskSnapshot -> {
+                    // Photo uploaded successfully
+                    // Obtain the download URL and any other required information
+                    String downloadUrl = Objects.requireNonNull(taskSnapshot.getUploadSessionUri()).toString();
+                    String photoId = photoRef.getName();
+
+                    System.out.println("PHOTOS PATH: " + downloadUrl);
+                    photosPath.put(photoId, downloadUrl);
+                    PropertyPhotoRequest propertyPhotoRequest = new PropertyPhotoRequest("", 1, downloadUrl);
+
+                    propertyPhotoRequestList.add(propertyPhotoRequest);
+
+                    // Count down the latch to indicate that this photo upload is complete
+                    photoUploadLatch.countDown();
+                    // Now you can use downloadUrl and photoId as needed
+                    // For example, store them in the database along with other property details
+                })
+                .addOnFailureListener(exception -> {
+                    // Handle failures
+                    photoUploadLatch.countDown();
+                    Log.e(this.getClass().getName(), "Error uploading photo", exception);
+                });
+    }
+
     private void createProperty(View view) {
         // TODO: Hardcode some values waiting for Elvin
+
+        // Upload photos to Firebase Storage
+        uploadPhotosToFirebaseStorage();
+
         if (selectedOption != null && selectedAddress != null) {
             property = new Property(
                     null,
@@ -131,7 +225,7 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
             property.setPropertyStatusId(PropertyStatus.PENDING.getStatusId());
 
             System.out.println("CREATED PROPERTY: " + property);
-            propertyLandlordViewModel.saveProperty(property);
+            propertyLandlordViewModel.saveProperty(property, propertyPhotoRequestList);
             // Do something with the created Property object, e.g., save it to a database
             // property.saveToDatabase();
 
@@ -163,7 +257,7 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
         System.out.println("ADDRESS SELECTED: " + address.latitude() + " - " + address.longitude() + " - " + address.city());
     }
 
-    public void onPhotoAdded() {
+    public void closeViewOnPhotoAdded() {
         // Show the finish button when a photo is added on the last page
         btnFinish.setVisibility(View.VISIBLE);
     }
