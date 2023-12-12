@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 import edu.lambton.roomify.auth.landlord.dto.UserResponse;
+import edu.lambton.roomify.landlord.dto.PropertyPhotoRequest;
 import edu.lambton.roomify.landlord.dto.PropertyRequest;
 import edu.lambton.roomify.landlord.dto.PropertyResponse;
 import edu.lambton.roomify.landlord.model.Property;
@@ -41,7 +42,7 @@ public class PropertyLandlordViewModel extends ViewModel {
         return this.repository.getAllProperties();
     }
 
-    public void saveProperty(@NonNull Property property) {
+    public void saveProperty(@NonNull Property property, List<PropertyPhotoRequest> propertiesPhotoRequest) {
         // Assuming userId is a String
         String userIdString = Objects.requireNonNull(firebaseAuth.getUid());
 
@@ -76,7 +77,7 @@ public class PropertyLandlordViewModel extends ViewModel {
                             property.longitude()
                     );
 
-                    postData(propertyRequest);
+                    postData(propertyRequest,  propertiesPhotoRequest);
                 }
             }
 
@@ -89,9 +90,9 @@ public class PropertyLandlordViewModel extends ViewModel {
 
     }
 
-    public void postData(PropertyRequest requestModel) {
+    public void postData(PropertyRequest requestModel, List<PropertyPhotoRequest> propertyPhotosRequest) {
 
-        repository.postData(requestModel)
+        repository.postData(requestModel, propertyPhotosRequest)
                 .observeForever(responseData::setValue);
     }
 

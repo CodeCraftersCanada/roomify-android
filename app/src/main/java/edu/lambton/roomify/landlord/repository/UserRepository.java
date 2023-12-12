@@ -9,9 +9,10 @@ import androidx.lifecycle.Observer;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import edu.lambton.roomify.auth.landlord.dto.UserResponse;
 import edu.lambton.roomify.common.AppDatabase;
+import edu.lambton.roomify.common.UserMapper;
 import edu.lambton.roomify.landlord.dao.UserDao;
+import edu.lambton.roomify.landlord.dto.UserResponse;
 import edu.lambton.roomify.landlord.model.User;
 import edu.lambton.roomify.landlord.services.ApiService;
 import retrofit2.Call;
@@ -72,24 +73,29 @@ public class UserRepository {
                 resultLiveData.setValue(user);
             } else {
                 // Local data is not available, fetch from the remote service
-                apiService.getUserById(uid).enqueue(new Callback<User>() {
+                apiService.getUserById(uid).enqueue(new Callback<>() {
                     @Override
-                    public void onResponse(Call<User> call, Response<User> response) {
+                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                         if (response.isSuccessful()) {
-                            User serverUser = response.body();
+                            UserResponse serverUser = response.body();
+
+                            assert serverUser != null;
+                            User userConverted = UserMapper.mapUserResponseToUser(serverUser);
                             // Save the updated user into the local database
-                            AppDatabase.databaseWriterExecutor.execute(() -> userDao.updateUser(serverUser));
+                            AppDatabase.databaseWriterExecutor.execute(() -> userDao.updateUser(userConverted));
                             // Update the result with the server data
-                            resultLiveData.setValue(serverUser);
+                            resultLiveData.setValue(userConverted);
                         } else {
                             // Handle error
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<User> call, Throwable t) {
-                        // Handle failure
+                    public void onFailure(Call<UserResponse> call, Throwable t) {
+
                     }
+
+
                 });
             }
         });

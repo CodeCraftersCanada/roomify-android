@@ -260,7 +260,7 @@ public class ProfileLandlordFragment extends Fragment {
                     binding.phoneTextView.setText(user.getPhone());
                     binding.addressTextView.setText(user.getAddress());
 
-                    if (!user.getImagePath().equals("")) {
+                    if (!Objects.equals(user.getImagePath(), "")) {
                         Picasso.get().load(user.getImagePath()).resize(300, 300).centerInside().into(profileImage);
                     }
                 }

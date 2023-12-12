@@ -2,9 +2,12 @@ package edu.lambton.roomify.landlord.services;
 
 import edu.lambton.roomify.auth.landlord.dto.UserRequest;
 import edu.lambton.roomify.auth.landlord.dto.UserResponse;
+import edu.lambton.roomify.landlord.dto.PropertyPhotoRequest;
+import edu.lambton.roomify.landlord.dto.PropertyPhotoResponse;
 import edu.lambton.roomify.landlord.dto.PropertyRequest;
 import edu.lambton.roomify.landlord.dto.PropertyResponse;
 import edu.lambton.roomify.landlord.model.User;
+import edu.lambton.roomify.student.dto.StudentPropertyResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -34,9 +37,15 @@ public interface ApiService {
     Call<edu.lambton.roomify.landlord.dto.UserResponse> updateUser(@Body User user);
 
     @GET("/api/v1/user/{uid}")
-    Call<User> getUserById(@Path("uid") String uid);
+    Call<edu.lambton.roomify.landlord.dto.UserResponse> getUserById(@Path("uid") String uid);
 
     @POST("/api/v1/create-user")
     Call<User> saveUser(@Body User user);
+
+    @GET("/api/v1/properties")
+    Call<StudentPropertyResponse> getAllProperties();
+
+    @POST("api/v1/property-photos")
+    Call<PropertyPhotoResponse> addPhotoToProperty(@Body PropertyPhotoRequest propertyPhotoRequest);
 
 }

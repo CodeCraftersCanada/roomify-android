@@ -59,8 +59,6 @@ public class UserResponse {
         @SerializedName("latitude")
         private double latitude;
 
-        // Add other fields as needed
-
         public String getId() {
             return id;
         }
@@ -105,8 +103,6 @@ public class UserResponse {
             return latitude;
         }
 
-        // Add getters for other fields
-
         public static class UserType {
 
             @SerializedName("_id")
@@ -117,8 +113,6 @@ public class UserResponse {
 
             @SerializedName("created_at")
             private String createdAt;
-
-            // Add other fields as needed
 
             public int getId() {
                 return id;
@@ -132,7 +126,17 @@ public class UserResponse {
                 return createdAt;
             }
 
-            // Add getters for other fields
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public void setCreatedAt(String createdAt) {
+                this.createdAt = createdAt;
+            }
         }
     }
 }
