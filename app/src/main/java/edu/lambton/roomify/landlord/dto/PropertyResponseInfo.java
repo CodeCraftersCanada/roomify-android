@@ -238,6 +238,11 @@ public class PropertyResponseInfo {
 
         @SerializedName("__v")
         private int version;
+        @SerializedName("image_path")
+        private String imagePath;
+
+        @SerializedName("fullname")
+        private String fullName;
 
         @SerializedName("properties")
         private List<String> properties;
@@ -276,6 +281,14 @@ public class PropertyResponseInfo {
 
         public int getVersion() {
             return version;
+        }
+
+        public String getImagePath() {
+            return imagePath;
+        }
+
+        public void setImagePath(String imagePath) {
+            this.imagePath = imagePath;
         }
 
         public List<String> getProperties() {

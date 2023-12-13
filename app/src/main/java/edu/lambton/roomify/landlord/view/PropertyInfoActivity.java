@@ -1,6 +1,8 @@
 package edu.lambton.roomify.landlord.view;
 
+import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -99,22 +102,44 @@ public class PropertyInfoActivity extends AppCompatActivity {
                     "&markers=color:red%7Clabel:P%7C" + propertyLatitude + "," + propertyLongitude +
                     "&key=" + apiKey;  // Replace with your actual API key
 
+
+            // Set click listener for the static map to open Google Maps app
+            staticMapImageView.setOnClickListener(v -> {
+                // Create a Uri from the latitude and longitude
+                Uri gmmIntentUri = Uri.parse("geo:" + propertyLatitude + "," + propertyLongitude + "?q=" + propertyLatitude + "," + propertyLongitude);
+
+                // Create an Intent to open Google Maps app
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+
+                // Check if there's an app to handle the intent
+                if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(mapIntent);
+                } else {
+                    // Handle the case where Google Maps app is not installed
+                    // You can show a toast or a dialog to inform the user
+                    // Alternatively, you can open the map in a browser using a web URL
+                }
+            });
+
             Picasso.get()
                     .load(staticMapUrl)
                     .placeholder(R.drawable.map_placeholder)  // Placeholder image while loading
                     .error(R.drawable.map_placeholder)  // Error image if loading fails
                     .into(staticMapImageView);
 
+
+
             if (UserType.LANDLORD.getValue() == property.getUserId().getUserTypeId()) {
                 binding.reserveButton.setVisibility(View.INVISIBLE);
             }
-
-
-            /*
+            TextView landlordNameTextView = binding.landlordNameTextView;
+            //landlordNameTextView.setText(property.getUserId());
             Picasso.get()
-                    .load(propertyResponse.get)
-                    .placeholder(R.drawable.profile_placeholder).centerCrop()
-                    .into(binding.landlordPhoto);*/
+                    .load(property.getUserId().getImagePath())
+                    .placeholder(R.drawable.profile_placeholder)
+                    .fit()
+                    .into(binding.landlordPhoto);
         });
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -150,6 +175,7 @@ public class PropertyInfoActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Nullable
     private String getGoogleMapsApiKey() {
         try {
             Resources resources = getResources();
@@ -162,6 +188,22 @@ public class PropertyInfoActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Check if the result is from the Google Maps intent
+        if (requestCode == 1) { // Use the same request code as in startActivityForResult
+            // Handle the result as needed
+            if (resultCode == RESULT_OK) {
+                // User returned successfully from Google Maps
+                // Add any additional logic here
+            } else {
+                // Handle other possible results or errors
+            }
         }
     }
 }
