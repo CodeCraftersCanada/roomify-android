@@ -34,7 +34,7 @@
         android:theme="@style/Theme.Roomify"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".chat_activity"
+            android:name=".ChatFragment"
             android:exported="false" />
         <activity
             android:name=".auth.student.view.StudentLoginActivity"

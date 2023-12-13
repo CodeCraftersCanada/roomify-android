@@ -1,7 +1,6 @@
 package edu.lambton.roomify.navigation.landlord;
 
 import android.os.Bundle;
-import android.widget.Toolbar;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,7 +41,7 @@ public class LandlordDashboardActivity extends AppCompatActivity {
             if (itemId == R.id.nav_list_property) {
                 destinationId = R.id.listPropertyFragment;
             } else if (itemId == R.id.nav_message_landlord) {
-                destinationId = R.id.profileLandlordFragment;
+                destinationId = R.id.chatFragment;
             } else if (itemId == R.id.nav_profile_landlord) {
                 destinationId = R.id.profileLandlordFragment;
             } else {
