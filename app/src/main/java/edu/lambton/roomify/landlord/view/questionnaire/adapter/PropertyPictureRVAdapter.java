@@ -3,6 +3,7 @@ package edu.lambton.roomify.landlord.view.questionnaire.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -20,8 +21,11 @@ public class PropertyPictureRVAdapter extends RecyclerView.Adapter<PropertyPictu
 
     private final List<Picture> pictures;
 
-    public PropertyPictureRVAdapter(List<Picture> pictures) {
+    private final OnPropertyPictureCallback onPropertyPictureCallback;
+
+    public PropertyPictureRVAdapter(List<Picture> pictures, OnPropertyPictureCallback onPropertyPictureCallback) {
         this.pictures = pictures;
+        this.onPropertyPictureCallback = onPropertyPictureCallback;
     }
 
     @NonNull
@@ -42,6 +46,9 @@ public class PropertyPictureRVAdapter extends RecyclerView.Adapter<PropertyPictu
                 .into(holder.thumbnailImageView);
 
 
+        holder.removeThumbnailButton.setOnClickListener(view -> {
+            onPropertyPictureCallback.onDeletePicture(view, holder.getAdapterPosition());
+        });
     }
 
     @Override

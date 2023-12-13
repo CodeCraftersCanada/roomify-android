@@ -1,4 +1,4 @@
-package edu.lambton.roomify.landlord.view;
+package edu.lambton.roomify.landlord.view.questionnaire.view;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -59,7 +60,7 @@ public class PhotoSelectionPropertyFragment extends Fragment {
                     myPictures.add(picture);
                     propertyPictureRVAdapter.notifyItemRangeChanged(0, myPictures.size());
 
-                    if (myPictures.size() >= 3) {
+                    if (myPictures.size() >= 3 && myPictures.size() <= 5) {
                         notifyPhotoAdded(myPictures);
                     }
                 }
@@ -77,6 +78,10 @@ public class PhotoSelectionPropertyFragment extends Fragment {
 
                 myPictures.add(picture);
                 propertyPictureRVAdapter.notifyItemRangeChanged(0, myPictures.size());
+
+                if (myPictures.size() >= 3 && myPictures.size() <= 5) {
+                    notifyPhotoAdded(myPictures);
+                }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -109,12 +114,21 @@ public class PhotoSelectionPropertyFragment extends Fragment {
         uploadPictureButton.setOnClickListener(this::addPhotoFromLibrary);
         takePhotoButton.setOnClickListener(this::takePhoto);
 
-        propertyPictureRVAdapter = new PropertyPictureRVAdapter(myPictures);
+        propertyPictureRVAdapter = new PropertyPictureRVAdapter(myPictures, (view1, position) -> {
+
+            if (myPictures.size() > 0) {
+                propertyPictureRVAdapter.notifyItemRemoved(position);
+                myPictures.remove(position);
+            }
+        });
+
         picturesThumbnailRV.setLayoutManager(new GridLayoutManager(requireContext(), 2, LinearLayoutManager.VERTICAL, false));
         picturesThumbnailRV.setAdapter(propertyPictureRVAdapter);
 
-        if (myPictures.size() >= 2) {
+        if (myPictures.size() >= 3 && myPictures.size() <= 5) {
             notifyPhotoAdded(myPictures);
+        } else {
+            Toast.makeText(requireContext(), "Select between 3 and 5 photos", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -136,12 +150,6 @@ public class PhotoSelectionPropertyFragment extends Fragment {
 
             tempImageUri = cr.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
             selectCameraLauncher.launch(tempImageUri);
-        }
-    }
-
-    private void addPhotoFromLibrary() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            selectPictureLauncher.launch(new PickVisualMediaRequest());
         }
     }
 

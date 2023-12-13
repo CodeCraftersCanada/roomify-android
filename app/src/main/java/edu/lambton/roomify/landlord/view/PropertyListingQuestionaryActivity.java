@@ -35,6 +35,7 @@ import edu.lambton.roomify.landlord.model.Property;
 import edu.lambton.roomify.landlord.view.questionnaire.adapter.QuestionnairePagerAdapter;
 import edu.lambton.roomify.landlord.view.questionnaire.view.ListingOneAFragment;
 import edu.lambton.roomify.landlord.view.questionnaire.view.ListingOneCFragment;
+import edu.lambton.roomify.landlord.view.questionnaire.view.PhotoSelectionPropertyFragment;
 import edu.lambton.roomify.landlord.view.questionnaire.view.StepOneCFragment;
 import edu.lambton.roomify.landlord.view.questionnaire.view.StepOneEFragment;
 import edu.lambton.roomify.landlord.view.questionnaire.view.StepThreeAFragment;
@@ -141,6 +142,7 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
 
                         @Override
                         public void onCallbackPhoto(List<Picture> photoList) {
+                            pictureList.clear();
                             pictureList.addAll(photoList);
                         }
                     });
@@ -320,7 +322,6 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
 
     private void onAddressSelected(@NonNull Address address) {
         this.selectedAddress = address;
-        System.out.println("ADDRESS SELECTED: " + address.latitude() + " - " + address.longitude() + " - " + address.city());
     }
 
     public void closeViewOnPhotoAdded() {
