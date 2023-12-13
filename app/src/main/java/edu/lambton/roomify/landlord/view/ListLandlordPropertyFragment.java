@@ -12,6 +12,7 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,8 @@ import java.util.List;
 
 import edu.lambton.roomify.R;
 import edu.lambton.roomify.databinding.FragmentListLandlordPropertyBinding;
+import edu.lambton.roomify.landlord.dto.PropertyResponseComplete;
+import edu.lambton.roomify.landlord.dto.PropertyResponseInfo;
 import edu.lambton.roomify.landlord.model.Property;
 import edu.lambton.roomify.landlord.view.adapter.PropertyListLandlordRVAdapter;
 import edu.lambton.roomify.landlord.viewmodel.ProperetyLandlordViewModelFactory;
@@ -33,12 +36,13 @@ public class ListLandlordPropertyFragment extends Fragment implements PropertyLi
 
     private FragmentListLandlordPropertyBinding binding;
     private ExtendedFloatingActionButton listNewPropertyButton;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private RecyclerView propertyListRecycleView;
     private PropertyListLandlordRVAdapter adapter;
 
     private PropertyLandlordViewModel propertyLandlordViewModel;
-    private final List<Property> propertyList = new ArrayList<>();
+    private final List<PropertyResponseComplete.Property> propertyList = new ArrayList<>();
 
 
     @Override
@@ -52,30 +56,46 @@ public class ListLandlordPropertyFragment extends Fragment implements PropertyLi
                              Bundle savedInstanceState) {
 
         binding = FragmentListLandlordPropertyBinding.inflate(inflater, container, false);
+
+        swipeRefreshLayout = binding.swipeRefreshLayout; // Add this line
+        swipeRefreshLayout.setOnRefreshListener(this::refreshProperties); // Add this line
+
         listNewPropertyButton = binding.listNewPropertyButton;
 
         propertyListRecycleView = binding.propertyListRecycleView;
+        listNewPropertyButton.setOnClickListener(this::startQuestionnaire);
+        propertyListRecycleView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
 
         propertyLandlordViewModel = new ViewModelProvider(getViewModelStore(), new ProperetyLandlordViewModelFactory(requireActivity().getApplication())).get(PropertyLandlordViewModel.class);
 
+        propertyLandlordViewModel.getAllPropertiesExternal().observe(requireActivity(), propertiesResult -> {
+            propertyList.clear();
+
+            List<PropertyResponseComplete.Property> properties = propertiesResult.getProperties();
+
+            propertyList.addAll(properties);
+
+
+
+            adapter.notifyDataSetChanged();
+        });
+
+        adapter = new PropertyListLandlordRVAdapter(requireContext(), propertyList, this);
+        propertyListRecycleView.setAdapter(adapter);
         return binding.getRoot();
+    }
+
+    private void refreshProperties() {
+        propertyLandlordViewModel.refreshProperties();
+
+        // Hide the refresh indicator after the refresh is complete
+        swipeRefreshLayout.setRefreshing(false);
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        listNewPropertyButton.setOnClickListener(this::startQuestionnaire);
-
-        propertyListRecycleView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-        adapter = new PropertyListLandlordRVAdapter(requireContext(), propertyList, this);
-        propertyListRecycleView.setAdapter(adapter);
-
-        propertyLandlordViewModel.getAllProperties().observe(getViewLifecycleOwner(), propertiesResult -> {
-            propertyList.clear();
-            propertyList.addAll(propertiesResult);
-            adapter.notifyDataSetChanged();
-        });
 
 
     }
@@ -88,9 +108,7 @@ public class ListLandlordPropertyFragment extends Fragment implements PropertyLi
     @Override
     public void onPropertyCardHandle(String propertyId) {
 
-        // Create a NavDirections object with the argument
         NavDirections action = ListLandlordPropertyFragmentDirections.actionListPropertyFragmentToPropertyInfoActivity(propertyId);
         Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main_landlord).navigate(action);
-        //navController.navigate(R.id.action_listPropertyFragment_to_propertyInfoActivity);
     }
 }

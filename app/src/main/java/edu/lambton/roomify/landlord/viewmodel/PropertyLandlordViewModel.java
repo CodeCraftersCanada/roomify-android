@@ -17,6 +17,7 @@ import edu.lambton.roomify.auth.landlord.dto.UserResponse;
 import edu.lambton.roomify.landlord.dto.PropertyPhotoRequest;
 import edu.lambton.roomify.landlord.dto.PropertyRequest;
 import edu.lambton.roomify.landlord.dto.PropertyResponse;
+import edu.lambton.roomify.landlord.dto.PropertyResponseComplete;
 import edu.lambton.roomify.landlord.dto.PropertyResponseInfo;
 import edu.lambton.roomify.landlord.model.Property;
 import edu.lambton.roomify.landlord.repository.PropertyRepository;
@@ -38,9 +39,12 @@ public class PropertyLandlordViewModel extends ViewModel {
 
     }
 
-
     public LiveData<List<Property>> getAllProperties() {
         return this.repository.getAllProperties();
+    }
+
+    public LiveData<PropertyResponseComplete> getAllPropertiesExternal() {
+        return this.repository.getPropertiesExternal();
     }
 
     public LiveData<PropertyResponseInfo> getPropertyInfo(String id) {
@@ -101,8 +105,7 @@ public class PropertyLandlordViewModel extends ViewModel {
                 .observeForever(responseData::setValue);
     }
 
-    public LiveData<PropertyResponse> getResponseData() {
-        return responseData;
+    public void refreshProperties() {
+        getAllProperties();
     }
-
 }

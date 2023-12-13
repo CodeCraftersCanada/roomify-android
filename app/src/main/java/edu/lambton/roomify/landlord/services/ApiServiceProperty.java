@@ -1,9 +1,12 @@
 package edu.lambton.roomify.landlord.services;
 
+import java.util.List;
+
 import edu.lambton.roomify.landlord.dto.PropertyPhotoRequest;
 import edu.lambton.roomify.landlord.dto.PropertyPhotoResponse;
 import edu.lambton.roomify.landlord.dto.PropertyRequest;
 import edu.lambton.roomify.landlord.dto.PropertyResponse;
+import edu.lambton.roomify.landlord.dto.PropertyResponseComplete;
 import edu.lambton.roomify.landlord.dto.PropertyResponseInfo;
 import edu.lambton.roomify.student.dto.StudentPropertyResponse;
 import retrofit2.Call;
@@ -19,6 +22,9 @@ public interface ApiServiceProperty {
 
     @GET("/api/v1/properties")
     Call<StudentPropertyResponse> getAllProperties();
+
+    @GET("/api/v1/properties")
+    Call<PropertyResponseComplete> getAllPropertiesInfo();
 
     @POST("api/v1/property-photos")
     Call<PropertyPhotoResponse> addPhotoToProperty(@Body PropertyPhotoRequest propertyPhotoRequest);

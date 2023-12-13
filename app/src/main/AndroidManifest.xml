@@ -53,7 +53,7 @@
             -->
         </activity>
         <activity
-            android:name=".landlord.view.ConfirmAddressActivity"
+            android:name=".landlord.view.questionnaire.view.ConfirmAddressActivity"
             android:exported="false" />
         <activity
             android:name=".landlord.view.IntroductionListPropertyActivity"

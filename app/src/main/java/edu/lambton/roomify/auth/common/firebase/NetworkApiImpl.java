@@ -44,11 +44,11 @@ public class NetworkApiImpl implements NetworkApi {
         mAuth = FirebaseAuth.getInstance();
         AtomicBoolean isUserCreated = new AtomicBoolean(false);
 
-        Log.i(TAG, "Creating User with email and password");
+        Log.i(TAG, "Creating UserId with email and password");
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(activity, task -> {
 
             if (task.isSuccessful()) {
-                Log.i(TAG, "User created successfully");
+                Log.i(TAG, "UserId created successfully");
                 // Sign up success, update UI with the signed-in user's information
                 FirebaseUser user = mAuth.getCurrentUser();
                 assert user != null;
@@ -61,7 +61,7 @@ public class NetworkApiImpl implements NetworkApi {
                     @Override
                     public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                         if (response.isSuccessful()) {
-                            System.out.println("User saved successfully into the Database.");
+                            System.out.println("UserId saved successfully into the Database.");
                         }
                     }
 
@@ -78,7 +78,7 @@ public class NetworkApiImpl implements NetworkApi {
                 user.updateProfile(profileUpdates).addOnCompleteListener(task1 -> {
                     if (task1.isSuccessful()) {
                         Log.i(TAG, "Profile updated successfully");
-                        Toast.makeText(activity.getApplicationContext(), "User profile updated.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity.getApplicationContext(), "UserId profile updated.", Toast.LENGTH_SHORT).show();
                     }
                 });
 

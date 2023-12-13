@@ -18,14 +18,10 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import edu.lambton.roomify.PropertyPriceListingFragment;
 import edu.lambton.roomify.StepOneAFragment;
@@ -37,6 +33,8 @@ import edu.lambton.roomify.landlord.model.Picture;
 import edu.lambton.roomify.landlord.model.PlaceRowOption;
 import edu.lambton.roomify.landlord.model.Property;
 import edu.lambton.roomify.landlord.view.questionnaire.adapter.QuestionnairePagerAdapter;
+import edu.lambton.roomify.landlord.view.questionnaire.view.ListingOneAFragment;
+import edu.lambton.roomify.landlord.view.questionnaire.view.ListingOneCFragment;
 import edu.lambton.roomify.landlord.view.questionnaire.view.StepOneCFragment;
 import edu.lambton.roomify.landlord.view.questionnaire.view.StepOneEFragment;
 import edu.lambton.roomify.landlord.view.questionnaire.view.StepThreeAFragment;
@@ -102,7 +100,6 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
         // Set initial button visibility
         updateButtonVisibility();
 
-
         // Set the listener for the first fragment
         if (questionnaireFragments.get(1) instanceof ListingOneAFragment) {
             ((ListingOneAFragment) questionnaireFragments.get(1))
@@ -113,7 +110,6 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
             ((StepOneCFragment) questionnaireFragments.get(2))
                     .setOnPlaceSelectedListener(this::onPlaceSelected);
         }
-
 
         if (questionnaireFragments.get(3) instanceof ListingOneCFragment) {
             ((ListingOneCFragment) questionnaireFragments.get(3))
