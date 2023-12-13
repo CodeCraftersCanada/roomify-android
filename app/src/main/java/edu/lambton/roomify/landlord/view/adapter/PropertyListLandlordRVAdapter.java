@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -60,6 +61,7 @@ public class PropertyListLandlordRVAdapter extends RecyclerView.Adapter<Property
         private final TextView creationDateTextView;
         private final TextView bathroomCounterTextView;
         private final TextView bedroomCounterTextView;
+        private final MaterialButton callMeButton;
         /*private final TextView statusTextView;*/
 
         public PropertyViewHolder(@NonNull View itemView) {
@@ -73,8 +75,9 @@ public class PropertyListLandlordRVAdapter extends RecyclerView.Adapter<Property
             bathroomCounterTextView = itemView.findViewById(R.id.bathroomCounterTextView);
             bedroomCounterTextView = itemView.findViewById(R.id.bedroomCounterTextView);
 
-            /*statusTextView = itemView.findViewById(R.id.statusTextView);*/
+            callMeButton = itemView.findViewById(R.id.callMeButton);
 
+            /*statusTextView = itemView.findViewById(R.id.statusTextView);*/
 
         }
 
@@ -102,10 +105,20 @@ public class PropertyListLandlordRVAdapter extends RecyclerView.Adapter<Property
                     onCardListener.onPropertyCardHandle(property.get_id());
                 }
             });
+
+
+            callMeButton.setOnClickListener(v -> {
+                String phoneNumber = property.getUser_id().getPhone();
+                onCardListener.onPhoneCallHandle(phoneNumber);
+            });
         }
+
+
     }
 
     public interface OnPropertyCardListener {
         void onPropertyCardHandle(String propertyId);
+
+        void onPhoneCallHandle(String phoneNumber);
     }
 }

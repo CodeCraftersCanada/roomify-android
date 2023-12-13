@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RoomifyApiClient {
 
-    //private static final String BASE_URL = "http://localhost:3002/";
+    //private static final String BASE_URL = "http://192.168.235.15:3002/";
 
     private static final String BASE_URL = "http://10.0.2.2:3002/";
     private static ApiService apiService;

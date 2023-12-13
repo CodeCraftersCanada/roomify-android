@@ -48,8 +48,11 @@ public class PropertyResponseComplete {
         private int bedroom_number;
         @SerializedName("beds_number")
         private int beds_number;
+        @SerializedName("bedroom_locked")
         private int bedroom_locked;
+        @SerializedName("price")
         private Price price;
+        @SerializedName("address1")
         private String address1;
         @SerializedName("city")
         private String city;

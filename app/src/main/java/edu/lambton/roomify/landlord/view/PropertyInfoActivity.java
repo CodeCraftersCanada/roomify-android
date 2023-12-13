@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 
 import edu.lambton.roomify.R;
@@ -129,17 +130,20 @@ public class PropertyInfoActivity extends AppCompatActivity {
                     .into(staticMapImageView);
 
 
-
             if (UserType.LANDLORD.getValue() == property.getUserId().getUserTypeId()) {
                 binding.reserveButton.setVisibility(View.INVISIBLE);
             }
             TextView landlordNameTextView = binding.landlordNameTextView;
-            //landlordNameTextView.setText(property.getUserId());
-            Picasso.get()
-                    .load(property.getUserId().getImagePath())
-                    .placeholder(R.drawable.profile_placeholder)
-                    .fit()
-                    .into(binding.landlordPhoto);
+            landlordNameTextView.setText(property.getUserId().getFullName());
+
+            if (!Objects.equals(property.getUserId().getImagePath(), "")) {
+                Picasso.get()
+                        .load(property.getUserId().getImagePath())
+                        .placeholder(R.drawable.profile_placeholder)
+                        .fit()
+                        .into(binding.landlordPhoto);
+            }
+
         });
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
