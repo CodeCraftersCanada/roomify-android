@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -59,8 +60,10 @@ public class PhotoSelectionPropertyFragment extends Fragment {
                     myPictures.add(picture);
                     propertyPictureRVAdapter.notifyItemRangeChanged(0, myPictures.size());
 
-                    if (myPictures.size() >= 3) {
+                    if (myPictures.size() >= 3 && myPictures.size() <= 5) {
                         notifyPhotoAdded(myPictures);
+                    } else {
+                        Toast.makeText(requireContext(), "Please select between 3 and 5 photos", Toast.LENGTH_LONG).show();
                     }
                 }
             } catch (Exception e) {
@@ -77,6 +80,12 @@ public class PhotoSelectionPropertyFragment extends Fragment {
 
                 myPictures.add(picture);
                 propertyPictureRVAdapter.notifyItemRangeChanged(0, myPictures.size());
+
+                if (myPictures.size() >= 3 && myPictures.size() <= 5) {
+                    notifyPhotoAdded(myPictures);
+                } else {
+                    Toast.makeText(requireContext(), "Please select between 3 and 5 photos", Toast.LENGTH_LONG).show();
+                }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -109,7 +118,14 @@ public class PhotoSelectionPropertyFragment extends Fragment {
         uploadPictureButton.setOnClickListener(this::addPhotoFromLibrary);
         takePhotoButton.setOnClickListener(this::takePhoto);
 
-        propertyPictureRVAdapter = new PropertyPictureRVAdapter(myPictures);
+        propertyPictureRVAdapter = new PropertyPictureRVAdapter(myPictures, (view1, position) -> {
+
+            if (myPictures.size() > 0) {
+                propertyPictureRVAdapter.notifyItemRemoved(position);
+                myPictures.remove(position);
+            }
+        });
+
         picturesThumbnailRV.setLayoutManager(new GridLayoutManager(requireContext(), 2, LinearLayoutManager.VERTICAL, false));
         picturesThumbnailRV.setAdapter(propertyPictureRVAdapter);
 
