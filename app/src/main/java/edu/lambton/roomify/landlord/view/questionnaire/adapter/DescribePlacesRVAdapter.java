@@ -1,5 +1,6 @@
 package edu.lambton.roomify.landlord.view.questionnaire.adapter;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ public class DescribePlacesRVAdapter extends RecyclerView.Adapter<DescribePlaces
 
     private final List<PlaceRowOption> placeRowOptions;
     private final OnSelectionHandlerListener onSelectionHandlerListener;
+    private final int[] selectedPosition = {RecyclerView.NO_POSITION};
 
     public DescribePlacesRVAdapter(List<PlaceRowOption> placeRowOptions, OnSelectionHandlerListener onSelectionHandlerListener) {
         this.placeRowOptions = placeRowOptions;
@@ -35,7 +37,7 @@ public class DescribePlacesRVAdapter extends RecyclerView.Adapter<DescribePlaces
 
     @Override
     public void onBindViewHolder(@NonNull DescribePlacesViewHolder holder, int position) {
-        holder.bind(placeRowOptions.get(position), onSelectionHandlerListener, position);
+        holder.bind(placeRowOptions.get(position), onSelectionHandlerListener, position, selectedPosition);
     }
 
     @Override
@@ -43,7 +45,7 @@ public class DescribePlacesRVAdapter extends RecyclerView.Adapter<DescribePlaces
         return placeRowOptions.size();
     }
 
-    static class DescribePlacesViewHolder extends RecyclerView.ViewHolder {
+    class DescribePlacesViewHolder extends RecyclerView.ViewHolder {
 
         private final ImageView iconPlaceImageView;
         private final TextView describePlaceTextView;
@@ -57,15 +59,27 @@ public class DescribePlacesRVAdapter extends RecyclerView.Adapter<DescribePlaces
             placeOptionCardView = itemView.findViewById(R.id.placeOptionCard);
         }
 
-        public void bind(@NonNull PlaceRowOption placeRowOption, OnSelectionHandlerListener listener, int position) {
+        public void bind(@NonNull PlaceRowOption placeRowOption, OnSelectionHandlerListener listener, int position, int[] selectedPosition) {
             iconPlaceImageView.setImageDrawable(placeRowOption.drawable());
             describePlaceTextView.setText(placeRowOption.text());
 
-            placeOptionCardView.setOnClickListener(v -> listener.onSelectOption(position));
+            // Update the UI based on the selection status
+            placeOptionCardView.setCardBackgroundColor(position == selectedPosition[0] ? Color.LTGRAY : Color.WHITE);
+
+            placeOptionCardView.setOnClickListener(v -> {
+                if (selectedPosition[0] != position) {
+                    // Update the UI based on the updated selection status
+                    notifyItemChanged(selectedPosition[0]);
+                    selectedPosition[0] = position;
+                    notifyItemChanged(selectedPosition[0]);
+
+                    listener.onSelectOption(position, placeRowOption.isSelected());
+                }
+            });
         }
     }
 
     public interface OnSelectionHandlerListener {
-        void onSelectOption(int position);
+        void onSelectOption(int position, boolean isSelected);
     }
 }
