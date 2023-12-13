@@ -35,6 +35,7 @@ import edu.lambton.roomify.landlord.model.Property;
 import edu.lambton.roomify.landlord.view.questionnaire.adapter.QuestionnairePagerAdapter;
 import edu.lambton.roomify.landlord.view.questionnaire.view.ListingOneAFragment;
 import edu.lambton.roomify.landlord.view.questionnaire.view.ListingOneCFragment;
+import edu.lambton.roomify.landlord.view.questionnaire.view.PhotoSelectionPropertyFragment;
 import edu.lambton.roomify.landlord.view.questionnaire.view.StepOneCFragment;
 import edu.lambton.roomify.landlord.view.questionnaire.view.StepOneEFragment;
 import edu.lambton.roomify.landlord.view.questionnaire.view.StepThreeAFragment;

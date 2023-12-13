@@ -1,6 +1,5 @@
 package edu.lambton.roomify.landlord.view.questionnaire.view;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,6 @@ import androidx.fragment.app.Fragment;
 
 import edu.lambton.roomify.R;
 import edu.lambton.roomify.databinding.FragmentStep1EBinding;
-import edu.lambton.roomify.landlord.view.PhotoSelectionPropertyFragment;
 
 public class StepOneEFragment extends Fragment {
 

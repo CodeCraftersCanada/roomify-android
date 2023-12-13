@@ -1,4 +1,4 @@
-package edu.lambton.roomify.landlord.view;
+package edu.lambton.roomify.landlord.view.questionnaire.view;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -152,12 +152,6 @@ public class PhotoSelectionPropertyFragment extends Fragment {
             selectCameraLauncher.launch(tempImageUri);
         }
     }
-
-    /*private void addPhotoFromLibrary() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            selectPictureLauncher.launch(new PickVisualMediaRequest());
-        }
-    }*/
 
     public void setOnPhotoAddedListener(OnPhotoAddedListener listener) {
         this.onPhotoAddedListener = listener;

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".landlord.view.PhotoSelectionPropertyFragment">
+    tools:context=".landlord.view.questionnaire.view.PhotoSelectionPropertyFragment">
 
     <Button
         android:id="@+id/saveAndExitBtn"
@@ -40,7 +40,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:text="You'll need 5 photos to get started. You can add more or more changes later."
+        android:text="You'll need between 3 and 5 photos to get started. You can add more or more changes later."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/addSomePhotoLabel" />
