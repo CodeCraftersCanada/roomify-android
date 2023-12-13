@@ -131,7 +131,15 @@
         android:layout_margin="16dp"
         app:layout_constraintBottom_toTopOf="@id/reserveButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/staticMapImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/map_placeholder" />
+    </FrameLayout>
 
 
     <TextView

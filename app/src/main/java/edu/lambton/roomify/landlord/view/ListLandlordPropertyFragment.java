@@ -68,6 +68,14 @@ public class ListLandlordPropertyFragment extends Fragment implements PropertyLi
 
         propertyLandlordViewModel = new ViewModelProvider(getViewModelStore(), new ProperetyLandlordViewModelFactory(requireActivity().getApplication())).get(PropertyLandlordViewModel.class);
 
+        fetchPropertyData();
+
+        adapter = new PropertyListLandlordRVAdapter(requireContext(), propertyList, this);
+        propertyListRecycleView.setAdapter(adapter);
+        return binding.getRoot();
+    }
+
+    private void fetchPropertyData() {
         propertyLandlordViewModel.getAllPropertiesExternal().observe(requireActivity(), propertiesResult -> {
             propertyList.clear();
 
@@ -76,17 +84,12 @@ public class ListLandlordPropertyFragment extends Fragment implements PropertyLi
             propertyList.addAll(properties);
 
 
-
             adapter.notifyDataSetChanged();
         });
-
-        adapter = new PropertyListLandlordRVAdapter(requireContext(), propertyList, this);
-        propertyListRecycleView.setAdapter(adapter);
-        return binding.getRoot();
     }
 
     private void refreshProperties() {
-        propertyLandlordViewModel.refreshProperties();
+        fetchPropertyData();
 
         // Hide the refresh indicator after the refresh is complete
         swipeRefreshLayout.setRefreshing(false);

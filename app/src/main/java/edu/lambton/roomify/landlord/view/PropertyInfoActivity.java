@@ -1,33 +1,31 @@
 package edu.lambton.roomify.landlord.view;
 
+import android.content.res.Resources;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.util.AttributeSet;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import edu.lambton.roomify.R;
 import edu.lambton.roomify.common.UserType;
 import edu.lambton.roomify.databinding.ActivityPropertyInfoBinding;
-import edu.lambton.roomify.landlord.dto.PropertyResponse;
 import edu.lambton.roomify.landlord.dto.PropertyResponseInfo;
-import edu.lambton.roomify.landlord.model.Picture;
 import edu.lambton.roomify.landlord.view.adapter.ImageSliderAdapter;
 import edu.lambton.roomify.landlord.viewmodel.ProperetyLandlordViewModelFactory;
 import edu.lambton.roomify.landlord.viewmodel.PropertyLandlordViewModel;
@@ -40,6 +38,9 @@ public class PropertyInfoActivity extends AppCompatActivity {
     private ImageSliderAdapter imageSliderAdapter;
     private TextView imageCountTextView;
     private ViewPager viewPager;
+
+    private ImageView staticMapImageView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,10 @@ public class PropertyInfoActivity extends AppCompatActivity {
 
         viewPager = binding.viewPagerImages;
         imageCountTextView = binding.imageCount;
+        staticMapImageView = binding.staticMapImageView;
+
+        // Get property latitude and longitude (replace with your actual logic)
+
 
         propertyLandlordViewModel = new ViewModelProvider(getViewModelStore(),
                 new ProperetyLandlordViewModelFactory(getApplication())).get(PropertyLandlordViewModel.class);
@@ -81,6 +86,24 @@ public class PropertyInfoActivity extends AppCompatActivity {
             PropertyResponseInfo.PropertyDTO property = propertyResponse.getProperty();
             binding.price.setText(String.valueOf(property.getPrice().getNumberDecimal()));
             binding.description.setText(property.getDescription());
+
+            double propertyLatitude = property.getLatitude();
+            double propertyLongitude = property.getLongitude();
+
+            String apiKey = getGoogleMapsApiKey();
+            // Load static map using Google Maps Static API
+            String staticMapUrl = "https://maps.googleapis.com/maps/api/staticmap" +
+                    "?center=" + propertyLatitude + "," + propertyLongitude +
+                    "&zoom=15" +
+                    "&size=400x200" +  // Adjust size as needed
+                    "&markers=color:red%7Clabel:P%7C" + propertyLatitude + "," + propertyLongitude +
+                    "&key=" + apiKey;  // Replace with your actual API key
+
+            Picasso.get()
+                    .load(staticMapUrl)
+                    .placeholder(R.drawable.map_placeholder)  // Placeholder image while loading
+                    .error(R.drawable.map_placeholder)  // Error image if loading fails
+                    .into(staticMapImageView);
 
             if (UserType.LANDLORD.getValue() == property.getUserId().getUserTypeId()) {
                 binding.reserveButton.setVisibility(View.INVISIBLE);
@@ -125,5 +148,20 @@ public class PropertyInfoActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private String getGoogleMapsApiKey() {
+        try {
+            Resources resources = getResources();
+            InputStream inputStream = resources.openRawResource(R.raw.config);
+
+            Properties properties = new Properties();
+            properties.load(inputStream);
+
+            return properties.getProperty("GOOGLE_MAPS_API_KEY");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

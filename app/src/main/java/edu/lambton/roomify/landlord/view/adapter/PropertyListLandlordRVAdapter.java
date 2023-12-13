@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import edu.lambton.roomify.R;
+import edu.lambton.roomify.common.FormatUtils;
 import edu.lambton.roomify.landlord.dto.PropertyResponseComplete;
 
 public class PropertyListLandlordRVAdapter extends RecyclerView.Adapter<PropertyListLandlordRVAdapter.PropertyViewHolder> {
@@ -80,8 +81,8 @@ public class PropertyListLandlordRVAdapter extends RecyclerView.Adapter<Property
         public void bind(@NonNull PropertyResponseComplete.Property property) {
 
             if (property.getPhotos() != null || property.getPhotos().size() > 0) {
-                Picasso.get().load(property.getPhotos().get(0).getPath())
-
+                Picasso.get()
+                        .load(property.getPhotos().get(0).getPath())
                         .fit()
                         .into(propertyPicture);
             }
@@ -92,6 +93,7 @@ public class PropertyListLandlordRVAdapter extends RecyclerView.Adapter<Property
             String cityCountry = property.getCity() + ", " + property.getCountry();
             addressTextViewTextView.setText(cityCountry);
             bedroomCounterTextView.setText(String.valueOf(property.getBedroom_number()));
+            creationDateTextView.setText(FormatUtils.FormatDate(property.getCreatedAt()));
 
             //statusTextView.setText(property.getStatus());
             propertyListCardView.setOnClickListener(v -> {
