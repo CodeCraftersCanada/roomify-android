@@ -238,6 +238,11 @@ public class PropertyResponseInfo {
 
         @SerializedName("__v")
         private int version;
+        @SerializedName("image_path")
+        private String imagePath;
+
+        @SerializedName("fullname")
+        private String fullName;
 
         @SerializedName("properties")
         private List<String> properties;
@@ -278,8 +283,64 @@ public class PropertyResponseInfo {
             return version;
         }
 
+        public String getImagePath() {
+            return imagePath;
+        }
+
+        public void setImagePath(String imagePath) {
+            this.imagePath = imagePath;
+        }
+
         public List<String> getProperties() {
             return properties;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public void setUid(String uid) {
+            this.uid = uid;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+
+        public void setUserTypeId(int userTypeId) {
+            this.userTypeId = userTypeId;
+        }
+
+        public void setEnabled(int enabled) {
+            this.enabled = enabled;
+        }
+
+        public void setCreatedAt(Date createdAt) {
+            this.createdAt = createdAt;
+        }
+
+        public void setUpdatedAt(Date updatedAt) {
+            this.updatedAt = updatedAt;
+        }
+
+        public void setVersion(int version) {
+            this.version = version;
+        }
+
+        public String getFullName() {
+            return fullName;
+        }
+
+        public void setFullName(String fullName) {
+            this.fullName = fullName;
+        }
+
+        public void setProperties(List<String> properties) {
+            this.properties = properties;
         }
     }
 

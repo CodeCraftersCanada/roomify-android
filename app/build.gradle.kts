@@ -78,6 +78,7 @@ dependencies {
     // Feature module Support
     implementation("androidx.navigation:navigation-dynamic-features-fragment:2.7.5")
     implementation("com.google.firebase:firebase-storage:20.3.0")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     // Testing Navigation
     androidTestImplementation("androidx.navigation:navigation-testing:2.7.5")

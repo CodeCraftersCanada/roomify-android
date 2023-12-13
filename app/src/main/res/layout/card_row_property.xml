@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardPropertyListing"
+    android:layout_width="match_parent"
+    android:layout_height="420dp"
+    android:layout_margin="@dimen/margin_16dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/propertyMainImage"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/photo_contemporary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/priceProperty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_18dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/propertyMainImage"
+            tools:text="CAD$ 1,200" />
+
+        <TextView
+            android:id="@+id/descriptionProperty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/priceProperty"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/priceProperty"
+            tools:text="4 Bedroom House" />
+
+        <TextView
+            android:id="@+id/addressTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:layout_marginTop="4dp"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/descriptionProperty"
+            tools:text="Wood road, Manchester, IG" />
+
+        <ImageView
+            android:id="@+id/iconFirstImageView"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/bathtub"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addressTextView" />
+
+        <TextView
+            android:id="@+id/bathroomCounterTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="0"
+            android:textColor="#474747"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/iconFirstImageView"
+            app:layout_constraintStart_toEndOf="@id/iconFirstImageView"
+            app:layout_constraintTop_toTopOf="@id/iconFirstImageView" />
+
+        <ImageView
+            android:id="@+id/iconSecondImageView"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:src="@drawable/sleeping"
+            app:layout_constraintBottom_toBottomOf="@id/iconFirstImageView"
+            app:layout_constraintStart_toEndOf="@id/bathroomCounterTextView"
+            app:layout_constraintTop_toTopOf="@id/iconFirstImageView" />
+
+        <TextView
+            android:id="@+id/bedroomCounterTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="0"
+            android:textColor="#474747"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/iconSecondImageView"
+            app:layout_constraintStart_toEndOf="@id/iconSecondImageView"
+            app:layout_constraintTop_toTopOf="@id/iconSecondImageView" />
+
+        <TextView
+            android:id="@+id/creationDateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_16dp"
+            android:text="Added 16/10/2024"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/iconFirstImageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iconFirstImageView" />
+
+        <View
+            android:id="@+id/horizontalLine"
+            android:layout_width="0dp"
+            android:layout_height="3dp"
+            android:layout_marginHorizontal="@dimen/margin_16dp"
+            android:layout_marginTop="6dp"
+            android:background="#898989"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iconFirstImageView" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/callMeButton"
+            style="@style/Widget.Material3.Button.ElevatedButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:layout_marginTop="@dimen/margin_16dp"
+            android:layout_marginBottom="@dimen/margin_16dp"
+            android:background="@null"
+            app:cornerRadius="3dp"
+            app:icon="@drawable/outline_phone_24"
+            app:iconGravity="top"
+            app:iconSize="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/horizontalLine"
+            app:rippleColor="@color/ripple_color" />
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.Material3.Button.ElevatedButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:layout_marginTop="@dimen/margin_16dp"
+            android:layout_marginBottom="@dimen/margin_16dp"
+            app:cornerRadius="3dp"
+            app:icon="@drawable/baseline_chat_24"
+            app:iconGravity="top"
+            app:iconSize="24dp"
+            app:layout_constraintBottom_toBottomOf="@id/callMeButton"
+            app:layout_constraintStart_toEndOf="@id/callMeButton"
+            app:layout_constraintTop_toBottomOf="@id/horizontalLine"
+            app:layout_constraintTop_toTopOf="@id/callMeButton" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

@@ -45,7 +45,7 @@ public class UserRepository {
                 if (response.isSuccessful()) {
                     User savedUser = response.body();
                     // Save the updated user into the local database
-                    System.out.println("User saved into external service: " + savedUser);
+                    System.out.println("UserId saved into external service: " + savedUser);
                     save(savedUser);
                 } else {
                     System.err.println("Something happened " + response.message());
@@ -121,7 +121,7 @@ public class UserRepository {
                     assert updatedUser != null;
                     User userMapped = userResponseMapper(updatedUser);
                     update(userMapped);
-                    System.out.println("User updated: " + updatedUser);
+                    System.out.println("UserId updated: " + updatedUser);
                 } else {
                     // Handle error
                 }

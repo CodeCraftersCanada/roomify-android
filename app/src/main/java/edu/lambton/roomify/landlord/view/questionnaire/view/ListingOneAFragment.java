@@ -1,4 +1,4 @@
-package edu.lambton.roomify.landlord.view;
+package edu.lambton.roomify.landlord.view.questionnaire.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

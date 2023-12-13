@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 public class ProperetyLandlordViewModelFactory implements ViewModelProvider.Factory {
-
     private final Application application;
 
     public ProperetyLandlordViewModelFactory(Application application) {

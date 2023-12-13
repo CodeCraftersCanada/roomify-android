@@ -19,6 +19,7 @@ import edu.lambton.roomify.landlord.dto.PropertyPhotoRequest;
 import edu.lambton.roomify.landlord.dto.PropertyPhotoResponse;
 import edu.lambton.roomify.landlord.dto.PropertyRequest;
 import edu.lambton.roomify.landlord.dto.PropertyResponse;
+import edu.lambton.roomify.landlord.dto.PropertyResponseComplete;
 import edu.lambton.roomify.landlord.dto.PropertyResponseInfo;
 import edu.lambton.roomify.landlord.model.Property;
 import edu.lambton.roomify.landlord.services.ApiService;
@@ -40,6 +41,28 @@ public class PropertyRepository {
     }
 
 
+    public LiveData<PropertyResponseComplete> getPropertiesExternal() {
+        MutableLiveData<PropertyResponseComplete> propertiesList = new MutableLiveData<>();
+
+        apiService.getAllPropertiesInfo().enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<PropertyResponseComplete> call, Response<PropertyResponseComplete> response) {
+                if(response.isSuccessful() && response.body() != null) {
+                    propertiesList.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PropertyResponseComplete> call, Throwable t) {
+                System.err.println(t.getStackTrace());
+            }
+        });
+
+
+        return propertiesList;
+    }
+
+
     public LiveData<List<Property>> getAllProperties() {
         MutableLiveData<List<Property>> propertiesList = new MutableLiveData<>();
 
@@ -55,7 +78,7 @@ public class PropertyRepository {
                     Observer<List<Property>> observer = new Observer<>() {
                         @Override
                         public void onChanged(List<Property> properties) {
-                            propertiesList.postValue(properties);
+                            propertiesList.setValue(properties);
 
                             allPropertiesCreatedByMe.removeObserver(this);
                         }

@@ -1,4 +1,4 @@
-package edu.lambton.roomify.landlord.view;
+package edu.lambton.roomify.landlord.view.questionnaire.view;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
