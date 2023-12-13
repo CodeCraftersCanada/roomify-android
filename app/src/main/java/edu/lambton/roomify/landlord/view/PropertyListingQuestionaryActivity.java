@@ -141,6 +141,7 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
 
                         @Override
                         public void onCallbackPhoto(List<Picture> photoList) {
+                            pictureList.clear();
                             pictureList.addAll(photoList);
                         }
                     });
@@ -320,7 +321,6 @@ public class PropertyListingQuestionaryActivity extends AppCompatActivity {
 
     private void onAddressSelected(@NonNull Address address) {
         this.selectedAddress = address;
-        System.out.println("ADDRESS SELECTED: " + address.latitude() + " - " + address.longitude() + " - " + address.city());
     }
 
     public void closeViewOnPhotoAdded() {

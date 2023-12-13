@@ -62,8 +62,6 @@ public class PhotoSelectionPropertyFragment extends Fragment {
 
                     if (myPictures.size() >= 3 && myPictures.size() <= 5) {
                         notifyPhotoAdded(myPictures);
-                    } else {
-                        Toast.makeText(requireContext(), "Please select between 3 and 5 photos", Toast.LENGTH_LONG).show();
                     }
                 }
             } catch (Exception e) {
@@ -83,8 +81,6 @@ public class PhotoSelectionPropertyFragment extends Fragment {
 
                 if (myPictures.size() >= 3 && myPictures.size() <= 5) {
                     notifyPhotoAdded(myPictures);
-                } else {
-                    Toast.makeText(requireContext(), "Please select between 3 and 5 photos", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -129,8 +125,10 @@ public class PhotoSelectionPropertyFragment extends Fragment {
         picturesThumbnailRV.setLayoutManager(new GridLayoutManager(requireContext(), 2, LinearLayoutManager.VERTICAL, false));
         picturesThumbnailRV.setAdapter(propertyPictureRVAdapter);
 
-        if (myPictures.size() >= 2) {
+        if (myPictures.size() >= 3 && myPictures.size() <= 5) {
             notifyPhotoAdded(myPictures);
+        } else {
+            Toast.makeText(requireContext(), "Select between 3 and 5 photos", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -155,11 +153,11 @@ public class PhotoSelectionPropertyFragment extends Fragment {
         }
     }
 
-    private void addPhotoFromLibrary() {
+    /*private void addPhotoFromLibrary() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             selectPictureLauncher.launch(new PickVisualMediaRequest());
         }
-    }
+    }*/
 
     public void setOnPhotoAddedListener(OnPhotoAddedListener listener) {
         this.onPhotoAddedListener = listener;
