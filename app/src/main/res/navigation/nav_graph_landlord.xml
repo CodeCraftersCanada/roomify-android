@@ -36,6 +36,7 @@
         android:name="edu.lambton.roomify.landlord.view.ProfileLandlordFragment"
         android:label="Profile Landlord"
         tools:layout="@layout/fragment_profile_landlord" />
+
     <activity
         android:id="@+id/landlordDashboardActivity"
         android:name="edu.lambton.roomify.navigation.landlord.LandlordDashboardActivity"

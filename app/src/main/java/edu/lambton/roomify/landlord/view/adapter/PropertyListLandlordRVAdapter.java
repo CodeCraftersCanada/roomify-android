@@ -18,6 +18,7 @@ import java.util.List;
 
 import edu.lambton.roomify.R;
 import edu.lambton.roomify.common.FormatUtils;
+import edu.lambton.roomify.common.UserType;
 import edu.lambton.roomify.landlord.dto.PropertyResponseComplete;
 
 public class PropertyListLandlordRVAdapter extends RecyclerView.Adapter<PropertyListLandlordRVAdapter.PropertyViewHolder> {
@@ -25,12 +26,14 @@ public class PropertyListLandlordRVAdapter extends RecyclerView.Adapter<Property
 
     private final List<PropertyResponseComplete.Property> propertyList;
     private static OnPropertyCardListener onCardListener;
+    private static int userTypeId;
     private final Context context;
 
-    public PropertyListLandlordRVAdapter(Context context, List<PropertyResponseComplete.Property> propertyList, OnPropertyCardListener onCardListener) {
+    public PropertyListLandlordRVAdapter(int userTypeID, Context context, List<PropertyResponseComplete.Property> propertyList, OnPropertyCardListener onCardListener) {
         this.context = context;
         this.propertyList = propertyList;
         PropertyListLandlordRVAdapter.onCardListener = onCardListener;
+        this.userTypeId = userTypeID;
     }
 
     @NonNull
@@ -78,6 +81,14 @@ public class PropertyListLandlordRVAdapter extends RecyclerView.Adapter<Property
 
             callMeButton = itemView.findViewById(R.id.callMeButton);
             sendMessageLandlordButton = itemView.findViewById(R.id.sendMessageLandlordButton);
+
+            if(userTypeId == UserType.LANDLORD.getValue()) {
+                callMeButton.setVisibility(View.INVISIBLE);
+            }
+
+            if(userTypeId == UserType.LANDLORD.getValue()) {
+                sendMessageLandlordButton.setVisibility(View.INVISIBLE);
+            }
 
             /*statusTextView = itemView.findViewById(R.id.statusTextView);*/
 

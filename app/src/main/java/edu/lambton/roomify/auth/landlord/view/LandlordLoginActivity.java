@@ -11,6 +11,7 @@ import java.util.Objects;
 import edu.lambton.roomify.auth.common.firebase.NetworkApi;
 import edu.lambton.roomify.auth.common.firebase.NetworkApiImpl;
 import edu.lambton.roomify.auth.landlord.controller.LandlordController;
+import edu.lambton.roomify.common.UserType;
 import edu.lambton.roomify.databinding.ActivityLandlordLoginBinding;
 import edu.lambton.roomify.navigation.landlord.LandlordDashboardActivity;
 
@@ -54,6 +55,8 @@ public class LandlordLoginActivity extends AppCompatActivity {
             if (success) {
 
                 Intent landlordDashboardIntent = new Intent(this, LandlordDashboardActivity.class);
+                landlordDashboardIntent.putExtra("userType", UserType.LANDLORD.getValue());
+
                 startActivity(landlordDashboardIntent);
             }
 

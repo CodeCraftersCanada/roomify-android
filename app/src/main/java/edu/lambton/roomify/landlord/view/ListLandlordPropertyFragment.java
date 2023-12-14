@@ -1,7 +1,12 @@
 package edu.lambton.roomify.landlord.view;
 
+import static edu.lambton.roomify.navigation.landlord.LandlordDashboardActivity.PREF_NAME;
+import static edu.lambton.roomify.navigation.landlord.LandlordDashboardActivity.USER_TYPE_KEY;
+
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -69,7 +74,7 @@ public class ListLandlordPropertyFragment extends Fragment implements PropertyLi
         listNewPropertyButton.setOnClickListener(this::startQuestionnaire);
 
         // Retrieve userTypeId from arguments
-        userTypeId = ListLandlordPropertyFragmentArgs.fromBundle(getArguments()).getUserTypeId();
+        userTypeId = getUserTypeIdFromPreferences();
 
         if (userTypeId == UserType.STUDENT.getValue()) {
             listNewPropertyButton.setVisibility(View.INVISIBLE);
@@ -81,11 +86,15 @@ public class ListLandlordPropertyFragment extends Fragment implements PropertyLi
 
         fetchPropertyData();
 
-        adapter = new PropertyListLandlordRVAdapter(requireContext(), propertyList, this);
+        adapter = new PropertyListLandlordRVAdapter(userTypeId, requireContext(), propertyList, this);
         propertyListRecycleView.setAdapter(adapter);
         return binding.getRoot();
     }
 
+    private int getUserTypeIdFromPreferences() {
+        SharedPreferences preferences = requireActivity().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        return preferences.getInt(USER_TYPE_KEY, 0);
+    }
 
     private void fetchPropertyData() {
         propertyLandlordViewModel.getAllPropertiesExternal().observe(requireActivity(), propertiesResult -> {

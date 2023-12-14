@@ -1,9 +1,15 @@
 package edu.lambton.roomify.landlord.view;
 
+import static edu.lambton.roomify.navigation.landlord.LandlordDashboardActivity.PREF_NAME;
+import static edu.lambton.roomify.navigation.landlord.LandlordDashboardActivity.USER_TYPE_KEY;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -42,8 +48,8 @@ public class PropertyInfoActivity extends AppCompatActivity {
     private ImageSliderAdapter imageSliderAdapter;
     private TextView imageCountTextView;
     private ViewPager viewPager;
-
     private ImageView staticMapImageView;
+    private int userTypeId;
 
 
     @Override
@@ -56,9 +62,18 @@ public class PropertyInfoActivity extends AppCompatActivity {
         Toolbar toolbar = binding.toolbar;
         setSupportActionBar(toolbar);
 
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        userTypeId = getUserTypeIdFromPreferences();
+
+        if (UserType.LANDLORD.getValue() == userTypeId) {
+            binding.reserveButton.setVisibility(View.INVISIBLE);
+        } else {
+            binding.reserveButton.setVisibility(View.VISIBLE);
         }
 
         viewPager = binding.viewPagerImages;
@@ -130,9 +145,6 @@ public class PropertyInfoActivity extends AppCompatActivity {
                     .into(staticMapImageView);
 
 
-            if (UserType.LANDLORD.getValue() == property.getUserId().getUserTypeId()) {
-                binding.reserveButton.setVisibility(View.INVISIBLE);
-            }
             TextView landlordNameTextView = binding.landlordNameTextView;
             landlordNameTextView.setText(property.getUserId().getFullName());
 
@@ -164,6 +176,14 @@ public class PropertyInfoActivity extends AppCompatActivity {
         });
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull String name, @NonNull Context context, @NonNull AttributeSet attrs) {
+
+        return super.onCreateView(name, context, attrs);
+    }
+
+
     private void updateImageCountText(int currentImage, int totalImages) {
         String countText = getString(R.string.image_count_format, currentImage, totalImages);
         imageCountTextView.setText(countText);
@@ -193,6 +213,11 @@ public class PropertyInfoActivity extends AppCompatActivity {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private int getUserTypeIdFromPreferences() {
+        SharedPreferences preferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        return preferences.getInt(USER_TYPE_KEY, 0);
     }
 
     @Override

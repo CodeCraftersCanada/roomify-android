@@ -1,11 +1,12 @@
 package edu.lambton.roomify.navigation.landlord;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
@@ -14,12 +15,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import edu.lambton.roomify.R;
 import edu.lambton.roomify.databinding.ActivityLandlordDashboardBinding;
-import edu.lambton.roomify.landlord.view.ListLandlordPropertyFragmentDirections;
 
 public class LandlordDashboardActivity extends AppCompatActivity {
 
     ActivityLandlordDashboardBinding binding;
     private int userTypeId;
+    public static final String PREF_NAME = "MyPrefs";
+    public static final String USER_TYPE_KEY = "userType";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class LandlordDashboardActivity extends AppCompatActivity {
 
         userTypeId = getIntent().getIntExtra("userType", 0);
 
+        saveUserTypeIdToPreferences(userTypeId);
 
         NavController dashboardNavController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_landlord);
 
@@ -42,13 +45,10 @@ public class LandlordDashboardActivity extends AppCompatActivity {
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             int destinationId;
-            NavDirections directions = null;
-
 
             int itemId = item.getItemId();
             if (itemId == R.id.nav_list_property) {
                 destinationId = R.id.listPropertyFragment;
-                directions = ListLandlordPropertyFragmentDirections.actionListPropertyFragmentToListProperty(userTypeId);
             } else if (itemId == R.id.nav_message_landlord) {
                 destinationId = R.id.chatFragment;
             } else if (itemId == R.id.nav_contact_landlord) {
@@ -59,13 +59,9 @@ public class LandlordDashboardActivity extends AppCompatActivity {
                 return false;
             }
 
-            Bundle bundle = new Bundle();
-            bundle.putInt("userTypeId", userTypeId);
+            // Navigate to the selected destination with or without arguments
 
-            if (directions != null) {
-                dashboardNavController.navigate(directions);
-
-            }
+            dashboardNavController.navigate(destinationId);
 
             return true;
         });
@@ -74,6 +70,17 @@ public class LandlordDashboardActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, dashboardNavController);
 
     }
+
+    // Helper method to save userTypeId to SharedPreferences
+    private void saveUserTypeIdToPreferences(int userTypeId) {
+        SharedPreferences preferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(USER_TYPE_KEY, userTypeId);
+        editor.apply();
+    }
+
+    // Helper method to retrieve userTypeId from SharedPreferences
+
 
     /*@Override
     public boolean onSupportNavigateUp() {
