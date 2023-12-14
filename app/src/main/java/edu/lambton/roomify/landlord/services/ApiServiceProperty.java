@@ -2,6 +2,8 @@ package edu.lambton.roomify.landlord.services;
 
 import java.util.List;
 
+import edu.lambton.roomify.landlord.dto.BookPropertyRequest;
+import edu.lambton.roomify.landlord.dto.BookPropertyResponse;
 import edu.lambton.roomify.landlord.dto.PropertyPhotoRequest;
 import edu.lambton.roomify.landlord.dto.PropertyPhotoResponse;
 import edu.lambton.roomify.landlord.dto.PropertyRequest;
@@ -31,4 +33,7 @@ public interface ApiServiceProperty {
 
     @GET("/api/v1/properties/{id}")
     Call<PropertyResponseInfo> getPropertyInfo(@Path("id") String id);
+
+    @POST("/api/v1/booking")
+    Call<BookPropertyResponse> bookProperty(@Body BookPropertyRequest bookPropertyRequest);
 }

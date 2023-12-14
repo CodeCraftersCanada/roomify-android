@@ -23,11 +23,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Properties;
@@ -35,6 +38,7 @@ import java.util.Properties;
 import edu.lambton.roomify.R;
 import edu.lambton.roomify.common.UserType;
 import edu.lambton.roomify.databinding.ActivityPropertyInfoBinding;
+import edu.lambton.roomify.landlord.dto.BookPropertyRequest;
 import edu.lambton.roomify.landlord.dto.PropertyResponseInfo;
 import edu.lambton.roomify.landlord.view.adapter.ImageSliderAdapter;
 import edu.lambton.roomify.landlord.viewmodel.ProperetyLandlordViewModelFactory;
@@ -50,6 +54,8 @@ public class PropertyInfoActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private ImageView staticMapImageView;
     private int userTypeId;
+    private String propertyId;
+    private FirebaseAuth mAuth;
 
 
     @Override
@@ -58,7 +64,7 @@ public class PropertyInfoActivity extends AppCompatActivity {
 
         binding = ActivityPropertyInfoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        mAuth = FirebaseAuth.getInstance();
         Toolbar toolbar = binding.toolbar;
         setSupportActionBar(toolbar);
 
@@ -70,11 +76,15 @@ public class PropertyInfoActivity extends AppCompatActivity {
 
         userTypeId = getUserTypeIdFromPreferences();
 
+        MaterialButton bookPropertyButton = binding.reserveButton;
+
         if (UserType.LANDLORD.getValue() == userTypeId) {
-            binding.reserveButton.setVisibility(View.INVISIBLE);
+            bookPropertyButton.setVisibility(View.INVISIBLE);
         } else {
-            binding.reserveButton.setVisibility(View.VISIBLE);
+            bookPropertyButton.setVisibility(View.VISIBLE);
         }
+
+        bookPropertyButton.setOnClickListener(this::bookProperty);
 
         viewPager = binding.viewPagerImages;
         imageCountTextView = binding.imageCount;
@@ -86,7 +96,7 @@ public class PropertyInfoActivity extends AppCompatActivity {
         propertyLandlordViewModel = new ViewModelProvider(getViewModelStore(),
                 new ProperetyLandlordViewModelFactory(getApplication())).get(PropertyLandlordViewModel.class);
 
-        String propertyId = PropertyInfoActivityArgs.fromBundle(getIntent().getExtras()).getPropertyId();
+        propertyId = PropertyInfoActivityArgs.fromBundle(getIntent().getExtras()).getPropertyId();
 
         imageSliderAdapter = new ImageSliderAdapter(this, propertyImages);
         viewPager.setAdapter(imageSliderAdapter);
@@ -174,6 +184,21 @@ public class PropertyInfoActivity extends AppCompatActivity {
                 // Not needed for this implementation
             }
         });
+
+
+    }
+
+    private void bookProperty(View view) {
+        propertyLandlordViewModel.getPropertyInfo(propertyId).observe(this, propertyResponseInfo -> {
+            BookPropertyRequest bookPropertyRequest = new BookPropertyRequest(propertyId, mAuth.getUid(),
+                    String.valueOf(propertyResponseInfo.getProperty().getPrice().getNumberDecimal()),
+                    new Date().toString(),
+                    new Date().toString());
+
+            propertyLandlordViewModel.bookProperty(bookPropertyRequest);
+
+        });
+
     }
 
     @Nullable

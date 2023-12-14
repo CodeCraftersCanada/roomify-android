@@ -15,6 +15,8 @@ import java.util.List;
 import edu.lambton.roomify.auth.landlord.dto.UserResponse;
 import edu.lambton.roomify.common.AppDatabase;
 import edu.lambton.roomify.landlord.dao.PropertyDao;
+import edu.lambton.roomify.landlord.dto.BookPropertyRequest;
+import edu.lambton.roomify.landlord.dto.BookPropertyResponse;
 import edu.lambton.roomify.landlord.dto.PropertyPhotoRequest;
 import edu.lambton.roomify.landlord.dto.PropertyPhotoResponse;
 import edu.lambton.roomify.landlord.dto.PropertyRequest;
@@ -47,7 +49,7 @@ public class PropertyRepository {
         apiService.getAllPropertiesInfo().enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<PropertyResponseComplete> call, Response<PropertyResponseComplete> response) {
-                if(response.isSuccessful() && response.body() != null) {
+                if (response.isSuccessful() && response.body() != null) {
                     propertiesList.postValue(response.body());
                 }
             }
@@ -96,6 +98,26 @@ public class PropertyRepository {
         });
 
         return propertiesList;
+    }
+
+    public LiveData<BookPropertyResponse> bookProperty(BookPropertyRequest bookPropertyRequest) {
+        MutableLiveData<BookPropertyResponse> propertyValue = new MutableLiveData<>();
+
+        apiService.bookProperty(bookPropertyRequest).enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<BookPropertyResponse> call, Response<BookPropertyResponse> response) {
+                if (response.isSuccessful()) {
+                    propertyValue.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BookPropertyResponse> call, Throwable t) {
+
+            }
+        });
+
+        return propertyValue;
     }
 
     public LiveData<PropertyResponseInfo> getPropertyInfo(String id) {
