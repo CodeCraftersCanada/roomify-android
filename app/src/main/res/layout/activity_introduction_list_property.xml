@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".landlord.view.IntroductionListPropertyActivity">
 
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:id="@+id/closeButton"
+        android:src="@drawable/ic_close"/>
+
     <TextView
         android:id="@+id/infoTitle"
         android:layout_width="wrap_content"
