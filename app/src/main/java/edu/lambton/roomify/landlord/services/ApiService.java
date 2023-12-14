@@ -2,12 +2,9 @@ package edu.lambton.roomify.landlord.services;
 
 import edu.lambton.roomify.auth.landlord.dto.UserRequest;
 import edu.lambton.roomify.auth.landlord.dto.UserResponse;
-import edu.lambton.roomify.landlord.dto.PropertyPhotoRequest;
-import edu.lambton.roomify.landlord.dto.PropertyPhotoResponse;
-import edu.lambton.roomify.landlord.dto.PropertyRequest;
-import edu.lambton.roomify.landlord.dto.PropertyResponse;
+import edu.lambton.roomify.landlord.dto.BookPropertyRequest;
+import edu.lambton.roomify.landlord.dto.BookPropertyResponse;
 import edu.lambton.roomify.landlord.model.User;
-import edu.lambton.roomify.student.dto.StudentPropertyResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;

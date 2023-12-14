@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Objects;
 
 import edu.lambton.roomify.auth.landlord.dto.UserResponse;
+import edu.lambton.roomify.landlord.dto.BookPropertyRequest;
+import edu.lambton.roomify.landlord.dto.BookPropertyResponse;
 import edu.lambton.roomify.landlord.dto.PropertyPhotoRequest;
 import edu.lambton.roomify.landlord.dto.PropertyRequest;
 import edu.lambton.roomify.landlord.dto.PropertyResponse;
@@ -49,6 +51,10 @@ public class PropertyLandlordViewModel extends ViewModel {
 
     public LiveData<PropertyResponseInfo> getPropertyInfo(String id) {
         return repository.getPropertyInfo(id);
+    }
+
+    public LiveData<BookPropertyResponse> bookProperty(BookPropertyRequest bookPropertyRequest) {
+        return repository.bookProperty(bookPropertyRequest);
     }
 
     public void saveProperty(@NonNull Property property, List<PropertyPhotoRequest> propertiesPhotoRequest) {

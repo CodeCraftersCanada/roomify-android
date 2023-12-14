@@ -21,8 +21,8 @@ public class LandlordController {
         networkApi.fetchData();
     }
 
-    public boolean createAccount(String email, String password, String fullName, String photoNumber, String college, String address, @NonNull Activity activity) {
-        return networkApi.createAccountOnFirebase(email, password, fullName, photoNumber, college, address, activity);
+    public boolean createAccount(String email, String password, String fullName, String photoNumber, String college, String address, @NonNull Activity activity, int userType) {
+        return networkApi.createAccountOnFirebase(email, password, fullName, photoNumber, college, address, activity, userType);
     }
 
     public void loginLandlordAccount(String email, String password, NetworkApiImpl.OnLoginCompleteListener onLoginCompleteListener) {

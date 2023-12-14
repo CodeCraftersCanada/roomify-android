@@ -10,12 +10,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import edu.lambton.roomify.auth.landlord.dto.UserRequest;
 import edu.lambton.roomify.auth.landlord.dto.UserResponse;
-import edu.lambton.roomify.common.UserType;
 import edu.lambton.roomify.landlord.services.ApiService;
 import edu.lambton.roomify.landlord.services.RoomifyApiClient;
 import retrofit2.Call;
@@ -40,7 +38,7 @@ public class NetworkApiImpl implements NetworkApi {
     }
 
     @Override
-    public boolean createAccountOnFirebase(String email, String password, String username, String photoNumber, String college, String address, @NonNull Activity activity) {
+    public boolean createAccountOnFirebase(String email, String password, String username, String photoNumber, String college, String address, @NonNull Activity activity, int userType) {
         mAuth = FirebaseAuth.getInstance();
         AtomicBoolean isUserCreated = new AtomicBoolean(false);
 
@@ -54,7 +52,7 @@ public class NetworkApiImpl implements NetworkApi {
                 assert user != null;
 
                 // TODO: Save the user into the database
-                UserRequest userRequest = new UserRequest(user.getUid(), user.getEmail(), password, UserType.LANDLORD.getValue(), username, photoNumber, college, address, null, 0, 0);
+                UserRequest userRequest = new UserRequest(user.getUid(), user.getEmail(), password, userType, username, photoNumber, college, address, null, 0, 0);
                 ApiService apiService = RoomifyApiClient.getApiService();
 
                 apiService.createUser(userRequest).enqueue(new Callback<>() {
@@ -99,6 +97,8 @@ public class NetworkApiImpl implements NetworkApi {
 
             // Notify the listener when the operation is complete
             listener.onLoginComplete(task.isSuccessful());
+        }).addOnFailureListener(error -> {
+            System.err.println(error.getMessage());
         });
     }
 

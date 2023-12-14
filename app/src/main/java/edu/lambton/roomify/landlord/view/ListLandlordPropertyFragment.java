@@ -1,7 +1,12 @@
 package edu.lambton.roomify.landlord.view;
 
+import static edu.lambton.roomify.navigation.landlord.LandlordDashboardActivity.PREF_NAME;
+import static edu.lambton.roomify.navigation.landlord.LandlordDashboardActivity.USER_TYPE_KEY;
+
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,6 +32,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.lambton.roomify.R;
+import edu.lambton.roomify.chat.view.ChatFragment;
+import edu.lambton.roomify.common.UserType;
 import edu.lambton.roomify.databinding.FragmentListLandlordPropertyBinding;
 import edu.lambton.roomify.landlord.dto.PropertyResponseComplete;
 import edu.lambton.roomify.landlord.view.adapter.PropertyListLandlordRVAdapter;
@@ -39,17 +46,16 @@ public class ListLandlordPropertyFragment extends Fragment implements PropertyLi
     private FragmentListLandlordPropertyBinding binding;
     private ExtendedFloatingActionButton listNewPropertyButton;
     private SwipeRefreshLayout swipeRefreshLayout;
-
+    private int userTypeId;
     private RecyclerView propertyListRecycleView;
     private PropertyListLandlordRVAdapter adapter;
-
     private PropertyLandlordViewModel propertyLandlordViewModel;
     private final List<PropertyResponseComplete.Property> propertyList = new ArrayList<>();
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
     }
 
@@ -60,21 +66,34 @@ public class ListLandlordPropertyFragment extends Fragment implements PropertyLi
         binding = FragmentListLandlordPropertyBinding.inflate(inflater, container, false);
 
         swipeRefreshLayout = binding.swipeRefreshLayout; // Add this line
-        swipeRefreshLayout.setOnRefreshListener(this::refreshProperties); // Add this line
+        swipeRefreshLayout.setOnRefreshListener(this::refreshProperties);
 
         listNewPropertyButton = binding.listNewPropertyButton;
 
         propertyListRecycleView = binding.propertyListRecycleView;
         listNewPropertyButton.setOnClickListener(this::startQuestionnaire);
+
+        // Retrieve userTypeId from arguments
+        userTypeId = getUserTypeIdFromPreferences();
+
+        if (userTypeId == UserType.STUDENT.getValue()) {
+            listNewPropertyButton.setVisibility(View.INVISIBLE);
+        }
+
         propertyListRecycleView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
 
         propertyLandlordViewModel = new ViewModelProvider(getViewModelStore(), new ProperetyLandlordViewModelFactory(requireActivity().getApplication())).get(PropertyLandlordViewModel.class);
 
         fetchPropertyData();
 
-        adapter = new PropertyListLandlordRVAdapter(requireContext(), propertyList, this);
+        adapter = new PropertyListLandlordRVAdapter(userTypeId, requireContext(), propertyList, this);
         propertyListRecycleView.setAdapter(adapter);
         return binding.getRoot();
+    }
+
+    private int getUserTypeIdFromPreferences() {
+        SharedPreferences preferences = requireActivity().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        return preferences.getInt(USER_TYPE_KEY, 0);
     }
 
     private void fetchPropertyData() {
@@ -121,17 +140,14 @@ public class ListLandlordPropertyFragment extends Fragment implements PropertyLi
     public void onPhoneCallHandle(String phoneNumber) {
         // Ensure the phone number is not null or empty
         if (phoneNumber != null && !phoneNumber.isEmpty()) {
-            // Check if the CALL_PHONE permission is granted
+
             if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.CALL_PHONE)
                     == PackageManager.PERMISSION_GRANTED) {
-                // Create the intent to initiate a call
                 Intent dialIntent = new Intent(Intent.ACTION_CALL);
                 dialIntent.setData(Uri.parse("tel:" + phoneNumber));
 
-                // Start the call directly without user confirmation
                 startActivity(dialIntent);
             } else {
-                // Request CALL_PHONE permission if not granted
                 ActivityCompat.requestPermissions(requireActivity(),
                         new String[]{Manifest.permission.CALL_PHONE}, CALL_PERMISSION_REQUEST_CODE);
             }
@@ -139,5 +155,13 @@ public class ListLandlordPropertyFragment extends Fragment implements PropertyLi
             // Handle the case where the phone number is not valid
             Toast.makeText(requireContext(), "Invalid phone number", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onSendMessageHandle(String recipientUid) {
+        Intent startChatMessage = new Intent(getContext(), ChatFragment.class);
+
+        startChatMessage.putExtra("recipientLandlordUID", recipientUid);
+        startActivity(startChatMessage);
     }
 }

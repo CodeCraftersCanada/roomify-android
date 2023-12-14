@@ -1,21 +1,21 @@
 package edu.lambton.roomify.auth.student.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Objects;
 
-import edu.lambton.roomify.R;
 import edu.lambton.roomify.auth.common.firebase.NetworkApi;
 import edu.lambton.roomify.auth.common.firebase.NetworkApiImpl;
 import edu.lambton.roomify.auth.landlord.controller.LandlordController;
 import edu.lambton.roomify.auth.landlord.view.LandlordRegistrationActivity;
+import edu.lambton.roomify.common.UserType;
 import edu.lambton.roomify.databinding.ActivityStudentLoginBinding;
 import edu.lambton.roomify.navigation.landlord.LandlordDashboardActivity;
-import edu.lambton.roomify.navigation.student.StudentDashboardActivity;
 
 public class StudentLoginActivity extends AppCompatActivity {
 
@@ -34,6 +34,7 @@ public class StudentLoginActivity extends AppCompatActivity {
 
     private void signUpStudent(View view) {
         Intent signupScreen = new Intent(this, LandlordRegistrationActivity.class);
+        signupScreen.putExtra("userType", UserType.STUDENT.getValue());
         startActivity(signupScreen);
     }
 
@@ -53,8 +54,11 @@ public class StudentLoginActivity extends AppCompatActivity {
         landlordController.loginLandlordAccount(email, password, success -> {
 
             if (success) {
-                Intent studentDashboardIntent = new Intent(this, StudentDashboardActivity.class);
+                Intent studentDashboardIntent = new Intent(this, LandlordDashboardActivity.class);
+                studentDashboardIntent.putExtra("userType", UserType.STUDENT.getValue());
                 startActivity(studentDashboardIntent);
+            } else {
+                Toast.makeText(this, "An error had occurred", Toast.LENGTH_SHORT).show();
             }
 
         });

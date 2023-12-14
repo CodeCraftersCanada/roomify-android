@@ -145,6 +145,7 @@
             app:rippleColor="@color/ripple_color" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/sendMessageLandlordButton"
             style="@style/Widget.Material3.Button.ElevatedButton"
             android:layout_width="48dp"
             android:layout_height="48dp"

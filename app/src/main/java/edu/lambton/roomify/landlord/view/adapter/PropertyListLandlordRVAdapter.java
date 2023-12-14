@@ -18,6 +18,7 @@ import java.util.List;
 
 import edu.lambton.roomify.R;
 import edu.lambton.roomify.common.FormatUtils;
+import edu.lambton.roomify.common.UserType;
 import edu.lambton.roomify.landlord.dto.PropertyResponseComplete;
 
 public class PropertyListLandlordRVAdapter extends RecyclerView.Adapter<PropertyListLandlordRVAdapter.PropertyViewHolder> {
@@ -25,12 +26,14 @@ public class PropertyListLandlordRVAdapter extends RecyclerView.Adapter<Property
 
     private final List<PropertyResponseComplete.Property> propertyList;
     private static OnPropertyCardListener onCardListener;
+    private static int userTypeId;
     private final Context context;
 
-    public PropertyListLandlordRVAdapter(Context context, List<PropertyResponseComplete.Property> propertyList, OnPropertyCardListener onCardListener) {
+    public PropertyListLandlordRVAdapter(int userTypeID, Context context, List<PropertyResponseComplete.Property> propertyList, OnPropertyCardListener onCardListener) {
         this.context = context;
         this.propertyList = propertyList;
         PropertyListLandlordRVAdapter.onCardListener = onCardListener;
+        this.userTypeId = userTypeID;
     }
 
     @NonNull
@@ -62,6 +65,7 @@ public class PropertyListLandlordRVAdapter extends RecyclerView.Adapter<Property
         private final TextView bathroomCounterTextView;
         private final TextView bedroomCounterTextView;
         private final MaterialButton callMeButton;
+        private final MaterialButton sendMessageLandlordButton;
         /*private final TextView statusTextView;*/
 
         public PropertyViewHolder(@NonNull View itemView) {
@@ -76,6 +80,15 @@ public class PropertyListLandlordRVAdapter extends RecyclerView.Adapter<Property
             bedroomCounterTextView = itemView.findViewById(R.id.bedroomCounterTextView);
 
             callMeButton = itemView.findViewById(R.id.callMeButton);
+            sendMessageLandlordButton = itemView.findViewById(R.id.sendMessageLandlordButton);
+
+            if(userTypeId == UserType.LANDLORD.getValue()) {
+                callMeButton.setVisibility(View.INVISIBLE);
+            }
+
+            if(userTypeId == UserType.LANDLORD.getValue()) {
+                sendMessageLandlordButton.setVisibility(View.INVISIBLE);
+            }
 
             /*statusTextView = itemView.findViewById(R.id.statusTextView);*/
 
@@ -111,6 +124,11 @@ public class PropertyListLandlordRVAdapter extends RecyclerView.Adapter<Property
                 String phoneNumber = property.getUser_id().getPhone();
                 onCardListener.onPhoneCallHandle(phoneNumber);
             });
+
+            sendMessageLandlordButton.setOnClickListener(view -> {
+                String landlordRecipientUID = property.getUser_id().getUid();
+                onCardListener.onSendMessageHandle(landlordRecipientUID);
+            });
         }
 
 
@@ -120,5 +138,7 @@ public class PropertyListLandlordRVAdapter extends RecyclerView.Adapter<Property
         void onPropertyCardHandle(String propertyId);
 
         void onPhoneCallHandle(String phoneNumber);
+
+        void onSendMessageHandle(String recipientUid);
     }
 }

@@ -1,84 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChatFragment">
+    tools:context=".chat.view.ChatFragment">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/card_selected_color"
-        android:padding="10dp"
-        android:id="@+id/toolbar">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Username"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_marginStart="10dp"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/profileButton"
-            />
-        <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/baseline_person_24"
-            android:layout_centerVertical="true"
-            android:id="@+id/profileButton"
-            app:tint="@color/white"
-            android:layout_toRightOf="@id/backButton"
-            />
-
-        <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/ic_back"
-            android:layout_centerVertical="true"
-            android:id="@+id/backButton"
-            app:tint="@color/white" />
-
-    </RelativeLayout>
+    <include android:id="@+id/toolbar_included" layout="@layout/toolbar_layout" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/textMessage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_included"
+        tools:listitem="@layout/message_text" />
+
+
+    <EditText
+        android:id="@+id/textMessage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/rounded_border"
+        android:elevation="4dp"
+        android:hint="Send message here"
+        android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomGuide"
+        app:layout_constraintEnd_toStartOf="@id/sendButton"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/sendButton"
+        style="@style/Widget.Material3.Button.ElevatedButton"
+        android:layout_width="32dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="6dp"
+        android:background="@null"
+        app:cornerRadius="6dp"
+        app:icon="@drawable/ic_send"
+        app:iconGravity="textEnd"
+        app:layout_constraintBottom_toTopOf="@id/bottomGuide"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/textMessage" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottomGuide"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_alignParentBottom="true"
-        android:padding="8dp"
-        android:id="@+id/bottomLayout">
-
-        <EditText
-            android:id="@+id/textMessage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="@dimen/margin_10dp"
-            android:background="@drawable/rounded_border"
-            android:elevation="4dp"
-            android:hint="Send message here"
-            android:padding="10dp"
-            android:layout_toLeftOf="@id/sendButton"/>
-
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:id="@+id/sendButton"
-            android:src="@drawable/ic_send"
-            android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"
-            android:background="?attr/selectableItemBackground"
-            />
-
-    </RelativeLayout>
-
-</RelativeLayout>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.98" />
+</androidx.constraintlayout.widget.ConstraintLayout>
