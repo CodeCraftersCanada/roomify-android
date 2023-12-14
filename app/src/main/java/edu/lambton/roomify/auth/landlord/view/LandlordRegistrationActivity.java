@@ -6,16 +6,21 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.Objects;
 
 import edu.lambton.roomify.auth.common.firebase.NetworkApi;
 import edu.lambton.roomify.auth.common.firebase.NetworkApiImpl;
 import edu.lambton.roomify.auth.landlord.controller.LandlordController;
+import edu.lambton.roomify.common.UserType;
 import edu.lambton.roomify.databinding.ActivityLandlordRegistrationBinding;
 
 public class LandlordRegistrationActivity extends AppCompatActivity {
 
     private ActivityLandlordRegistrationBinding binding;
+
+    private int userTypeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +28,7 @@ public class LandlordRegistrationActivity extends AppCompatActivity {
         binding = ActivityLandlordRegistrationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        userTypeId = getIntent().getIntExtra("userType", 0);
         binding.createAccountButton.setOnClickListener(this::createLandlordAccount);
     }
 
@@ -50,7 +56,12 @@ public class LandlordRegistrationActivity extends AppCompatActivity {
             LandlordController landlordController = new LandlordController(networkApi);
 
             landlordController.performLandlordOperations();
-            boolean accountCreated = landlordController.createAccount(email, password, fullName, "", "", "", this);
+            boolean accountCreated;
+            if (userTypeId > 0) {
+                accountCreated = landlordController.createAccount(email, password, fullName, "", "", "", this, userTypeId);
+            } else {
+                accountCreated = landlordController.createAccount(email, password, fullName, "", "", "", this, UserType.LANDLORD.getValue());
+            }
 
             Toast.makeText(this, "Account created" + accountCreated, Toast.LENGTH_LONG).show();
 
@@ -59,6 +70,8 @@ public class LandlordRegistrationActivity extends AppCompatActivity {
                 binding.emailTxt.setText("");
                 binding.passwordTxt.setText("");
                 binding.repeatPasswordTxt.setText("");
+            } else {
+                Toast.makeText(this, "An error had occurred", Toast.LENGTH_SHORT).show();
             }
         }
     }

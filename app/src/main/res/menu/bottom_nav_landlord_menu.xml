@@ -4,12 +4,17 @@
     <item
         android:id="@+id/nav_list_property"
         android:icon="@drawable/baseline_add_business_24"
-        android:title="List Property" />
+        android:title="Properties" />
 
     <item
         android:id="@+id/nav_message_landlord"
         android:icon="@drawable/baseline_chat_24"
         android:title="Chat" />
+
+    <item
+        android:id="@+id/nav_contact_landlord"
+        android:icon="@drawable/baseline_connect_without_contact_24"
+        android:title="Contacts" />
 
     <item
         android:id="@+id/nav_profile_landlord"

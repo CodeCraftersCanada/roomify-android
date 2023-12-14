@@ -34,6 +34,7 @@ public class ChatFragment extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ChatMessageViewModel messageViewModel;
     private String recipientUid;
+    private String myContactRecipientUid;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +48,8 @@ public class ChatFragment extends AppCompatActivity {
         // Retrieve recipient UID from arguments
 
         recipientUid = getIntent().getStringExtra("recipientLandlordUID");
+
+        myContactRecipientUid = getIntent().getStringExtra("contactUID");
 
         chatMessageRecycleView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
@@ -91,7 +94,13 @@ public class ChatFragment extends AppCompatActivity {
 
         // Send the message to Firebase using ViewModel
         // Pass the recipient ID
-        messageViewModel.sendMessage(text, recipientUid);
+
+        if (recipientUid != null && !recipientUid.equals("")) {
+            messageViewModel.sendMessage(text, recipientUid);
+        } else {
+            messageViewModel.sendMessage(text, myContactRecipientUid);
+        }
+
 
         // Clear the input field
         binding.textMessage.setText("");

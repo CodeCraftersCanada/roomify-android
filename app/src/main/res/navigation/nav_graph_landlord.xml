@@ -48,6 +48,11 @@
             android:name="recipientLandlordUID"
             app:argType="string" />
     </activity>
+    <fragment
+        android:id="@+id/contactListChatFragment"
+        android:name="edu.lambton.roomify.chat.view.ContactListChatFragment"
+        android:label="fragment_contact_list_chat"
+        tools:layout="@layout/fragment_contact_list_chat" />
 
 
 </navigation>

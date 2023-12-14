@@ -42,6 +42,8 @@ public class LandlordDashboardActivity extends AppCompatActivity {
                 destinationId = R.id.listPropertyFragment;
             } else if (itemId == R.id.nav_message_landlord) {
                 destinationId = R.id.chatFragment;
+            } else if (itemId == R.id.nav_contact_landlord) {
+                destinationId = R.id.contactListChatFragment;
             } else if (itemId == R.id.nav_profile_landlord) {
                 destinationId = R.id.profileLandlordFragment;
             } else {

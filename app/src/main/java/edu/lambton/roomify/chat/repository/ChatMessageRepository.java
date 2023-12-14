@@ -14,23 +14,34 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+import edu.lambton.roomify.chat.dto.Contact;
 import edu.lambton.roomify.chat.dto.Message;
+import edu.lambton.roomify.landlord.dto.UserResponse;
+import edu.lambton.roomify.landlord.services.ApiService;
+import edu.lambton.roomify.landlord.services.RoomifyApiClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChatMessageRepository {
     private final FirebaseFirestore firestore;
     private final MutableLiveData<List<Message>> messagesLiveData;
     private final FirebaseAuth auth;
     private final StorageReference storageReference;
+
+    private ApiService apiService;
     ;
 
     public ChatMessageRepository() {
         this.firestore = FirebaseFirestore.getInstance();
         this.messagesLiveData = new MutableLiveData<>();
         this.auth = FirebaseAuth.getInstance();
+        this.apiService = RoomifyApiClient.getApiService();
         this.storageReference = FirebaseStorage.getInstance().getReference().child("avatar");
         observeMessages();
     }
@@ -64,8 +75,17 @@ public class ChatMessageRepository {
                 getMessagesCollection().add(message)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
+                                // Message sent successfully
                                 result.setValue(true);
+
+                                // Update user contacts
+                                updateContacts(senderUID, recipientUid);
+
+                                // Create user in "users" collection if not exists
+                                createUserIfNotExists(senderUID);
+                                createUserIfNotExists(recipientUid);
                             } else {
+                                // Failed to send message
                                 result.setValue(false);
                             }
                         });
@@ -73,6 +93,42 @@ public class ChatMessageRepository {
         });
 
         return result;
+    }
+
+    private void createUserIfNotExists(String uid) {
+        // Get the reference to the "users" collection
+        CollectionReference usersCollection = firestore.collection("users");
+
+        // Check if the user already exists
+        usersCollection.document(uid).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (!document.exists()) {
+                    // Document does not exist, fetch user details from Firebase Authentication
+
+                    apiService.getUserById(uid).enqueue(new Callback<>() {
+                        @Override
+                        public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                            if (response.isSuccessful()) {
+
+                                assert response.body() != null;
+                                UserResponse.User user = response.body().getUser();
+                                String displayName = user.getFullName();
+                                String profilePictureUrl = user.getImagePath();
+
+                                usersCollection.document(uid).set(new Contact(displayName, profilePictureUrl, uid));
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<UserResponse> call, Throwable t) {
+
+                        }
+                    });
+                }
+            }
+        });
     }
 
     @NonNull
@@ -141,4 +197,116 @@ public class ChatMessageRepository {
                 });
     }
 
+    public LiveData<List<Contact>> fetchMyContacts(String currentUserUID) {
+        MutableLiveData<List<Contact>> contactsLiveData = new MutableLiveData<>();
+
+        // Get the reference to the "contacts" collection
+        CollectionReference contactsCollection = firestore.collection("contacts");
+
+        // Fetch the user's contacts
+        contactsCollection.document(currentUserUID).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    List<String> contactIds = (List<String>) document.get("contactIds");
+                    if (contactIds != null && !contactIds.isEmpty()) {
+                        // Fetch user details for each contact ID
+                        fetchUserDetails(contactIds, contactsLiveData);
+                    } else {
+                        // No contacts
+                        contactsLiveData.setValue(new ArrayList<>());
+                    }
+                } else {
+                    // No document for the user (no contacts)
+                    contactsLiveData.setValue(new ArrayList<>());
+                }
+            }
+        });
+
+        return contactsLiveData;
+    }
+
+    private void fetchUserDetails(@NonNull List<String> contactIds, MutableLiveData<List<Contact>> contactsLiveData) {
+        // Get the reference to the "users" collection (replace with your actual users collection name)
+        CollectionReference usersCollection = firestore.collection("users");
+
+        List<Contact> contacts = new ArrayList<>();
+
+        // Fetch user details for each contact ID
+        for (String contactId : contactIds) {
+            usersCollection.document(contactId).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot userDocument = task.getResult();
+                    if (userDocument.exists()) {
+                        // Create a Contact object with user details
+                        Contact contact = new Contact(
+                                userDocument.getString("displayName"),
+                                userDocument.getString("profilePictureUrl"),
+                                userDocument.getId()
+                        );
+                        contacts.add(contact);
+
+                        // Update LiveData when all contacts are fetched
+                        if (contacts.size() == contactIds.size()) {
+                            contactsLiveData.setValue(contacts);
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    private void addContact(String uid, String contactUid) {
+        // Get the reference to the "contacts" collection
+        CollectionReference contactsCollection = firestore.collection("contacts");
+
+        // Check if the user's document exists
+        contactsCollection.document(uid).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    // Document exists, update the "contactIds" field
+                    List<String> contactIds = (List<String>) document.get("contactIds");
+                    if (contactIds == null) {
+                        contactIds = new ArrayList<>();
+                    }
+                    if (!contactIds.contains(contactUid)) {
+                        contactIds.add(contactUid);
+                        contactsCollection.document(uid).update("contactIds", contactIds);
+                    }
+                } else {
+                    // Document does not exist, create a new document
+                    List<String> contactIds = new ArrayList<>();
+                    contactIds.add(contactUid);
+                    contactsCollection.document(uid).set(new ContactDocument(uid, contactIds));
+                }
+            } else {
+                System.out.println("Something happened");
+            }
+        }).addOnFailureListener(e -> {
+
+        });
+    }
+
+    private void updateContacts(String senderUid, String recipientUid) {
+        // Add each user to the other user's contacts
+        addContact(senderUid, recipientUid);
+        addContact(recipientUid, senderUid);
+    }
+
+
+    // Class to represent the user contacts document in Firestore
+    public static class ContactDocument implements Serializable {
+        public String userId;
+        public List<String> contactIds;
+
+        // Empty constructor for Firestore
+        public ContactDocument() {
+        }
+
+        public ContactDocument(String userId, List<String> contactIds) {
+            this.userId = userId;
+            this.contactIds = contactIds;
+        }
+    }
 }

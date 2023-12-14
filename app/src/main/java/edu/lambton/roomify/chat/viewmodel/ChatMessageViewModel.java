@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
+import edu.lambton.roomify.chat.dto.Contact;
 import edu.lambton.roomify.chat.dto.Message;
 import edu.lambton.roomify.chat.repository.ChatMessageRepository;
 
@@ -27,5 +28,10 @@ public class ChatMessageViewModel extends ViewModel {
 
     public LiveData<List<Message>> getMessagesLiveData() {
         return messagesLiveData;
+    }
+
+    public LiveData<List<Contact>> getAllMyContacts(String currentUserUID) {
+
+        return this.messageRepository.fetchMyContacts(currentUserUID);
     }
 }
