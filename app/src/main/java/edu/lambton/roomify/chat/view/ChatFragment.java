@@ -1,13 +1,14 @@
 package edu.lambton.roomify.chat.view;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.util.AttributeSet;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.lambton.roomify.R;
 import edu.lambton.roomify.chat.dto.Message;
 import edu.lambton.roomify.chat.view.adapter.ChatMessageAdapter;
 import edu.lambton.roomify.chat.viewmodel.ChatMessageViewModel;
@@ -51,6 +53,15 @@ public class ChatFragment extends AppCompatActivity {
         chatMessageAdapter = new ChatMessageAdapter(messages, mAuth.getUid());
         chatMessageRecycleView.setAdapter(chatMessageAdapter);
 
+        // Set up the custom Toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar_included);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
 
         messageViewModel = new ViewModelProvider(getViewModelStore(), new ChatMessageViewModelFactory(getApplication())).get(ChatMessageViewModel.class);
         // Observe the LiveData for messages
@@ -62,6 +73,17 @@ public class ChatFragment extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     private void composeMessage(View view) {
 

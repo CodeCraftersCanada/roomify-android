@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".chat.view.ChatFragment">
 
+    <include android:id="@+id/toolbar_included" layout="@layout/toolbar_layout" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
@@ -13,7 +15,7 @@
         app:layout_constraintBottom_toTopOf="@id/textMessage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_included"
         tools:listitem="@layout/message_text" />
 
 

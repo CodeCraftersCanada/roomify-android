@@ -8,8 +8,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
+import com.squareup.picasso.Picasso;
 
+import java.util.List;
+import java.util.Objects;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import edu.lambton.roomify.R;
 import edu.lambton.roomify.chat.dto.Message;
 
@@ -63,6 +67,14 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private void bindCurrentUserViewHolder(@NonNull CurrentUserViewHolder holder, @NonNull Message message) {
         holder.messageTextView.setText(message.getText());
+
+        if (!Objects.equals(message.getImagePathRecipientId(), "")) {
+            Picasso.get()
+                    .load(message.getImagePathSenderId())
+                    .fit()
+                    .into(holder.circleImageView);
+        }
+
     }
 
     private void bindOtherUserViewHolder(@NonNull OtherUserViewHolder holder, @NonNull Message message) {
@@ -81,10 +93,12 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     static class CurrentUserViewHolder extends RecyclerView.ViewHolder {
         private final TextView messageTextView;
+        private final CircleImageView circleImageView;
 
         public CurrentUserViewHolder(@NonNull View itemView) {
             super(itemView);
             messageTextView = itemView.findViewById(R.id.messageTextView);
+            circleImageView = itemView.findViewById(R.id.profileIconChat);
         }
     }
 
@@ -92,9 +106,11 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     static class OtherUserViewHolder extends RecyclerView.ViewHolder {
         private final TextView messageTextView;
 
+
         public OtherUserViewHolder(@NonNull View itemView) {
             super(itemView);
             messageTextView = itemView.findViewById(R.id.messageTextView);
+
         }
     }
 
