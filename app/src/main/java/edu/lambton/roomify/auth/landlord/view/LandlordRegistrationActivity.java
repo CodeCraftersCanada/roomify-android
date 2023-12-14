@@ -1,5 +1,6 @@
 package edu.lambton.roomify.auth.landlord.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -30,6 +31,14 @@ public class LandlordRegistrationActivity extends AppCompatActivity {
 
         userTypeId = getIntent().getIntExtra("userType", 0);
         binding.createAccountButton.setOnClickListener(this::createLandlordAccount);
+        binding.loginScreenButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start the LandlordLoginActivity
+                Intent intent = new Intent(LandlordRegistrationActivity.this, LandlordLoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void createLandlordAccount(View view) {
@@ -41,6 +50,7 @@ public class LandlordRegistrationActivity extends AppCompatActivity {
         String email = Objects.requireNonNull(binding.emailTxt.getText()).toString();
         String password = Objects.requireNonNull(binding.passwordTxt.getText()).toString();
         String confirmPassword = Objects.requireNonNull(binding.repeatPasswordTxt.getText()).toString();
+        String loginButton = Objects.requireNonNull(binding.loginScreenButton.getText()).toString();
 
         if (email.equals("") || password.equals("") || confirmPassword.equals("")) {
             binding.fullNameTxt.setError("Name is required");

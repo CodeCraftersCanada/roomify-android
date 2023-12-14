@@ -45,6 +45,7 @@
                 android:padding="16dp"
                 android:hint="Make some memories at this unique and family-friendly place."
                 android:textSize="22sp"
+                android:gravity="start"
                 android:background="@drawable/rounded_border" />
 
         </FrameLayout>

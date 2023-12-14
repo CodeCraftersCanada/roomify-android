@@ -43,6 +43,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import edu.lambton.roomify.auth.landlord.view.LandlordLoginActivity;
 import edu.lambton.roomify.common.UserType;
 import edu.lambton.roomify.databinding.FragmentProfileLandlordBinding;
 import edu.lambton.roomify.landlord.model.User;
@@ -55,7 +56,7 @@ public class ProfileLandlordFragment extends Fragment {
 
     private EditText editFullNameEditText, collegeEditTextView, phoneEditTextView, addressEditTextView;
 
-    private MaterialButton saveProfileButton, editProfileButton, updatePhotoButton;
+    private MaterialButton saveProfileButton, editProfileButton, updatePhotoButton, logoutButton;
 
     private UserLandlordViewModel userLandlordViewModel;
 
@@ -250,6 +251,14 @@ public class ProfileLandlordFragment extends Fragment {
 
         callMeButton.setOnClickListener(this::callNumber);
 
+        logoutButton = binding.logoutButton;
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logoutUser();
+            }
+        });
+
         userLandlordViewModel.loadProfileInfo(mAuth.getUid()).observe(getViewLifecycleOwner(), new Observer<User>() {
             @Override
             public void onChanged(User user) {
@@ -266,6 +275,15 @@ public class ProfileLandlordFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void logoutUser() {
+        FirebaseAuth.getInstance().signOut();
+
+        // Redirect to login screen or another activity
+        Intent intent = new Intent(getActivity(), LandlordLoginActivity.class);
+        startActivity(intent);
+        getActivity().finish(); // Close the current activity
     }
 
     private void updatePhotoOption(View view) {

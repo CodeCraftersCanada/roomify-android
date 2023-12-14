@@ -31,6 +31,14 @@ public class IntroductionListPropertyActivity extends AppCompatActivity implemen
         binding = ActivityIntroductionListPropertyBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        binding.closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start the LandlordLoginActivity
+                finish();
+            }
+        });
+
         pricingLabel = binding.pricingLabel;
         exampleEstimation = binding.exampleEstimation;
         priceSeekBar = binding.priceSeekerRange;
