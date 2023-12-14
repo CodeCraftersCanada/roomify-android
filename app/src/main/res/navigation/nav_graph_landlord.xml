@@ -9,15 +9,26 @@
         android:id="@+id/listPropertyFragment"
         android:name="edu.lambton.roomify.landlord.view.ListLandlordPropertyFragment"
         android:label="List Property"
-        tools:layout="@layout/fragment_list_landlord_property" >
+        tools:layout="@layout/fragment_list_landlord_property">
         <action
             android:id="@+id/action_listPropertyFragment_to_propertyInfoActivity"
-            app:destination="@id/propertyInfoActivity" >
+            app:destination="@id/propertyInfoActivity">
             <argument
                 android:name="propertyId"
-                app:argType="string"  />
+                app:argType="string" />
+        </action>
+        <action
+            android:id="@+id/action_listPropertyFragment_to_ListProperty"
+            app:destination="@id/listPropertyFragment">
+            <argument
+                android:name="userTypeId"
+                app:argType="integer" />
         </action>
 
+        <argument
+            android:name="userTypeId"
+            android:defaultValue="0"
+            app:argType="integer" />
     </fragment>
 
     <fragment
@@ -34,7 +45,7 @@
         android:id="@+id/propertyInfoActivity"
         android:name="edu.lambton.roomify.landlord.view.PropertyInfoActivity"
         android:label="activity_property_info"
-        tools:layout="@layout/activity_property_info" >
+        tools:layout="@layout/activity_property_info">
         <argument
             android:name="propertyId"
             app:argType="string" />
@@ -43,7 +54,7 @@
         android:id="@+id/chatFragment"
         android:name="edu.lambton.roomify.chat.view.ChatFragment"
         android:label="fragment_chat"
-        tools:layout="@layout/fragment_chat" >
+        tools:layout="@layout/fragment_chat">
         <argument
             android:name="recipientLandlordUID"
             app:argType="string" />

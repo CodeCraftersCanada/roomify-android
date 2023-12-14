@@ -28,6 +28,7 @@ import java.util.List;
 
 import edu.lambton.roomify.R;
 import edu.lambton.roomify.chat.view.ChatFragment;
+import edu.lambton.roomify.common.UserType;
 import edu.lambton.roomify.databinding.FragmentListLandlordPropertyBinding;
 import edu.lambton.roomify.landlord.dto.PropertyResponseComplete;
 import edu.lambton.roomify.landlord.view.adapter.PropertyListLandlordRVAdapter;
@@ -40,7 +41,7 @@ public class ListLandlordPropertyFragment extends Fragment implements PropertyLi
     private FragmentListLandlordPropertyBinding binding;
     private ExtendedFloatingActionButton listNewPropertyButton;
     private SwipeRefreshLayout swipeRefreshLayout;
-
+    private int userTypeId;
     private RecyclerView propertyListRecycleView;
     private PropertyListLandlordRVAdapter adapter;
     private PropertyLandlordViewModel propertyLandlordViewModel;
@@ -49,6 +50,7 @@ public class ListLandlordPropertyFragment extends Fragment implements PropertyLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
     }
 
@@ -65,6 +67,14 @@ public class ListLandlordPropertyFragment extends Fragment implements PropertyLi
 
         propertyListRecycleView = binding.propertyListRecycleView;
         listNewPropertyButton.setOnClickListener(this::startQuestionnaire);
+
+        // Retrieve userTypeId from arguments
+        userTypeId = ListLandlordPropertyFragmentArgs.fromBundle(getArguments()).getUserTypeId();
+
+        if (userTypeId == UserType.STUDENT.getValue()) {
+            listNewPropertyButton.setVisibility(View.INVISIBLE);
+        }
+
         propertyListRecycleView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
 
         propertyLandlordViewModel = new ViewModelProvider(getViewModelStore(), new ProperetyLandlordViewModelFactory(requireActivity().getApplication())).get(PropertyLandlordViewModel.class);
@@ -75,6 +85,7 @@ public class ListLandlordPropertyFragment extends Fragment implements PropertyLi
         propertyListRecycleView.setAdapter(adapter);
         return binding.getRoot();
     }
+
 
     private void fetchPropertyData() {
         propertyLandlordViewModel.getAllPropertiesExternal().observe(requireActivity(), propertiesResult -> {

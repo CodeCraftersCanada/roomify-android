@@ -15,7 +15,7 @@ import edu.lambton.roomify.auth.landlord.controller.LandlordController;
 import edu.lambton.roomify.auth.landlord.view.LandlordRegistrationActivity;
 import edu.lambton.roomify.common.UserType;
 import edu.lambton.roomify.databinding.ActivityStudentLoginBinding;
-import edu.lambton.roomify.navigation.student.StudentDashboardActivity;
+import edu.lambton.roomify.navigation.landlord.LandlordDashboardActivity;
 
 public class StudentLoginActivity extends AppCompatActivity {
 
@@ -54,7 +54,8 @@ public class StudentLoginActivity extends AppCompatActivity {
         landlordController.loginLandlordAccount(email, password, success -> {
 
             if (success) {
-                Intent studentDashboardIntent = new Intent(this, StudentDashboardActivity.class);
+                Intent studentDashboardIntent = new Intent(this, LandlordDashboardActivity.class);
+                studentDashboardIntent.putExtra("userType", UserType.STUDENT.getValue());
                 startActivity(studentDashboardIntent);
             } else {
                 Toast.makeText(this, "An error had occurred", Toast.LENGTH_SHORT).show();
