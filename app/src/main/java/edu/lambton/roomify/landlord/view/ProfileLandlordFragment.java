@@ -339,7 +339,14 @@ public class ProfileLandlordFragment extends Fragment {
             TextView addressTextView = binding.addressTextView;
             addressTextView.setText(editedAddress);
 
-            User user = new User(null, mAuth.getUid(), UserType.LANDLORD.getValue(), editedFullName, Objects.requireNonNull(mAuth.getCurrentUser()).getEmail(), editedPhone, editedCollege, editedAddress, tempImageUri != null ? tempImageUri.toString() : "", 0, 0);
+            User user = new User(
+                    null, mAuth.getUid(),
+                    UserType.LANDLORD.getValue(),
+                    editedFullName, Objects.requireNonNull(
+                            mAuth.getCurrentUser()).getEmail(),
+                    editedPhone,
+                    editedCollege, editedAddress,
+                    tempImageUri != null ? tempImageUri.toString() : "", 0, 0);
 
             updateUser(user);
 
