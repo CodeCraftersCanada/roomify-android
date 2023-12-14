@@ -18,5 +18,4 @@
         android:textSize="16sp"
         android:textStyle="normal" />
 
-    <!-- Add additional views for timestamp, sender's name, etc. if needed -->
 </LinearLayout>

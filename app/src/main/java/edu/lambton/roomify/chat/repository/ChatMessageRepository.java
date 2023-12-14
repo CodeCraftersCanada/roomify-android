@@ -77,20 +77,6 @@ public class ChatMessageRepository {
                     messagesLiveData.postValue(messages);
                 });
 
-        /*getMessagesCollection()
-                .orderBy("timestamp", Query.Direction.ASCENDING)
-                .addSnapshotListener((value, error) -> {
-                    if (value != null && !value.isEmpty()) {
-                        List<Message> messages = new ArrayList<>();
-                        for (QueryDocumentSnapshot doc : value) {
-                            Message message = doc.toObject(Message.class);
-                            messages.add(message);
-                        }
-                        // Use postValue to update LiveData on the main thread
-                        messagesLiveData.postValue(messages);
-                    }
-                });
-*/
         return messagesLiveData;
     }
 
