@@ -237,17 +237,20 @@
 
 
     <!-- Edit Profile Button -->
+
+    <!-- Save Profile Button -->
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/editProfileButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         android:text="Edit Profile"
         app:cornerRadius="6dp"
-        app:layout_constraintBottom_toTopOf="@id/bottomMarginGuideline"
+        app:layout_constraintBottom_toTopOf="@+id/logoutButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Save Profile Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/saveProfileButton"
         android:layout_width="wrap_content"
@@ -255,8 +258,19 @@
         android:text="Save Profile"
         android:visibility="gone"
         app:cornerRadius="6dp"
-        app:layout_constraintBottom_toTopOf="@id/bottomMarginGuideline"
+        app:layout_constraintBottom_toTopOf="@id/logoutButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/logoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        app:cornerRadius="6dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomMarginGuideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="570dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
