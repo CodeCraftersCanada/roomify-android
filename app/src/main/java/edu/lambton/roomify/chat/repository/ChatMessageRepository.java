@@ -6,16 +6,20 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -140,26 +144,41 @@ public class ChatMessageRepository {
     public LiveData<List<Message>> observeMessages() {
         // Observe the "messages" collection in real-time and update the LiveData
 
-        getMessagesCollection()
-                .orderBy("milliseconds", Query.Direction.ASCENDING)
-                .addSnapshotListener((value, error) -> {
-                    assert value != null;
-                    List<DocumentSnapshot> documents = value.getDocuments();
-                    List<Message> messages = new ArrayList<>();
-                    documents.forEach(documentSnapshot -> {
-                        Message message = documentSnapshot.toObject(Message.class);
+        String currentUserUid = auth.getCurrentUser().getUid();
 
-                        messages.add(message);
-                        System.out.println(message.getText());
+        Query senderQuery = getMessagesCollection().whereEqualTo("senderId", currentUserUid);
+        Query recipientQuery = getMessagesCollection().whereEqualTo("recipientId", currentUserUid);
 
-                        // Get the image path based on the sender UID
-                        if (message.getSenderId() != null) {
-                            String imagePath = getUserImagePath(message.getSenderId());
-                            System.out.println("Image Path: " + imagePath);
-                            // Now you have the image path and can use it as needed
+        // Execute both queries
+        Task<QuerySnapshot> senderQueryTask = senderQuery.get();
+        Task<QuerySnapshot> recipientQueryTask = recipientQuery.get();
+
+        // Combine the results when both queries complete
+        Tasks.whenAllComplete(senderQueryTask, recipientQueryTask)
+                .addOnCompleteListener(allTasks -> {
+                    if (allTasks.isSuccessful()) {
+                        List<DocumentSnapshot> senderDocuments = ((QuerySnapshot) senderQueryTask.getResult()).getDocuments();
+                        List<DocumentSnapshot> recipientDocuments = ((QuerySnapshot) recipientQueryTask.getResult()).getDocuments();
+
+                        List<Message> messages = new ArrayList<>();
+
+                        for (DocumentSnapshot senderDocument : senderDocuments) {
+                            Message message = senderDocument.toObject(Message.class);
+                            messages.add(message);
                         }
-                    });
-                    messagesLiveData.postValue(messages);
+
+                        for (DocumentSnapshot recipientDocument : recipientDocuments) {
+                            Message message = recipientDocument.toObject(Message.class);
+                            messages.add(message);
+                        }
+
+                        // Sort and update the LiveData
+                        messages.sort(Comparator.comparingLong(Message::getMilliseconds));
+                        messagesLiveData.postValue(messages);
+                    } else {
+                        // Handle the error, log it, or notify the user
+                        Log.e("Firestore", "Error getting messages: " + allTasks.getException().getMessage());
+                    }
                 });
 
         return messagesLiveData;
