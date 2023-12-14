@@ -29,16 +29,30 @@
         app:layout_constraintStart_toStartOf="@id/saveAndExitBtn"
         app:layout_constraintTop_toBottomOf="@id/saveAndExitBtn" />
 
+    <TextView
+        android:id="@+id/labelDollar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="28dp"
+        android:text="$"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelSetThePrice" />
 
     <EditText
         android:id="@+id/priceInputEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="$000.00"
+        android:hint="000.00"
         android:textSize="32sp"
         android:textStyle="bold"
+        android:inputType="numberDecimal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/labelSetThePrice" />
+        app:layout_constraintHorizontal_bias="0.105"
+        app:layout_constraintStart_toEndOf="@+id/labelDollar"
+        app:layout_constraintTop_toBottomOf="@+id/labelSetThePrice"
+        app:layout_constraintVertical_bias="0.025" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
