@@ -62,6 +62,7 @@ public class PropertyListLandlordRVAdapter extends RecyclerView.Adapter<Property
         private final TextView bathroomCounterTextView;
         private final TextView bedroomCounterTextView;
         private final MaterialButton callMeButton;
+        private final MaterialButton sendMessageLandlordButton;
         /*private final TextView statusTextView;*/
 
         public PropertyViewHolder(@NonNull View itemView) {
@@ -76,6 +77,7 @@ public class PropertyListLandlordRVAdapter extends RecyclerView.Adapter<Property
             bedroomCounterTextView = itemView.findViewById(R.id.bedroomCounterTextView);
 
             callMeButton = itemView.findViewById(R.id.callMeButton);
+            sendMessageLandlordButton = itemView.findViewById(R.id.sendMessageLandlordButton);
 
             /*statusTextView = itemView.findViewById(R.id.statusTextView);*/
 
@@ -111,6 +113,11 @@ public class PropertyListLandlordRVAdapter extends RecyclerView.Adapter<Property
                 String phoneNumber = property.getUser_id().getPhone();
                 onCardListener.onPhoneCallHandle(phoneNumber);
             });
+
+            sendMessageLandlordButton.setOnClickListener(view -> {
+                String landlordRecipientUID = property.getUser_id().getUid();
+                onCardListener.onSendMessageHandle(landlordRecipientUID);
+            });
         }
 
 
@@ -120,5 +127,7 @@ public class PropertyListLandlordRVAdapter extends RecyclerView.Adapter<Property
         void onPropertyCardHandle(String propertyId);
 
         void onPhoneCallHandle(String phoneNumber);
+
+        void onSendMessageHandle(String recipientUid);
     }
 }

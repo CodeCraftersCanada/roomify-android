@@ -21,8 +21,8 @@ public class ChatMessageViewModel extends ViewModel {
         this.messagesLiveData = messageRepository.observeMessages();
     }
 
-    public LiveData<Boolean> sendMessage(String text, String senderId) {
-        return messageRepository.sendMessage(text, senderId);
+    public LiveData<Boolean> sendMessage(String text, String recipientUid) {
+        return messageRepository.sendMessage(text, recipientUid);
     }
 
     public LiveData<List<Message>> getMessagesLiveData() {

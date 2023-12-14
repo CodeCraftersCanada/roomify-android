@@ -1,13 +1,14 @@
 package edu.lambton.roomify.chat.repository;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,7 @@ public class ChatMessageRepository {
         return result;
     }
 
+    @NonNull
     private CollectionReference getMessagesCollection() {
         // Return the reference to the "messages" collection
         return firestore.collection("messages");
@@ -59,7 +61,23 @@ public class ChatMessageRepository {
 
     public LiveData<List<Message>> observeMessages() {
         // Observe the "messages" collection in real-time and update the LiveData
+
         getMessagesCollection()
+                .orderBy("milliseconds", Query.Direction.ASCENDING)
+                .addSnapshotListener((value, error) -> {
+                    assert value != null;
+                    List<DocumentSnapshot> documents = value.getDocuments();
+                    List<Message> messages = new ArrayList<>();
+                    documents.forEach(documentSnapshot -> {
+                        Message message = documentSnapshot.toObject(Message.class);
+
+                        messages.add(message);
+                        System.out.println(message.getText());
+                    });
+                    messagesLiveData.postValue(messages);
+                });
+
+        /*getMessagesCollection()
                 .orderBy("timestamp", Query.Direction.ASCENDING)
                 .addSnapshotListener((value, error) -> {
                     if (value != null && !value.isEmpty()) {
@@ -68,10 +86,11 @@ public class ChatMessageRepository {
                             Message message = doc.toObject(Message.class);
                             messages.add(message);
                         }
-                        messagesLiveData.setValue(messages);
+                        // Use postValue to update LiveData on the main thread
+                        messagesLiveData.postValue(messages);
                     }
                 });
-
+*/
         return messagesLiveData;
     }
 

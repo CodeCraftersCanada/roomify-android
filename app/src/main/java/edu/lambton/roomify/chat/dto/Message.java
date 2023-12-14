@@ -6,6 +6,9 @@ public class Message {
     private String recipientId;
     private long milliseconds;
 
+    public Message() {
+    }
+
     public Message(String text, String senderId) {
         this.text = text;
         this.senderId = senderId;

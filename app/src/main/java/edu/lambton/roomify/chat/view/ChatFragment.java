@@ -1,15 +1,18 @@
 package edu.lambton.roomify.chat.view;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,48 +20,56 @@ import java.util.List;
 import edu.lambton.roomify.chat.dto.Message;
 import edu.lambton.roomify.chat.view.adapter.ChatMessageAdapter;
 import edu.lambton.roomify.chat.viewmodel.ChatMessageViewModel;
+import edu.lambton.roomify.chat.viewmodel.ChatMessageViewModelFactory;
 import edu.lambton.roomify.databinding.FragmentChatBinding;
 
-public class ChatFragment extends Fragment {
+public class ChatFragment extends AppCompatActivity {
 
     private FragmentChatBinding binding;
     private RecyclerView chatMessageRecycleView;
     private ChatMessageAdapter chatMessageAdapter;
     private final List<Message> messages = new ArrayList<>();
-
+    private FirebaseAuth mAuth;
     private ChatMessageViewModel messageViewModel;
+    private String recipientUid;
 
-
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = FragmentChatBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        mAuth = FirebaseAuth.getInstance();
 
-        binding = FragmentChatBinding.inflate(inflater, container, false);
         binding.sendButton.setOnClickListener(this::composeMessage);
         chatMessageRecycleView = binding.recyclerView;
+        // Retrieve recipient UID from arguments
 
-        chatMessageRecycleView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        recipientUid = getIntent().getStringExtra("recipientLandlordUID");
 
-        chatMessageAdapter = new ChatMessageAdapter(messages, "currentUserId");
+        chatMessageRecycleView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        chatMessageAdapter = new ChatMessageAdapter(messages, mAuth.getUid());
         chatMessageRecycleView.setAdapter(chatMessageAdapter);
 
+
+        messageViewModel = new ViewModelProvider(getViewModelStore(), new ChatMessageViewModelFactory(getApplication())).get(ChatMessageViewModel.class);
         // Observe the LiveData for messages
-        messageViewModel.getMessagesLiveData().observe(getViewLifecycleOwner(), messages -> {
+        messageViewModel.getMessagesLiveData().observe(this, messages -> {
             // Update the UI with the new list of messages
             chatMessageAdapter.setMessages(messages);
             chatMessageAdapter.notifyDataSetChanged();
             scrollToBottom();
         });
-
-        return binding.getRoot();
     }
+
 
     private void composeMessage(View view) {
 
         String text = binding.textMessage.getText().toString();
 
         // Send the message to Firebase using ViewModel
-        messageViewModel.sendMessage(text, "currentUserId");
+        // Pass the recipient ID
+        messageViewModel.sendMessage(text, recipientUid);
 
         // Clear the input field
         binding.textMessage.setText("");
