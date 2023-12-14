@@ -65,7 +65,7 @@ public class NetworkApiImpl implements NetworkApi {
 
                     @Override
                     public void onFailure(Call<UserResponse> call, Throwable t) {
-
+                        System.err.println("An error had occurred " + t.getStackTrace());
                     }
                 });
 
